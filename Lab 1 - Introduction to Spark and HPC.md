@@ -29,7 +29,7 @@
 
 ### 1.1 HPC Driving License and Connect to Stanage HPC via SSH
 
-Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by 11:00 on Thursday 13th Feb. If you have not done so, please do it as soon as possible (50% penalty will be applied).
+Follow the [official instructions](https://docs.hpc.shef.ac.uk/en/latest/hpc/index.html) from our university. Your HPC account has created already due to the need of this module. You have been asked to complete and pass the [HPC Driving License test](https://infosecurity.shef.ac.uk/) by 11:00 on Wednesday 11th Feb. If you have not done so, please do it as soon as possible.
 
 To access Stanage, log in using SSH with your university **username** such as `abc1de` and the associated password. When connecting while on campus using Eduroam or off campus, you **must** keep the [university's VPN](https://www.sheffield.ac.uk/it-services/vpn) connected all the time. Multifactor authentication (MFA) will be mandatory. The standard University [DUO MFA](https://www.sheffield.ac.uk/it-services/mfa/set-mfa#duo) is utilized.
 
@@ -283,7 +283,7 @@ Once PySpark has been installed, after *each* log-in, you need to do the followi
 Run pyspark (optionally, specify to use multiple cores):
 
 ```sh
-pyspark  # pyspark --master local[4] for 4 cores
+pyspark
 ```
 
 You will see the spark splash above. `spark` ([SparkSession](https://spark.apache.org/docs/4.1.0/api/python/reference/pyspark.sql/api/pyspark.sql.SparkSession.html)) and `sc` ([SparkContext](https://spark.apache.org/docs/4.1.0/api/python/reference/api/pyspark.SparkContext.html?highlight=sparkcontext)) are automatically created.
@@ -438,9 +438,7 @@ spark.stop()
 
 <!-- `https://docs.hpc.shef.ac.uk/en/latest/hpc/filestore.html#fastdata-areas` -->
 
-Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. If you are running on your local machine, change `/mnt/parscratch/users/YOUR_USERNAME` to a temporal directory, such as `C:\temp` in Windows.
-
-Actually, the file has been created for you under the folder `Code` so you can just run it
+Change `YOUR_USERNAME` in `/mnt/parscratch/users/YOUR_USERNAME` to your username. Actually, the file has been created for you under the folder `Code` so you can just run it
 
 ```sh
 spark-submit Code/LogMining100.py
