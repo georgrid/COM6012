@@ -46,9 +46,10 @@ You need to replace `$USER` with your username (using **lowercase** and without 
 Once logged in, we can request 2 cores from reserved resources by
 
 ```sh
-srun --account=rse-com6012 --reservation=rse-com6012-2 --cpus-per-task=2 --time=00:30:00 --pty /bin/bash
+srun --account=rse-com6012 --reservation=rse-com6012-2 --cpus-per-task=2 --time=01:00:00 --pty /bin/bash
 ```
 
+You will use **an interactive session for all essential tasks** in this lab. You may change the `--time` parameter to a longer time if you think you need more time for the lab session. Please note **do not request more than two cores during this lab session** to ensure all students can get access to the reserved resources. You can explore using more cores outside the lab session when HPC is less busy.
 If the reserved resources are not available, request core from the general queue by
 
 ```sh
