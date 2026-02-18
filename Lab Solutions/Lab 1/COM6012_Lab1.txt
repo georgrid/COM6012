@@ -1,0 +1,215 @@
+WARNING: Using incubator modules: jdk.incubator.vector
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+26/02/04 19:13:56 INFO SparkContext: Running Spark version 4.1.0
+26/02/04 19:13:56 INFO SparkContext: OS info Linux, 3.10.0-1160.141.1.el7.x86_64, amd64
+26/02/04 19:13:56 INFO SparkContext: Java version 17.0.4+8
+26/02/04 19:13:57 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+26/02/04 19:13:57 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in standalone/kubernetes and LOCAL_DIRS in YARN).
+26/02/04 19:13:57 INFO ResourceUtils: ==============================================================
+26/02/04 19:13:57 INFO ResourceUtils: No custom resources configured for spark.driver.
+26/02/04 19:13:57 INFO ResourceUtils: ==============================================================
+26/02/04 19:13:57 INFO SparkContext: Submitted application: Lab 1 Exercise
+26/02/04 19:13:57 INFO SecurityManager: Changing view acls to: your_username
+26/02/04 19:13:57 INFO SecurityManager: Changing modify acls to: your_username
+26/02/04 19:13:57 INFO SecurityManager: Changing view acls groups to: your_username
+26/02/04 19:13:57 INFO SecurityManager: Changing modify acls groups to: your_username
+26/02/04 19:13:57 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: your_username groups with view permissions: EMPTY; users with modify permissions: your_username; groups with modify permissions: EMPTY; RPC SSL disabled
+26/02/04 19:13:58 INFO Utils: Successfully started service 'sparkDriver' on port 43842.
+26/02/04 19:13:58 INFO SparkEnv: Registering MapOutputTracker
+26/02/04 19:13:58 INFO SparkEnv: Registering BlockManagerMaster
+26/02/04 19:13:58 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+26/02/04 19:13:58 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/02/04 19:13:58 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/02/04 19:13:58 INFO DiskBlockManager: Created local directory at /mnt/parscratch/users/your_username/blockmgr-93c6e9fd-d739-4165-a99e-895faac096b1
+26/02/04 19:13:58 INFO SparkEnv: Registering OutputCommitCoordinator
+26/02/04 19:13:58 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/02/04 19:13:59 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+26/02/04 19:13:59 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/02/04 19:13:59 INFO ResourceProfile: Limiting resource is cpu
+26/02/04 19:13:59 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/02/04 19:13:59 INFO SecurityManager: Changing view acls to: your_username
+26/02/04 19:13:59 INFO SecurityManager: Changing modify acls to: your_username
+26/02/04 19:13:59 INFO SecurityManager: Changing view acls groups to: your_username
+26/02/04 19:13:59 INFO SecurityManager: Changing modify acls groups to: your_username
+26/02/04 19:13:59 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: your_username groups with view permissions: EMPTY; users with modify permissions: your_username; groups with modify permissions: EMPTY; RPC SSL disabled
+26/02/04 19:13:59 INFO Executor: Starting executor ID driver on host node141.pri.stanage.alces.network
+26/02/04 19:13:59 INFO Executor: OS info Linux, 3.10.0-1160.141.1.el7.x86_64, amd64
+26/02/04 19:13:59 INFO Executor: Java version 17.0.4+8
+26/02/04 19:13:59 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+26/02/04 19:13:59 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@3cbb61e for default.
+26/02/04 19:13:59 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 45897.
+26/02/04 19:13:59 INFO NettyBlockTransferService: Server created on node141.pri.stanage.alces.network:45897
+26/02/04 19:13:59 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+26/02/04 19:13:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, node141.pri.stanage.alces.network, 45897, None)
+26/02/04 19:13:59 INFO BlockManagerMasterEndpoint: Registering block manager node141.pri.stanage.alces.network:45897 with 413.9 MiB RAM, BlockManagerId(driver, node141.pri.stanage.alces.network, 45897, None)
+26/02/04 19:13:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, node141.pri.stanage.alces.network, 45897, None)
+26/02/04 19:13:59 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, node141.pri.stanage.alces.network, 45897, None)
++-------------------------------------------------------------------------------------------------------------------------------+
+|value                                                                                                                          |
++-------------------------------------------------------------------------------------------------------------------------------+
+|in24.inetnebr.com - - [01/Aug/1995:00:00:01 -0400] "GET /shuttle/missions/sts-68/news/sts-68-mcc-05.txt HTTP/1.0" 200 1839     |
+|uplherc.upl.com - - [01/Aug/1995:00:00:07 -0400] "GET / HTTP/1.0" 304 0                                                        |
+|uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400] "GET /images/ksclogo-medium.gif HTTP/1.0" 304 0                               |
+|uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400] "GET /images/MOSAIC-logosmall.gif HTTP/1.0" 304 0                             |
+|uplherc.upl.com - - [01/Aug/1995:00:00:08 -0400] "GET /images/USA-logosmall.gif HTTP/1.0" 304 0                                |
+|ix-esc-ca2-07.ix.netcom.com - - [01/Aug/1995:00:00:09 -0400] "GET /images/launch-logo.gif HTTP/1.0" 200 1713                   |
+|uplherc.upl.com - - [01/Aug/1995:00:00:10 -0400] "GET /images/WORLD-logosmall.gif HTTP/1.0" 304 0                              |
+|slppp6.intermind.net - - [01/Aug/1995:00:00:10 -0400] "GET /history/skylab/skylab.html HTTP/1.0" 200 1687                      |
+|piweba4y.prodigy.com - - [01/Aug/1995:00:00:10 -0400] "GET /images/launchmedium.gif HTTP/1.0" 200 11853                        |
+|slppp6.intermind.net - - [01/Aug/1995:00:00:11 -0400] "GET /history/skylab/skylab-small.gif HTTP/1.0" 200 9202                 |
+|slppp6.intermind.net - - [01/Aug/1995:00:00:12 -0400] "GET /images/ksclogosmall.gif HTTP/1.0" 200 3635                         |
+|ix-esc-ca2-07.ix.netcom.com - - [01/Aug/1995:00:00:12 -0400] "GET /history/apollo/images/apollo-logo1.gif HTTP/1.0" 200 1173   |
+|slppp6.intermind.net - - [01/Aug/1995:00:00:13 -0400] "GET /history/apollo/images/apollo-logo.gif HTTP/1.0" 200 3047           |
+|uplherc.upl.com - - [01/Aug/1995:00:00:14 -0400] "GET /images/NASA-logosmall.gif HTTP/1.0" 304 0                               |
+|133.43.96.45 - - [01/Aug/1995:00:00:16 -0400] "GET /shuttle/missions/sts-69/mission-sts-69.html HTTP/1.0" 200 10566            |
+|kgtyk4.kj.yamagata-u.ac.jp - - [01/Aug/1995:00:00:17 -0400] "GET / HTTP/1.0" 200 7280                                          |
+|kgtyk4.kj.yamagata-u.ac.jp - - [01/Aug/1995:00:00:18 -0400] "GET /images/ksclogo-medium.gif HTTP/1.0" 200 5866                 |
+|d0ucr6.fnal.gov - - [01/Aug/1995:00:00:19 -0400] "GET /history/apollo/apollo-16/apollo-16.html HTTP/1.0" 200 2743              |
+|ix-esc-ca2-07.ix.netcom.com - - [01/Aug/1995:00:00:19 -0400] "GET /shuttle/resources/orbiters/discovery.html HTTP/1.0" 200 6849|
+|d0ucr6.fnal.gov - - [01/Aug/1995:00:00:20 -0400] "GET /history/apollo/apollo-16/apollo-16-patch-small.gif HTTP/1.0" 200 14897  |
++-------------------------------------------------------------------------------------------------------------------------------+
+only showing top 20 rows
+==================== Question 1 ====================
+There are 1569898 requests in total.
+====================================================
++--------------------------------------------------------------------------------------------------------------------------------+
+|value                                                                                                                           |
++--------------------------------------------------------------------------------------------------------------------------------+
+|gateway.timken.com - - [10/Aug/1995:11:19:13 -0400] "GET /history/apollo/apollo-13/apollo-13.html HTTP/1.0" 200 18556           |
+|gateway.timken.com - - [10/Aug/1995:11:19:22 -0400] "GET /history/apollo/apollo-13/apollo-13-patch-small.gif HTTP/1.0" 200 12859|
+|gateway.timken.com - - [10/Aug/1995:11:20:00 -0400] "GET /images/ksclogosmall.gif HTTP/1.0" 200 3635                            |
+|gateway.timken.com - - [10/Aug/1995:11:20:00 -0400] "GET /history/apollo/images/footprint-logo.gif HTTP/1.0" 200 4209           |
+|gateway.timken.com - - [15/Aug/1995:17:28:41 -0400] "GET /SHUTTLE/MISSIONS/MISSIONS.HTML HTTP/1.0" 404 -                        |
+|gateway.timken.com - - [15/Aug/1995:17:28:54 -0400] "GET /SHUTTLE/MISSIONS HTTP/1.0" 404 -                                      |
+|gateway.timken.com - - [15/Aug/1995:17:29:05 -0400] "GET /SHUTTLE HTTP/1.0" 404 -                                               |
+|gateway.timken.com - - [15/Aug/1995:17:29:15 -0400] "GET / HTTP/1.0" 200 7131                                                   |
+|gateway.timken.com - - [15/Aug/1995:17:29:36 -0400] "GET /shuttle/missions/missions.html HTTP/1.0" 200 8677                     |
+|gateway.timken.com - - [15/Aug/1995:17:30:13 -0400] "GET /shuttle/countdown/ HTTP/1.0" 200 4673                                 |
+|gateway.timken.com - - [15/Aug/1995:17:30:28 -0400] "GET /shuttle/missions/sts-69/liftoff.html HTTP/1.0" 200 5146               |
+|gateway.timken.com - - [15/Aug/1995:17:31:43 -0400] "GET /htbin/cdt_clock.pl HTTP/1.0" 200 543                                  |
+|gateway.timken.com - - [15/Aug/1995:17:31:53 -0400] "GET /shuttle/countdown/countdown.html HTTP/1.0" 200 4673                   |
+|gateway.timken.com - - [15/Aug/1995:17:32:12 -0400] "GET /shuttle/missions/sts-69/mission-sts-69.html HTTP/1.0" 200 11836       |
+|gateway.timken.com - - [15/Aug/1995:17:33:01 -0400] "GET /shuttle/missions/sts-69/mission-sts-69.html HTTP/1.0" 200 11836       |
+|gateway.timken.com - - [15/Aug/1995:17:33:26 -0400] "GET /shuttle/missions/sts-69/news HTTP/1.0" 302 -                          |
+|gateway.timken.com - - [15/Aug/1995:17:33:30 -0400] "GET /shuttle/missions/sts-69/news/ HTTP/1.0" 200 374                       |
+|gateway.timken.com - - [27/Aug/1995:10:32:42 -0400] "GET /ksc.html HTTP/1.0" 200 7089                                           |
+|gateway.timken.com - - [27/Aug/1995:10:33:34 -0400] "GET /shuttle/missions/missions.html HTTP/1.0" 200 8677                     |
+|gateway.timken.com - - [27/Aug/1995:10:35:04 -0400] "GET /elv/elvpage.htm HTTP/1.0" 200 9384                                    |
++--------------------------------------------------------------------------------------------------------------------------------+
+only showing top 20 rows
+==================== Question 2 ====================
+There are 35 requests are from gateway.timken.com.
+====================================================
++-----------------------------------------------------------------------------------------------------------------------------------+
+|value                                                                                                                              |
++-----------------------------------------------------------------------------------------------------------------------------------+
+|piweba3y.prodigy.com - - [15/Aug/1995:00:00:11 -0400] "GET /shuttle/missions/sts-70/images/index70.gif HTTP/1.0" 200 294233        |
+|ppp204.aix.or.jp - - [15/Aug/1995:00:00:14 -0400] "GET /history/apollo/apollo-17/movies/ HTTP/1.0" 200 381                         |
+|pc8.et.byu.edu - - [15/Aug/1995:00:00:24 -0400] "GET /ksc.html HTTP/1.0" 200 7131                                                  |
+|pc8.et.byu.edu - - [15/Aug/1995:00:00:25 -0400] "GET /images/ksclogo-medium.gif HTTP/1.0" 200 5866                                 |
+|pc8.et.byu.edu - - [15/Aug/1995:00:00:26 -0400] "GET /images/NASA-logosmall.gif HTTP/1.0" 200 786                                  |
+|pc8.et.byu.edu - - [15/Aug/1995:00:00:26 -0400] "GET /images/MOSAIC-logosmall.gif HTTP/1.0" 200 363                                |
+|pc8.et.byu.edu - - [15/Aug/1995:00:00:26 -0400] "GET /images/USA-logosmall.gif HTTP/1.0" 200 234                                   |
+|pc8.et.byu.edu - - [15/Aug/1995:00:00:27 -0400] "GET /images/WORLD-logosmall.gif HTTP/1.0" 200 669                                 |
+|ix-esc-ca2-10.ix.netcom.com - - [15/Aug/1995:00:00:28 -0400] "GET /history/apollo/apollo-11/images/69HC761.GIF HTTP/1.0" 200 112416|
+|ppp204.aix.or.jp - - [15/Aug/1995:00:00:33 -0400] "GET /history/apollo/apollo-17/videos/ HTTP/1.0" 200 381                         |
+|pc8.et.byu.edu - - [15/Aug/1995:00:00:45 -0400] "GET /images/KSC-logosmall.gif HTTP/1.0" 200 1204                                  |
+|ppp1003.po.iijnet.or.jp - - [15/Aug/1995:00:00:49 -0400] "GET /history/mercury/ma-6/ma-6.html HTTP/1.0" 200 1117                   |
+|ppp1003.po.iijnet.or.jp - - [15/Aug/1995:00:01:28 -0400] "GET /history/mercury/ma-6/ma-6-patch-small.gif HTTP/1.0" 200 21277       |
+|205.164.211.28 - - [15/Aug/1995:00:01:31 -0400] "GET /software/winvn/winvn.html HTTP/1.0" 200 9866                                 |
+|205.164.211.28 - - [15/Aug/1995:00:01:37 -0400] "GET /software/winvn/winvn.gif HTTP/1.0" 200 25218                                 |
+|205.164.211.28 - - [15/Aug/1995:00:01:37 -0400] "GET /images/construct.gif HTTP/1.0" 200 1414                                      |
+|205.164.211.28 - - [15/Aug/1995:00:01:37 -0400] "GET /software/winvn/bluemarb.gif HTTP/1.0" 200 4441                               |
+|205.164.211.28 - - [15/Aug/1995:00:01:37 -0400] "GET /software/winvn/wvsmall.gif HTTP/1.0" 200 13372                               |
+|orlfl2-42.gate.net - - [15/Aug/1995:00:01:50 -0400] "GET /images/shuttle-patch-small.gif HTTP/1.0" 200 4179                        |
+|205.164.211.28 - - [15/Aug/1995:00:01:51 -0400] "GET /images/KSC-logosmall.gif HTTP/1.0" 200 1204                                  |
++-----------------------------------------------------------------------------------------------------------------------------------+
+only showing top 20 rows
+==================== Question 3 ====================
+There are 58847 requests are on 15th August 1995.
+====================================================
++---------------------------------------------------------------------------------------------------------------------------+
+|value                                                                                                                      |
++---------------------------------------------------------------------------------------------------------------------------+
+|js002.cc.utsunomiya-u.ac.jp - - [01/Aug/1995:00:07:33 -0400] "GET /shuttle/resources/orbiters/discovery.gif HTTP/1.0" 404 -|
+|tia1.eskimo.com - - [01/Aug/1995:00:28:41 -0400] "GET /pub/winvn/release.txt HTTP/1.0" 404 -                               |
+|grimnet23.idirect.com - - [01/Aug/1995:00:50:12 -0400] "GET /www/software/winvn/winvn.html HTTP/1.0" 404 -                 |
+|miriworld.its.unimelb.edu.au - - [01/Aug/1995:01:04:54 -0400] "GET /history/history.htm HTTP/1.0" 404 -                    |
+|ras38.srv.net - - [01/Aug/1995:01:05:14 -0400] "GET /elv/DELTA/uncons.htm HTTP/1.0" 404 -                                  |
+|cs1-06.leh.ptd.net - - [01/Aug/1995:01:17:38 -0400] "GET /sts-71/launch/" 404 -                                            |
+|dialip-24.athenet.net - - [01/Aug/1995:01:33:02 -0400] "GET /history/apollo/apollo-13.html HTTP/1.0" 404 -                 |
+|h96-158.ccnet.com - - [01/Aug/1995:01:35:50 -0400] "GET /history/apollo/a-001/a-001-patch-small.gif HTTP/1.0" 404 -        |
+|h96-158.ccnet.com - - [01/Aug/1995:01:36:23 -0400] "GET /history/apollo/a-001/movies/ HTTP/1.0" 404 -                      |
+|h96-158.ccnet.com - - [01/Aug/1995:01:36:30 -0400] "GET /history/apollo/a-001/a-001-patch-small.gif HTTP/1.0" 404 -        |
+|h96-158.ccnet.com - - [01/Aug/1995:01:36:38 -0400] "GET /history/apollo/a-001/movies/ HTTP/1.0" 404 -                      |
+|h96-158.ccnet.com - - [01/Aug/1995:01:36:42 -0400] "GET /history/apollo/a-001/a-001-patch-small.gif HTTP/1.0" 404 -        |
+|h96-158.ccnet.com - - [01/Aug/1995:01:36:44 -0400] "GET /history/apollo/a-001/images/ HTTP/1.0" 404 -                      |
+|h96-158.ccnet.com - - [01/Aug/1995:01:36:47 -0400] "GET /history/apollo/a-001/a-001-patch-small.gif HTTP/1.0" 404 -        |
+|h96-158.ccnet.com - - [01/Aug/1995:01:37:04 -0400] "GET /history/apollo/a-004/a-004-patch-small.gif HTTP/1.0" 404 -        |
+|h96-158.ccnet.com - - [01/Aug/1995:01:37:05 -0400] "GET /history/apollo/a-004/movies/ HTTP/1.0" 404 -                      |
+|h96-158.ccnet.com - - [01/Aug/1995:01:37:08 -0400] "GET /history/apollo/a-004/a-004-patch-small.gif HTTP/1.0" 404 -        |
+|hsccs_gatorbox07.unm.edu - - [01/Aug/1995:01:44:06 -0400] "GET /pub/winvn/release.txt HTTP/1.0" 404 -                      |
+|www-b2.proxy.aol.com - - [01/Aug/1995:01:48:29 -0400] "GET /pub/winvn/readme.txt HTTP/1.0" 404 -                           |
+|www-b2.proxy.aol.com - - [01/Aug/1995:01:48:48 -0400] "GET /pub/winvn/release.txt HTTP/1.0" 404 -                          |
++---------------------------------------------------------------------------------------------------------------------------+
+only showing top 20 rows
+==================== Question 4 ====================
+There are 10056 requests are 404.
+====================================================
++------------------------------------------------------------------------------------------------------------------------------------------+
+|value                                                                                                                                     |
++------------------------------------------------------------------------------------------------------------------------------------------+
+|ix-oma1-17.ix.netcom.com - - [15/Aug/1995:00:05:41 -0400] "GET /pub/winvn/readme.txt HTTP/1.0" 404 -                                      |
+|ix-oma1-17.ix.netcom.com - - [15/Aug/1995:00:05:50 -0400] "GET /pub/winvn/release.txt HTTP/1.0" 404 -                                     |
+|jesguerra.sp.trw.com - - [15/Aug/1995:00:43:18 -0400] "GET /elv/DELTA/uncons.htm HTTP/1.0" 404 -                                          |
+|jesguerra.sp.trw.com - - [15/Aug/1995:00:44:22 -0400] "GET /elv/DELTA/uncons.htm HTTP/1.0" 404 -                                          |
+|sl-013.sl.cybercomm.net - - [15/Aug/1995:01:07:31 -0400] "GET /pub/winvn/release.txt HTTP/1.0" 404 -                                      |
+|sl-013.sl.cybercomm.net - - [15/Aug/1995:01:07:38 -0400] "GET /pub/winvn/readme.txt HTTP/1.0" 404 -                                       |
+|sonyinet.sony.co.jp - - [15/Aug/1995:02:05:06 -0400] "GET /ksc.hmtl HTTP/1.0" 404 -                                                       |
+|disarray.demon.co.uk - - [15/Aug/1995:02:30:24 -0400] "GET /ksc.hmtl HTTP/1.0" 404 -                                                      |
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:39:06 -0400] "GET /images/crawlerway-logo.gif HTTP/1.0" 404 -                                      |
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:06 -0400] "GET /history/apollo/pad-abort-test-1/pad-abort-test-1-patch-small.gif HTTP/1.0" 404 -|
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:08 -0400] "GET /history/apollo/pad-abort-test-1/images/ HTTP/1.0" 404 -                         |
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:11 -0400] "GET /history/apollo/pad-abort-test-1/pad-abort-test-1-patch-small.gif HTTP/1.0" 404 -|
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:15 -0400] "GET /history/apollo/pad-abort-test-1/pad-abort-test-1-patch-small.gif HTTP/1.0" 404 -|
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:17 -0400] "GET /history/apollo/pad-abort-test-1/sounds/ HTTP/1.0" 404 -                         |
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:18 -0400] "GET /history/apollo/pad-abort-test-1/pad-abort-test-1-patch-small.gif HTTP/1.0" 404 -|
+|jganders.extern.ucsd.edu - - [15/Aug/1995:02:59:24 -0400] "GET /pub/winvn/release.txt HTTP/1.0" 404 -                                     |
+|jganders.extern.ucsd.edu - - [15/Aug/1995:02:59:33 -0400] "GET /pub/winvn/readme.txt HTTP/1.0" 404 -                                      |
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:51 -0400] "GET /history/apollo/a-003/a-003-patch-small.gif HTTP/1.0" 404 -                      |
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:54 -0400] "GET /history/apollo/a-003/news/ HTTP/1.0" 404 -                                      |
+|unix.ka9q.ampr.org - - [15/Aug/1995:02:59:56 -0400] "GET /history/apollo/a-003/a-003-patch-small.gif HTTP/1.0" 404 -                      |
++------------------------------------------------------------------------------------------------------------------------------------------+
+only showing top 20 rows
+==================== Question 5 ====================
+There are 327 requests are 404 on 15th August.
+====================================================
++-------------------------------------------------------------------------------------------------------------------------+
+|value                                                                                                                    |
++-------------------------------------------------------------------------------------------------------------------------+
+|gateway.timken.com - - [15/Aug/1995:17:28:41 -0400] "GET /SHUTTLE/MISSIONS/MISSIONS.HTML HTTP/1.0" 404 -                 |
+|gateway.timken.com - - [15/Aug/1995:17:28:54 -0400] "GET /SHUTTLE/MISSIONS HTTP/1.0" 404 -                               |
+|gateway.timken.com - - [15/Aug/1995:17:29:05 -0400] "GET /SHUTTLE HTTP/1.0" 404 -                                        |
+|gateway.timken.com - - [15/Aug/1995:17:29:15 -0400] "GET / HTTP/1.0" 200 7131                                            |
+|gateway.timken.com - - [15/Aug/1995:17:29:36 -0400] "GET /shuttle/missions/missions.html HTTP/1.0" 200 8677              |
+|gateway.timken.com - - [15/Aug/1995:17:30:13 -0400] "GET /shuttle/countdown/ HTTP/1.0" 200 4673                          |
+|gateway.timken.com - - [15/Aug/1995:17:30:28 -0400] "GET /shuttle/missions/sts-69/liftoff.html HTTP/1.0" 200 5146        |
+|gateway.timken.com - - [15/Aug/1995:17:31:43 -0400] "GET /htbin/cdt_clock.pl HTTP/1.0" 200 543                           |
+|gateway.timken.com - - [15/Aug/1995:17:31:53 -0400] "GET /shuttle/countdown/countdown.html HTTP/1.0" 200 4673            |
+|gateway.timken.com - - [15/Aug/1995:17:32:12 -0400] "GET /shuttle/missions/sts-69/mission-sts-69.html HTTP/1.0" 200 11836|
+|gateway.timken.com - - [15/Aug/1995:17:33:01 -0400] "GET /shuttle/missions/sts-69/mission-sts-69.html HTTP/1.0" 200 11836|
+|gateway.timken.com - - [15/Aug/1995:17:33:26 -0400] "GET /shuttle/missions/sts-69/news HTTP/1.0" 302 -                   |
+|gateway.timken.com - - [15/Aug/1995:17:33:30 -0400] "GET /shuttle/missions/sts-69/news/ HTTP/1.0" 200 374                |
++-------------------------------------------------------------------------------------------------------------------------+
+
++--------------------------------------------------------------------------------------------------------+
+|value                                                                                                   |
++--------------------------------------------------------------------------------------------------------+
+|gateway.timken.com - - [15/Aug/1995:17:28:41 -0400] "GET /SHUTTLE/MISSIONS/MISSIONS.HTML HTTP/1.0" 404 -|
+|gateway.timken.com - - [15/Aug/1995:17:28:54 -0400] "GET /SHUTTLE/MISSIONS HTTP/1.0" 404 -              |
+|gateway.timken.com - - [15/Aug/1995:17:29:05 -0400] "GET /SHUTTLE HTTP/1.0" 404 -                       |
++--------------------------------------------------------------------------------------------------------+
+
+==================== Question 6 ====================
+There are 3 requests are 404 on 15th August from gateway.timken.com.
+====================================================
