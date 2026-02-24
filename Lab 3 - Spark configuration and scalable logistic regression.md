@@ -63,7 +63,12 @@ The particular dataset that we will use wil be referred to is the [Spambase Data
 
 ## 1. Spark configuration
 
-Take a look at the configuration of the Spark application properties [here (the table)](https://spark.apache.org/docs/latest/configuration.html#application-properties). There are also several good references: [set spark context](https://stackoverflow.com/questions/30560241/is-it-possible-to-get-the-current-spark-context-settings-in-pyspark); [set driver memory](https://stackoverflow.com/questions/53606756/how-to-set-spark-driver-memory-in-client-mode-pyspark-version-2-3-1); [set local dir](https://stackoverflow.com/questions/40372655/how-to-set-spark-local-dir-property-from-spark-shell).
+**How to study this section (recommended):**
+
+1. **Read the whole section first before running jobs**.
+2. Then practice different configurations by modifying the `.sh` script and `SparkSession` settings in the Python file, and observe the outcomes.
+
+Take a look at the configuration of the Spark application properties [here (the table)](https://spark.apache.org/docs/4.1.0/configuration.html#application-properties). There are also several good references: [set spark context](https://stackoverflow.com/questions/30560241/is-it-possible-to-get-the-current-spark-context-settings-in-pyspark); [set driver memory](https://stackoverflow.com/questions/53606756/how-to-set-spark-driver-memory-in-client-mode-pyspark-version-2-3-1); [set local dir](https://stackoverflow.com/questions/40372655/how-to-set-spark-local-dir-property-from-spark-shell).
 
 Recall that in the provided [`Code/LogMiningBig.py`](Code/LogMiningBig.py), you were asked to set the `spark.local.dir` to `/mnt/parscratch/users/YOUR_USERNAME` as in the following set of instructions
 
@@ -98,7 +103,8 @@ Memory requirements that you request from Stanage are configured in the followin
 #SBATCH --mem-per-cpu=4G # --mem-per-cpu=xxG is used to specify the maximum amount (xx) of real memory to be requested per CPU core.
 ```
 
-With the configuration above in the .sh file, we are requesting Stanage for 8GB (2 cores times 4GB per cores) of real memory. If we are working in the `rse-com6012-$Lab_ID` queue, we are requesting access to one of the five reserved [general CPU nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#general-cpu-node-specifications) that we have for this course. We can check we have been allocated to one of these nodes because they are named as `node009` to `node013` in the Linux terminal. Each of these nodes has a total of 256 GB memory and 64 cores, i.e. 4 GB per core. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
+With the configuration above in the .sh file, we are requesting Stanage for 8GB (2 cores times 4GB per cores) of real memory. If we are working in the `rse-com6012-3` queue, we are requesting access to one of the five reserved [general CPU nodes](https://docs.hpc.shef.ac.uk/en/latest/stanage/cluster_specs.html#general-cpu-node-specifications) that we have for this course.
+Each of these nodes has a total of 256 GB memory and 64 cores, i.e. 4 GB per core. When configuring your .sh file, you need to be careful about how you set these two parameters. In the past, we have seen .sh files intended to be run in one of our nodes with the following configuration
 
 ```sh
 #!/bin/bash
@@ -106,7 +112,7 @@ With the configuration above in the .sh file, we are requesting Stanage for 8GB 
 #SBATCH --mem-per-cpu=30G 
 ```
 
-**Do you see a problem with this configuration?** In this .sh file, they were requesting 300 GB of memory (10 nodes times 30 GB per core) which exceeds the available memory in each of these nodes, 256 GB.
+**Do you see a problem with this configuration?** In this .sh file, they were requesting 300 GB of memory (10 cpu cores times 30 GB per core) which exceeds the available memory in each of these nodes, 256 GB.
 
 As well as paying attention to your .sh file for memory requirements, we also need to configure memory requirements in the instructions when we use `spark-submit`, particularly, for the memory that will be allocated to the driver and to each of the executors. The default driver memory, i.e., `spark.driver.memory`, is ONLY **1G** (see [this Table](https://spark.apache.org/docs/3.2.1/configuration.html#application-properties)) so even if you have requested more memory, there can be out of memory problems due to this setting (read the setting description for `spark.driver.memory`). This is true for other memory-related settings as well like the `spark.executor.memory`.
 
@@ -138,7 +144,7 @@ source activate myspark
 spark-submit --driver-memory 10g ./Code/LogMiningBig.py  # .. is a relative path, meaning one level up
 ```
 
-**Do you see a problem with the memory configuration in this .sh file?** Whoever submitted this .sh file was asking Stanage to assign them 2 cores and 4GB per core. At the same time, their Spark job was asking for 10GB for the driver node. The obvious problem here is that there will not be any node with 10GB available to be set as a driver node since all nodes requested from Stanage will have a maximum of 4G available.
+**Do you see a problem with the memory configuration in this .sh file?** Whoever submitted this .sh file was asking Stanage to assign them 2 cores and 4GB per core. At the same time, their Spark job was asking for 10GB for the driver. The obvious problem here is that there will not be any core with 10GB available to be set as a driver since all cores requested from Stanage will have a maximum of 4G available.
 
 ### Other configuration changes
 
