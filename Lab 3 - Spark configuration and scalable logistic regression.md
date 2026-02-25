@@ -47,10 +47,10 @@ source activate myspark
 
 If you are experiencing a `segmentation fault` when entering the `pyspark` interactive shell, run `export LANG=en_US.UTF-8 LC_ALL=en_US.UTF-8` to fix it. It is recommended to add this line to your `myspark.sh` file.
 
-You can now use pip to install the packages using
+You can now use `conda` to install the packages using
 
 ```sh
-pip install matplotlib pandas
+conda install matplotlib pandas
 ```
 
 **You only need to install matplotlib and pandas in your environment once.**
