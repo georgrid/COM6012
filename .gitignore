@@ -3,3 +3,24 @@ _**.png
 **.DS_Store
 .vscode
 /.idea
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environments
+.venv/
+env/
+venv/
+
+# UV
+uv.lock
+
+# Python version file
+.python-version
+
+# OS
+.DS_Store
+
+# Jupyter (if you ever use it)
+.ipynb_checkpoints/
