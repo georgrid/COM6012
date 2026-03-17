@@ -24,3 +24,8 @@ uv.lock
 
 # Jupyter (if you ever use it)
 .ipynb_checkpoints/
+
+Q1_output.txt
+Q2_output.txt
+Q3_output.txt
+Q4_output.txt
