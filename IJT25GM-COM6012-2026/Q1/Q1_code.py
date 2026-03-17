@@ -4,9 +4,11 @@ from pyspark.sql.functions import split, col
 # Initialise spark session
 spark = SparkSession.builder.appName("Q1").getOrCreate()
 
-# TASK A
+print("Q1 Results\n")
+print("Task A:")
+
 # Load data
-logFile = spark.read.text("Data/NASA_access_log_Jul95")
+logFile = spark.read.text("../../Data/NASA_access_log_Jul95")
 
 # Extract hostname, which is the first field in each request
 hosts = logFile.select(split(logFile.value, " ").getItem(0).alias("host"))
