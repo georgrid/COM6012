@@ -1,7 +1,9 @@
 
 from pyspark.sql import SparkSession
 import pyspark.sql.functions as F
-
+from pyspark.ml import Pipeline
+from pyspark.ml.classification import LogisticRegression
+from pyspark.ml.feature import HashingTF, Tokenizer
 
 spark = SparkSession.builder \
         .master("local[4]") \
@@ -12,9 +14,6 @@ sc = spark.sparkContext
 sc.setLogLevel("WARN") 
 # document classification
 
-from pyspark.ml import Pipeline
-from pyspark.ml.classification import LogisticRegression
-from pyspark.ml.feature import HashingTF, Tokenizer
 
 training = spark.createDataFrame([
         (0, "a b c d e spark", 1.0),

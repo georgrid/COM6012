@@ -1,0 +1,149 @@
+WARNING: Using incubator modules: jdk.incubator.vector
+Using Spark's default log4j profile: org/apache/spark/log4j2-defaults.properties
+26/03/16 22:54:26 INFO SparkContext: Running Spark version 4.1.0
+26/03/16 22:54:26 INFO SparkContext: OS info Linux, 3.10.0-1160.145.1.el7.x86_64
+, amd64
+26/03/16 22:54:26 INFO SparkContext: Java version 17.0.4+8
+26/03/16 22:54:26 WARN NativeCodeLoader: Unable to load native-hadoop library fo
+r your platform... using builtin-java classes where applicable
+26/03/16 22:54:26 WARN SparkConf: Note that spark.local.dir will be overridden b
+y the value set by the cluster manager (via SPARK_LOCAL_DIRS in standalone/kuber
+netes and LOCAL_DIRS in YARN).
+26/03/16 22:54:26 INFO ResourceUtils: ==========================================
+====================
+26/03/16 22:54:26 INFO ResourceUtils: No custom resources configured for spark.d
+river.
+26/03/16 22:54:26 INFO ResourceUtils: ==========================================
+====================
+26/03/16 22:54:26 INFO SparkContext: Submitted application: Lab 5 Exercise
+26/03/16 22:54:26 INFO SecurityManager: Changing view acls to: ac1rlo
+26/03/16 22:54:26 INFO SecurityManager: Changing modify acls to: ac1rlo
+26/03/16 22:54:26 INFO SecurityManager: Changing view acls groups to: ac1rlo
+26/03/16 22:54:26 INFO SecurityManager: Changing modify acls groups to: ac1rlo
+26/03/16 22:54:26 INFO SecurityManager: SecurityManager: authentication disabled
+; ui acls disabled; users with view permissions: ac1rlo groups with view permiss
+ions: EMPTY; users with modify permissions: ac1rlo; groups with modify permissio
+ns: EMPTY; RPC SSL disabled
+26/03/16 22:54:27 INFO Utils: Successfully started service 'sparkDriver' on port
+ 33272.
+26/03/16 22:54:27 INFO SparkEnv: Registering MapOutputTracker
+26/03/16 22:54:27 INFO SparkEnv: Registering BlockManagerMaster
+26/03/16 22:54:27 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storag
+e.DefaultTopologyMapper for getting topology information
+26/03/16 22:54:27 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+26/03/16 22:54:27 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+26/03/16 22:54:27 INFO DiskBlockManager: Created local directory at /mnt/parscra
+tch/users/ac1rlo/blockmgr-645e8cd1-b3ba-4ab2-8d62-bd717b131412
+26/03/16 22:54:27 INFO SparkEnv: Registering OutputCommitCoordinator
+26/03/16 22:54:28 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+26/03/16 22:54:28 INFO Utils: Successfully started service 'SparkUI' on port 404
+0.
+26/03/16 22:54:28 INFO ResourceProfile: Default ResourceProfile created, executo
+r resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> 
+name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount
+: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+26/03/16 22:54:28 INFO ResourceProfile: Limiting resource is cpu
+26/03/16 22:54:28 INFO ResourceProfileManager: Added ResourceProfile id: 0
+26/03/16 22:54:28 INFO SecurityManager: Changing view acls to: ac1rlo
+26/03/16 22:54:28 INFO SecurityManager: Changing modify acls to: ac1rlo
+26/03/16 22:54:28 INFO SecurityManager: Changing view acls groups to: ac1rlo
+26/03/16 22:54:28 INFO SecurityManager: Changing modify acls groups to: ac1rlo
+26/03/16 22:54:28 INFO SecurityManager: SecurityManager: authentication disabled
+; ui acls disabled; users with view permissions: ac1rlo groups with view permiss
+ions: EMPTY; users with modify permissions: ac1rlo; groups with modify permissio
+ns: EMPTY; RPC SSL disabled
+26/03/16 22:54:28 INFO Executor: Starting executor ID driver on host node137.pri
+.stanage.alces.network
+26/03/16 22:54:28 INFO Executor: OS info Linux, 3.10.0-1160.145.1.el7.x86_64, am
+d64
+26/03/16 22:54:28 INFO Executor: Java version 17.0.4+8
+26/03/16 22:54:28 INFO Executor: Starting executor with user classpath (userClas
+sPathFirst = false): ''
+26/03/16 22:54:28 INFO Executor: Created or updated repl class loader org.apache
+.spark.util.MutableURLClassLoader@142caa63 for default.
+26/03/16 22:54:28 INFO Utils: Successfully started service 'org.apache.spark.net
+work.netty.NettyBlockTransferService' on port 36693.
+26/03/16 22:54:28 INFO NettyBlockTransferService: Server created on node137.pri.
+stanage.alces.network:36693
+26/03/16 22:54:28 INFO BlockManager: Using org.apache.spark.storage.RandomBlockR
+eplicationPolicy for block replication policy
+26/03/16 22:54:28 INFO BlockManagerMaster: Registering BlockManager BlockManager
+Id(driver, node137.pri.stanage.alces.network, 36693, None)
+26/03/16 22:54:28 INFO BlockManagerMasterEndpoint: Registering block manager nod
+e137.pri.stanage.alces.network:36693 with 5.8 GiB RAM, BlockManagerId(driver, no
+de137.pri.stanage.alces.network, 36693, None)
+26/03/16 22:54:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerI
+d(driver, node137.pri.stanage.alces.network, 36693, None)
+26/03/16 22:54:28 INFO BlockManager: Initialized BlockManager: BlockManagerId(dr
+iver, node137.pri.stanage.alces.network, 36693, None)
+26/03/16 22:54:34 WARN SparkStringUtils: Truncated the string representation of 
+a plan since it was too large. This behavior can be adjusted by setting 'spark.s
+ql.debug.maxToStringFields'.
++--------------------+------+
+|            features|labels|
++--------------------+------+
+|(57,[54,55,56],[1...|   0.0|
+|(57,[54,55,56],[1...|   0.0|
+|(57,[54,55,56],[1...|   0.0|
+|(57,[54,55,56],[1...|   0.0|
+|(57,[54,55,56],[1...|   0.0|
++--------------------+------+
+only showing top 5 rows
+26/03/16 22:55:59 WARN BlockManager: Asked to remove block broadcast_2968_piece0
+, which does not exist
+Accuracy for best dt model = 0.92917 
+{
+    "cacheNodeIds": false,
+    "checkpointInterval": 10,
+    "featuresCol": "features",
+    "impurity": "gini",
+    "labelCol": "labels",
+    "leafCol": "",
+    "maxBins": 10,
+    "maxDepth": 10,
+    "maxMemoryInMB": 256,
+    "minInfoGain": 0.0,
+    "minInstancesPerNode": 1,
+    "minWeightFractionPerNode": 0.0,
+    "predictionCol": "prediction",
+    "probabilityCol": "probability",
+    "rawPredictionCol": "rawPrediction",
+    "seed": -1441058006940296601
+}
+26/03/16 23:01:51 WARN BlockManager: Asked to remove block broadcast_15499_piece
+0, which does not exist
+Accuracy for best rf model = 0.943641 
+{
+    "bootstrap": true,
+    "cacheNodeIds": false,
+    "checkpointInterval": 10,
+    "featureSubsetStrategy": "all",
+    "featuresCol": "features",
+    "impurity": "gini",
+    "labelCol": "labels",
+    "leafCol": "",
+    "maxBins": 2,
+    "maxDepth": 10,
+    "maxMemoryInMB": 256,
+    "minInfoGain": 0.0,
+    "minInstancesPerNode": 1,
+    "minWeightFractionPerNode": 0.0,
+    "numTrees": 10,
+    "predictionCol": "prediction",
+    "probabilityCol": "probability",
+    "rawPredictionCol": "rawPrediction",
+    "seed": 42,
+    "subsamplingRate": 0.9
+}
+                 feature  importance
+10               alcohol    0.379299
+5    free sulfur dioxide    0.162210
+1       volatile acidity    0.135422
+6   total sulfur dioxide    0.103738
+4              chlorides    0.068525
+7                density    0.048011
+0          fixed acidity    0.027890
+3         residual sugar    0.021584
+9              sulphates    0.021366
+2            citric acid    0.017474
+8                     pH    0.014481

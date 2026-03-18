@@ -1,0 +1,104 @@
+25/03/12 10:05:32 INFO SparkContext: Running Spark version 3.5.4
+25/03/12 10:05:32 INFO SparkContext: OS info Linux, 3.10.0-1160.132.1.el7.x86_64, amd64
+25/03/12 10:05:32 INFO SparkContext: Java version 17.0.4
+25/03/12 10:05:33 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/03/12 10:05:33 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/03/12 10:05:33 INFO ResourceUtils: ==============================================================
+25/03/12 10:05:33 INFO ResourceUtils: No custom resources configured for spark.driver.
+25/03/12 10:05:33 INFO ResourceUtils: ==============================================================
+25/03/12 10:05:33 INFO SparkContext: Submitted application: Lab 4 Exercise
+25/03/12 10:05:33 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+25/03/12 10:05:33 INFO ResourceProfile: Limiting resource is cpu
+25/03/12 10:05:33 INFO ResourceProfileManager: Added ResourceProfile id: 0
+25/03/12 10:05:33 INFO SecurityManager: Changing view acls to: ac1sz
+25/03/12 10:05:33 INFO SecurityManager: Changing modify acls to: ac1sz
+25/03/12 10:05:33 INFO SecurityManager: Changing view acls groups to: 
+25/03/12 10:05:33 INFO SecurityManager: Changing modify acls groups to: 
+25/03/12 10:05:33 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ac1sz; groups with view permissions: EMPTY; users with modify permissions: ac1sz; groups with modify permissions: EMPTY
+25/03/12 10:05:33 INFO Utils: Successfully started service 'sparkDriver' on port 32971.
+25/03/12 10:05:33 INFO SparkEnv: Registering MapOutputTracker
+25/03/12 10:05:33 INFO SparkEnv: Registering BlockManagerMaster
+25/03/12 10:05:33 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+25/03/12 10:05:33 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+25/03/12 10:05:33 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+25/03/12 10:05:33 INFO DiskBlockManager: Created local directory at /mnt/parscratch/users/ac1sz/blockmgr-7655746c-c581-4486-8918-517d665b804e
+25/03/12 10:05:33 INFO MemoryStore: MemoryStore started with capacity 5.8 GiB
+25/03/12 10:05:33 INFO SparkEnv: Registering OutputCommitCoordinator
+25/03/12 10:05:33 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+25/03/12 10:05:33 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/03/12 10:05:33 INFO Executor: Starting executor ID driver on host node123.pri.stanage.alces.network
+25/03/12 10:05:33 INFO Executor: OS info Linux, 3.10.0-1160.132.1.el7.x86_64, amd64
+25/03/12 10:05:33 INFO Executor: Java version 17.0.4
+25/03/12 10:05:33 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+25/03/12 10:05:33 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@22e33996 for default.
+25/03/12 10:05:33 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 40771.
+25/03/12 10:05:33 INFO NettyBlockTransferService: Server created on node123.pri.stanage.alces.network:40771
+25/03/12 10:05:33 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+25/03/12 10:05:33 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, node123.pri.stanage.alces.network, 40771, None)
+25/03/12 10:05:33 INFO BlockManagerMasterEndpoint: Registering block manager node123.pri.stanage.alces.network:40771 with 5.8 GiB RAM, BlockManagerId(driver, node123.pri.stanage.alces.network, 40771, None)
+25/03/12 10:05:33 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, node123.pri.stanage.alces.network, 40771, None)
+25/03/12 10:05:33 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, node123.pri.stanage.alces.network, 40771, None)
+
+ORIGINAL SCHEMA
+
+root
+ |-- season: double (nullable = true)
+ |-- yr: double (nullable = true)
+ |-- mnth: double (nullable = true)
+ |-- hr: double (nullable = true)
+ |-- holiday: double (nullable = true)
+ |-- weekday: double (nullable = true)
+ |-- workingday: double (nullable = true)
+ |-- weathersit: double (nullable = true)
+ |-- temp: double (nullable = true)
+ |-- atemp: double (nullable = true)
+ |-- hum: double (nullable = true)
+ |-- windspeed: double (nullable = true)
+ |-- casual: double (nullable = true)
+ |-- registered: double (nullable = true)
+ |-- cnt: double (nullable = true)
+
+---- EXERCISE 1 ----
+
+OHE SCHEMA
+
+root
+ |-- temp: double (nullable = true)
+ |-- atemp: double (nullable = true)
+ |-- hum: double (nullable = true)
+ |-- windspeed: double (nullable = true)
+ |-- casual: double (nullable = true)
+ |-- registered: double (nullable = true)
+ |-- cnt: double (nullable = true)
+ |-- season_ohe: vector (nullable = true)
+ |-- yr_ohe: vector (nullable = true)
+ |-- mnth_ohe: vector (nullable = true)
+ |-- hr_ohe: vector (nullable = true)
+ |-- holiday_ohe: vector (nullable = true)
+ |-- weekday_ohe: vector (nullable = true)
+ |-- workingday_ohe: vector (nullable = true)
+ |-- weathersit_ohe: vector (nullable = true)
+
+25/03/12 10:05:38 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.JNIBLAS
+25/03/12 10:05:38 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.VectorBLAS
+25/03/12 10:05:39 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.lapack.JNILAPACK
+25/03/12 10:05:39 WARN Instrumentation: [8775db83] Cholesky solver failed due to singular covariance matrix. Retrying with Quasi-Newton solver.
+25/03/12 10:05:40 WARN Instrumentation: [8775db83] Cholesky solver failed due to singular covariance matrix. Retrying with Quasi-Newton solver.
+25/03/12 10:05:40 WARN Instrumentation: [8775db83] Cholesky solver failed due to singular covariance matrix. Retrying with Quasi-Newton solver.
+25/03/12 10:05:40 WARN Instrumentation: [8775db83] Cholesky solver failed due to singular covariance matrix. Retrying with Quasi-Newton solver.
+25/03/12 10:05:40 WARN Instrumentation: [8775db83] Cholesky solver failed due to singular covariance matrix. Retrying with Quasi-Newton solver.
+25/03/12 10:05:41 WARN Instrumentation: [8775db83] Cholesky solver failed due to singular covariance matrix. Retrying with Quasi-Newton solver.
+25/03/12 10:05:41 WARN Instrumentation: [8775db83] Cholesky solver failed due to singular covariance matrix. Retrying with Quasi-Newton solver.
+
+RMSE = 96.5614 
+
+
+ Model Coefficients
+[0.5722435445772601,0.5416539167127834,-0.46777037346601,0.061977876234980814,0.0,-0.36586728372710803,-0.03842758228664414,-0.0930489360428038,-0.44470643905267093,0.0,-0.12147657123220833,-0.048261836248863384,0.046438310800123596,-0.0422851888883916,0.05972193904094816,-0.006535782070538321,-0.045657742004495,0.043495906239487556,0.14526364792992225,0.12489722174764394,0.0059457716181712745,-0.560487624046502,-0.7220355192863374,-0.8270209222083452,-0.9215377084057447,-0.9557741801406278,-0.8392544137954414,-0.3478077297552079,0.37107416660842923,0.8400294859384374,0.3320175725838515,0.11037872706492385,0.23202681360156077,0.36251327013317125,0.3558599757314452,0.2800009127541544,0.30363229958071136,0.5073501823003863,0.916814294442656,0.8380079511735024,0.5688759360130275,0.31249742073200115,0.11108737307946857,-0.08393403690382681,0.08545267497310186,-0.04209726062125232,-0.034959965129771856,-0.008963886467823883,-0.00867966929113631,-0.01428434754940486,0.004238218639460725,-0.02280282779002887,0.0,0.12936178704475082,0.09645518198353517,-0.22381768703792895]
+
+---- EXERCISE 2 ----
+
+L1 (OWL-QN optimisation) RMSE = 102.133 
+ElasticNet (0.5 w/ OWL-QN optimisation) RMSE = 102.127 
+L2 (LBGFS optimisation) RMSE = 102.135 
+L2 (IRLS optimisation) RMSE = 102.136 
