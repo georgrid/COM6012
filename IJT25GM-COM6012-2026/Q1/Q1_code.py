@@ -4,12 +4,11 @@ from pyspark.sql.functions import split, col, concat_ws, element_at
 # Initialise spark session
 spark = SparkSession.builder.appName("Q1").getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
+print("\n\nQ1 Results")
 
-print("\n\nQ1 Results\n")
 
-
-### TASK A ###
-print("Task A:")
+##### TASK A #####
+print("\nTask A:")
 
 # Load data
 logFile = spark.read.text("../../Data/NASA_access_log_Jul95")
@@ -36,7 +35,7 @@ print(f"Sector: Company | total requests: {total_co} | unique hosts: {unique_co}
 print(f"Sector: Government | total requests: {total_gov} | unique hosts: {unique_gov}")
 
 
-### TASK B ###
+##### TASK B #####
 print("\nTask B:")
 
 total_shef, _ = host_metrics(hosts, "shef.ac.uk")
