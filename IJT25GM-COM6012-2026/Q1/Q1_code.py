@@ -1,10 +1,14 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import split, col
+from pyspark.sql.functions import split, col, concat_ws, element_at
 
 # Initialise spark session
 spark = SparkSession.builder.appName("Q1").getOrCreate()
+spark.sparkContext.setLogLevel("ERROR")
 
-print("Q1 Results\n")
+print("\n\nQ1 Results\n")
+
+
+### TASK A ###
 print("Task A:")
 
 # Load data
@@ -30,5 +34,35 @@ total_gov, unique_gov = host_metrics(hosts, ".gov.uk")
 print(f"Sector: Academic | total requests: {total_ac} | unique hosts: {unique_ac}")
 print(f"Sector: Company | total requests: {total_co} | unique hosts: {unique_co}")
 print(f"Sector: Government | total requests: {total_gov} | unique hosts: {unique_gov}")
+
+
+### TASK B ###
+print("\nTask B:")
+
+total_shef, _ = host_metrics(hosts, "shef.ac.uk")
+print(f"1. Total number of requests from the University of Sheffield domain: {total_shef}")
+
+# Extract all academic hosts
+academic_hosts = hosts.filter(col("host").endswith(".ac.uk"))
+
+# Split each hostname into its components (www.shef.ac.uk -> ["www", "shef", "ac", "uk"])
+split_host = split(col("host"), "\\.")
+
+# Extract institution names by joining the final three components with "."
+academic_domains = academic_hosts.select(
+    col("host"),
+    concat_ws(".",
+              element_at(split_host, -3),   # shef
+              element_at(split_host, -2),   # ac
+              element_at(split_host, -1)    # uk
+    ).alias("institution")
+)
+
+# Get number of requests from each institution
+institution_counts = academic_domains.groupBy("institution").count()
+
+# Find number of institutions with more requests than Sheffield
+num_institutions = institution_counts.filter(col("count") > total_shef).count()
+print(f"2. Number of institutions that made more requests than Sheffield: {num_institutions}")
 
 spark.stop()
