@@ -77,6 +77,7 @@ def extract_domain(data, suffix: str, alias: str):
     # Extract institution names by joining the final three components with "."
     academic_domains = academic_hosts.select(
         col("host"),
+        col("timestamp"),
         concat_ws(".",
                 element_at(split_host, -3),   # shef
                 element_at(split_host, -2),   # ac
@@ -161,5 +162,53 @@ top_company_name = top_company.collect()[0]["company"]
 print(f"Most active academic institution: {top_institution_name}")
 print(f"Most active company: {top_company_name}")
 
+# Filter original data for top institution / company
+top_institution_requests = academic_domains.filter(col("institution") == top_institution_name)
+top_company_requests = company_domains.filter(col("company") == top_company_name)
+
+def create_heatmap(data, title, filename):
+    # Group by day of month and hour of day
+    heatmap_data = data.groupBy(
+        dayofmonth("timestamp").alias("day"),
+        hour("timestamp").alias("hour")
+    ).count()
+
+    # Convert to pandas
+    pdf = heatmap_data.toPandas()
+
+    # Convert rows -> hours, columns -> days
+    pivot = pdf.pivot(index="hour", columns="day", values="count").fillna(0)
+
+    # Ensure that plot shows all values e.g. day1, hour 0
+    pivot = pivot.reindex(index=range(24), columns=range(1, 29), fill_value=0)
+
+    # Plot heatmap
+    plt.figure(figsize=(10, 6))
+    plt.imshow(pivot, aspect="auto", cmap="viridis", origin="lower")
+    plt.colorbar().set_label("Number of Requests", fontsize=12)
+    plt.xlabel("Day of Month", fontsize=14)
+    plt.ylabel("Hour of Day", fontsize=14)
+    plt.title(title, fontsize=16)
+    plt.xticks(range(0, 28, 2), range(1, 29, 2), fontsize=10)
+    plt.yticks(range(0, 24, 2), range(0, 24, 2), fontsize=10)
+    plt.tight_layout()
+    plt.savefig(filename)
+    plt.close()
+
+create_heatmap(
+    top_institution_requests,
+    f"Access Pattern for Top UK Academic Institution ({top_institution_name})",
+    "Q1_fig2.png"
+)
+create_heatmap(
+    top_company_requests,
+    f"Access Pattern for Top UK Company ({top_company_name})",
+    "Q1_fig3.png"
+)
+create_heatmap(
+    government_domains,
+    "Access Pattern for All UK Government Domains Combined",
+    "Q1_fig4.png"
+)
 
 spark.stop()
