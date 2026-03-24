@@ -104,10 +104,10 @@ top9_list = top_companies.collect()
 labels = [row["company"] for row in top9_list]
 values = [row["total_requests"] for row in top9_list]
 
-labels.append("Other")
+labels.append("All Other Companies")
 values.append(other_total)
 
-colours = ["steelblue"]* 9 + ["orange"]
+colours = ["steelblue"]* 9 + ["darkorange"]
 
 # Plot top 9 companies against all others
 plt.figure(figsize=(12, 6))
