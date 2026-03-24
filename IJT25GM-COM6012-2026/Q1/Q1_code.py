@@ -80,7 +80,7 @@ greater_than_shef.write.csv("Q1_B3_output.csv", header=True, mode="overwrite")
 
 
 ##### Task C #####
-print("\nTask C:")
+print("Task C:")
 
 # Same process as exercise B:
 company_domains = extract_domain(".co.uk", "company")
@@ -98,5 +98,27 @@ top_companies.show(truncate=False)
 top_total = top_companies.agg(sum("total_requests")).collect()[0][0]
 total = company_counts.agg(sum("total_requests")).collect()[0][0]
 other_total = total - top_total
+
+# Create labels and values for figure
+top9_list = top_companies.collect()
+labels = [row["company"] for row in top9_list]
+values = [row["total_requests"] for row in top9_list]
+
+labels.append("Other")
+values.append(other_total)
+
+colours = ["steelblue"]* 9 + ["orange"]
+
+# Plot top 9 companies against all others
+plt.figure(figsize=(12, 6))
+plt.bar(labels, values, color=colours)
+
+plt.xticks(rotation=45, ha="right")
+plt.xlabel("Company")
+plt.ylabel("Total Requests")
+plt.title("Top 9 UK Companies by Total Requests Compared to All Other Companies")
+
+plt.tight_layout()
+plt.savefig("Q1_figures/Q1_C_plot.png")
 
 spark.stop()
