@@ -60,8 +60,17 @@ academic_domains = academic_hosts.select(
 # Get number of requests from each institution
 institution_counts = academic_domains.groupBy("institution").count()
 
-# Find number of institutions with more requests than Sheffield
-num_institutions = institution_counts.filter(col("count") > total_shef).count()
+# Create DataFrame of institutions with more requests than Sheffield
+greater_than_shef = institution_counts.filter(col("count") > total_shef).withColumnRenamed("count", "total_requests")
+
+# Count number of institutions with more requests than Sheffield
+num_institutions = greater_than_shef.count()
 print(f"2. Number of institutions that made more requests than Sheffield: {num_institutions}")
+
+# Print to output and save DataFrame as a csv file
+print("3. Institutions with more requests than Sheffield:")
+greater_than_shef.show(truncate=False)
+greater_than_shef.write.csv("Q1_B3_output.csv", header=True, mode="overwrite")
+
 
 spark.stop()
