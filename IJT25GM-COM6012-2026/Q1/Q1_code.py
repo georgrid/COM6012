@@ -1,5 +1,6 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import split, col, concat_ws, element_at
+from pyspark.sql.functions import split, col, concat_ws, element_at, sum
+import matplotlib.pyplot as plt
 
 # Initialise spark session
 spark = SparkSession.builder.appName("Q1").getOrCreate()
@@ -41,27 +42,32 @@ print("\nTask B:")
 total_shef, _ = host_metrics(hosts, "shef.ac.uk")
 print(f"1. Total number of requests from the University of Sheffield domain: {total_shef}")
 
-# Extract all academic hosts
-academic_hosts = hosts.filter(col("host").endswith(".ac.uk"))
+def extract_domain(suffix: str, alias: str):
+    # Extract all academic hosts
+    academic_hosts = hosts.filter(col("host").endswith(suffix))
 
-# Split each hostname into its components (www.shef.ac.uk -> ["www", "shef", "ac", "uk"])
-split_host = split(col("host"), "\\.")
+    # Split each hostname into its components (www.shef.ac.uk -> ["www", "shef", "ac", "uk"])
+    split_host = split(col("host"), "\\.")
 
-# Extract institution names by joining the final three components with "."
-academic_domains = academic_hosts.select(
-    col("host"),
-    concat_ws(".",
-              element_at(split_host, -3),   # shef
-              element_at(split_host, -2),   # ac
-              element_at(split_host, -1)    # uk
-    ).alias("institution")
-)
+    # Extract institution names by joining the final three components with "."
+    academic_domains = academic_hosts.select(
+        col("host"),
+        concat_ws(".",
+                element_at(split_host, -3),   # shef
+                element_at(split_host, -2),   # ac
+                element_at(split_host, -1)    # uk
+        ).alias(alias)
+    )
+
+    return academic_domains
+
+academic_domains = extract_domain(".ac.uk", "institution")
 
 # Get number of requests from each institution
-institution_counts = academic_domains.groupBy("institution").count()
+institution_counts = academic_domains.groupBy("institution").count().withColumnRenamed("count", "total_requests")
 
 # Create DataFrame of institutions with more requests than Sheffield
-greater_than_shef = institution_counts.filter(col("count") > total_shef).withColumnRenamed("count", "total_requests")
+greater_than_shef = institution_counts.filter(col("count") > total_shef)
 
 # Count number of institutions with more requests than Sheffield
 num_institutions = greater_than_shef.count()
@@ -72,5 +78,25 @@ print("3. Institutions with more requests than Sheffield:")
 greater_than_shef.show(truncate=False)
 greater_than_shef.write.csv("Q1_B3_output.csv", header=True, mode="overwrite")
 
+
+##### Task C #####
+print("\nTask C:")
+
+# Same process as exercise B:
+company_domains = extract_domain(".co.uk", "company")
+
+# Get number of requests from each company, in descending order
+company_counts = company_domains.groupBy("company").count().withColumnRenamed("count", "total_requests")
+company_counts = company_counts.orderBy(col("total_requests").desc())
+
+# Get the 9 most active companies
+top_companies = company_counts.limit(9)
+print("Top-9 active companies by total number of requests:")
+top_companies.show(truncate=False)
+
+# Calculate total number of requests from all other companies
+top_total = top_companies.agg(sum("total_requests")).collect()[0][0]
+total = company_counts.agg(sum("total_requests")).collect()[0][0]
+other_total = total - top_total
 
 spark.stop()
