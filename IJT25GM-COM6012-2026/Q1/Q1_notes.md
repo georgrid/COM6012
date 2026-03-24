@@ -18,3 +18,8 @@ The grouped DataFrame is then used to compare institutions based on their total 
 
 ### Figure design choice
 A bar chart is chosen to compare request counts across discrete company categories. It clearly shows the top 9 companies alongside the aggregated "All Other Companies", with different colours used to highlight the comparison and improve readability.
+
+
+## Task E
+
+### Observations
