@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, to_date, month, weekday, upper, trim
+from pyspark.sql.functions import col, to_date, month, weekday, upper, trim, when
 from pyspark.sql.types import DoubleType
 
 from pyspark.ml.feature import OneHotEncoder, VectorAssembler, StandardScaler, StringIndexer
@@ -16,6 +16,8 @@ print("\n\nQ2 Results")
 
 
 ##### TASK A #####
+print("\nTask A:")
+
 # Load data
 logFile = (
     spark.read
@@ -98,6 +100,19 @@ assembler = VectorAssembler(
     outputCol="features"
 )
 final_data = assembler.transform(ohe_data)
-final_data.cache()
+
+# Split data by year into training, validation and testing sets
+train_data = final_data.filter((col("year") >= 2000) & (col("year") <= 2021))
+val_data = final_data.filter((col("year") >= 2022) & (col("year") <= 2023))
+test_data = final_data.filter(col("year") == 2024)
+
+train_data = train_data.select("features", "all_motor_vehicles").cache()
+val_data = val_data.select("features", "all_motor_vehicles").cache()
+test_data = test_data.select("features", "all_motor_vehicles").cache()
+
+print(f"Training size: {train_data.count()}")
+print(f"Validation size: {val_data.count()}")
+print(f"Test size: {test_data.count()}")
+
 
 spark.stop()
