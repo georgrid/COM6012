@@ -22,7 +22,14 @@ spark.sparkContext.setLogLevel("ERROR")
 
 print("\n\nQ2 Results")
 
-# Load and process data
+# Load data
+logfile = (
+    spark.read
+    .option("header", True)
+    .option("inferSchema", True)    
+    .csv("/mnt/parscratch/users/com6012_2026/data/dft_traffic_counts_raw_counts.csv")
+)
+
 
 
 
