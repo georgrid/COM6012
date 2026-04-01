@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, to_date, month, weekday
+from pyspark.sql.functions import col, to_date, month, weekday, upper
 
 spark = (
     SparkSession.builder
@@ -30,6 +30,8 @@ logFile = (
     .withColumn("weekday", weekday(col("count_date")))
 )
 
+# Convert values in direction_of_travel column to uppercase
+logFile = logFile.withColumn("direction_of_travel", upper(col("direction_of_travel")))
 
 
 spark.stop()
