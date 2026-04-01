@@ -1,15 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, upper, to_date, month, weekday, when
-from pyspark.sql.types import DoubleType
-
-from pyspark.ml import Pipeline
-from pyspark.ml.feature import StringIndexer, OneHotEncoder, VectorAssembler, StandardScaler
-from pyspark.ml.regression import GeneralizedLinearRegression
-from pyspark.ml.classification import LogisticRegression
-from pyspark.ml.evaluation import RegressionEvaluator, MulticlassClassificationEvaluator
-
-import math
-import matplotlib.pyplot as plt
+from pyspark.sql.functions import col, to_date, month, weekday
 
 spark = (
     SparkSession.builder
@@ -23,16 +13,22 @@ spark.sparkContext.setLogLevel("ERROR")
 print("\n\nQ2 Results")
 
 # Load data
-logfile = (
+logFile = (
     spark.read
     .option("header", True)
     .option("inferSchema", True)    
     .csv("/mnt/parscratch/users/com6012_2026/data/dft_traffic_counts_raw_counts.csv")
 )
 
+# Preprocessing
+# Convert count_date column into date format
+logFile = logFile.withColumn("count_date", to_date(col("count_date"), "yyyy-MM-dd"))
 
-
-
+# Create month and weekday columns
+logFile = (
+    logFile.withColumn("month", month(col("count_date")))
+    .withColumn("weekday", weekday(col("count_date")))
+)
 
 
 
