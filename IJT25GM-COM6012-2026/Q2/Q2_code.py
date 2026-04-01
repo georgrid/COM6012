@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date, month, weekday, upper, trim
 from pyspark.sql.types import DoubleType
 
-from pyspark.ml.feature import OneHotEncoder, VectorAssembler, StandardScaler
+from pyspark.ml.feature import OneHotEncoder, VectorAssembler, StandardScaler, StringIndexer
 
 spark = (
     SparkSession.builder
@@ -70,9 +70,34 @@ scaler = StandardScaler(
     withMean=True,
     withStd=True
 )
-scaler_model = scaler.fit(data)
-data = scaler_model.transform(data)
+data = scaler.fit(data).transform(data)
 
+# Index categorical columns
+indexed_data = data
+for c in categorical_cols:
+    indexer = StringIndexer(
+        inputCol=c,
+        outputCol=f"{c}_idx",
+        handleInvalid="keep"
+    )
+    indexed_data = indexer.fit(indexed_data).transform(indexed_data)
 
+# Apply one-hot encoder to indexed columns
+ohe = OneHotEncoder(
+    inputCols=[f"{c}_idx" for c in categorical_cols],
+    outputCols=[f"{c}_ohe" for c in categorical_cols]
+)
+ohe_model = ohe.fit(indexed_data)
+ohe_data = ohe_model.transform(indexed_data)
+
+# Combine one-hot encoded categorical features and standardised numerical features
+feature_cols = [f"{c}_ohe" for c in categorical_cols] + ["scaled_numeric_features"]
+
+assembler = VectorAssembler(
+    inputCols=feature_cols,
+    outputCol="features"
+)
+final_data = assembler.transform(ohe_data)
+final_data.cache()
 
 spark.stop()
