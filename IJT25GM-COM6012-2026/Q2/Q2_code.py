@@ -1,5 +1,8 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, to_date, month, weekday, upper
+from pyspark.sql.functions import col, to_date, month, weekday, upper, trim
+from pyspark.sql.types import DoubleType
+
+from pyspark.ml.feature import OneHotEncoder, VectorAssembler, StandardScaler
 
 spark = (
     SparkSession.builder
@@ -9,9 +12,10 @@ spark = (
     .getOrCreate()
 )
 spark.sparkContext.setLogLevel("ERROR")
-
 print("\n\nQ2 Results")
 
+
+##### TASK A #####
 # Load data
 logFile = (
     spark.read
@@ -20,8 +24,7 @@ logFile = (
     .csv("/mnt/parscratch/users/com6012_2026/data/dft_traffic_counts_raw_counts.csv")
 )
 
-# Preprocessing
-# 1. Convert count_date column into date format
+# Convert count_date column into date format
 logFile = logFile.withColumn("count_date", to_date(col("count_date"), "yyyy-MM-dd"))
 
 # Create month and weekday columns
@@ -30,10 +33,46 @@ logFile = (
     .withColumn("weekday", weekday(col("count_date")))
 )
 
-# 2. Convert values in direction_of_travel column to uppercase
-logFile = logFile.withColumn("direction_of_travel", upper(col("direction_of_travel")))
+# Convert values in direction_of_travel column to uppercase
+logFile = logFile.withColumn("direction_of_travel", upper(trim(col("direction_of_travel"))))
 
-# 3. Drop rows where all_motor_vehicles is NULL
-logFile = logFile.na.drop(subset='all_motor_vehicles')
+# Drop rows where all_motor_vehicles is NULL
+logFile = logFile.na.drop(subset=['all_motor_vehicles'])
+
+# Select only required columns
+categorical_cols = [
+    "direction_of_travel",
+    "hour",
+    "region_ons_code",
+    "local_authority_code",
+    "month",
+    "weekday"
+]
+numeric_cols = ['latitude', 'longitude']
+selected_cols = ["year"] + categorical_cols + numeric_cols + ["all_motor_vehicles"]
+data = logFile.select(*selected_cols)
+
+# Ensure that numerical features are of type double
+for c in numeric_cols + ["all_motor_vehicles"]:
+    data = data.withColumn(c, col(c).cast(DoubleType()))
+
+# Assemble numerical features into a vector
+num_assembler = VectorAssembler(
+    inputCols=numeric_cols,
+    outputCol="numeric_features"
+)
+data = num_assembler.transform(data)
+
+# Standardise numerical features using StandardScaler
+scaler = StandardScaler(
+    inputCol="numeric_features",
+    outputCol="scaled_numeric_features",
+    withMean=True,
+    withStd=True
+)
+scaler_model = scaler.fit(data)
+data = scaler_model.transform(data)
+
+
 
 spark.stop()
