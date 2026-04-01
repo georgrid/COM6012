@@ -8,4 +8,4 @@
 
 source /users/ijt25gm/myspark.sh
 
-spark-submit /users/ijt25gm/com6012/ScalableML/IJT25GM-COM6012-2026/Q2/Q2_code.py  # . is a relative path, meaning the current directory
+spark-submit --driver-memory 10G /users/ijt25gm/com6012/ScalableML/IJT25GM-COM6012-2026/Q2/Q2_code.py  # . is a relative path, meaning the current directory

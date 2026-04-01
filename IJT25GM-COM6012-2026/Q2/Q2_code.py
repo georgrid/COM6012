@@ -38,7 +38,8 @@ logFile = (
 # Convert values in direction_of_travel column to uppercase
 logFile = logFile.withColumn("direction_of_travel", upper(trim(col("direction_of_travel"))))
 
-# Drop rows where all_motor_vehicles is NULL
+# Drop rows where all_motor_vehicles is NULL or "NULL"
+logFile = logFile.replace("NULL", None)
 logFile = logFile.na.drop(subset=['all_motor_vehicles'])
 
 # Select only required columns
@@ -106,9 +107,9 @@ train_data = final_data.filter((col("year") >= 2000) & (col("year") <= 2021))
 val_data = final_data.filter((col("year") >= 2022) & (col("year") <= 2023))
 test_data = final_data.filter(col("year") == 2024)
 
-train_data = train_data.select("features", "all_motor_vehicles").cache()
-val_data = val_data.select("features", "all_motor_vehicles").cache()
-test_data = test_data.select("features", "all_motor_vehicles").cache()
+train_data = train_data.select("features", "all_motor_vehicles")
+val_data = val_data.select("features", "all_motor_vehicles")
+test_data = test_data.select("features", "all_motor_vehicles")
 
 print(f"Training size: {train_data.count()}")
 print(f"Validation size: {val_data.count()}")
