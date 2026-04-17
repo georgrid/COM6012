@@ -1,8 +1,11 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, to_date, month, weekday, upper, trim, when
 from pyspark.sql.types import DoubleType
-
 from pyspark.ml.feature import OneHotEncoder, VectorAssembler, StandardScaler, StringIndexer
+from pyspark.ml.regression import GeneralizedLinearRegression
+from pyspark.ml.evaluation import RegressionEvaluator
+import math
+import matplotlib.pyplot as plt
 
 spark = (
     SparkSession.builder
@@ -115,5 +118,74 @@ print(f"Training size: {train_data.count()}")
 print(f"Validation size: {val_data.count()}")
 print(f"Test size: {test_data.count()}")
 
+
+##### TASK B #####
+print("\nTask B:")
+
+# Cache datasets
+train_data = train_data.cache()
+val_data = val_data.cache()
+test_data = test_data.cache()
+
+train_data.count()
+val_data.count()
+test_data.count()
+
+# Candidate regParam values
+reg_params = [0.001, 0.01, 0.1, 1, 10, 100, 1000]
+
+# Create seeds using student registration number (250117677)
+seeds = [17677, 17678, 17679, 17680, 17681]
+
+# Use MSE on validation and test sets
+evaluator = RegressionEvaluator(
+    labelCol="all_motor_vehicles",
+    predictionCol="prediction",
+    metricName="mse"
+)
+
+results = []
+
+for reg_param in reg_params:
+    mse_values = []
+
+    print(f"regParam = {reg_param}")
+
+    for seed in seeds:
+        # Sample 80% of the training set
+        train_sample = train_data.sample(
+            withReplacement=False,
+            fraction=0.8,           # Sample 80% of training set
+            seed=seed
+        )
+
+        # Define Poisson model
+        glm_poisson = GeneralizedLinearRegression(
+            featuresCol="features",
+            labelCol="all_motor_vehicles",
+            maxIter=50,
+            regParam=reg_param,
+            family="poisson",
+            link="log"
+        )
+
+        # Fit the model
+        model = glm_poisson.fit(train_sample)
+
+        # Create predictions
+        predictions = model.transform(val_data)
+
+        # Calculate validation MSE
+        mse = evaluator.evaluate(predictions)
+        mse_values.append(mse)
+
+    # Mean and std of MSE values
+    mean_mse = sum(mse_values) / len(mse_values)
+    std_mse = math.sqrt(sum((x - mean_mse)**2 for x in mse_values) / len(mse_values))
+
+    results.append((reg_param, mean_mse, std_mse))
+
+    print(f"  Mean validation MSE = {mean_mse:.2f}")
+    print(f"  Standard deviation = {std_mse:.2f}\n")
 
 spark.stop()
