@@ -188,4 +188,19 @@ for reg_param in reg_params:
     print(f"  Mean validation MSE = {mean_mse:.2f}")
     print(f"  Standard deviation = {std_mse:.2f}\n")
 
+reg_param_values = [x[0] for x in results]
+mean_mse_values = [x[1] for x in results]
+std_mse_values = [x[2] for x in results]
+
+# Plot mean validation MSE against regParam
+plt.figure(figsize=(12,6))
+plt.errorbar(reg_param_values, mean_mse_values, yerr=std_mse_values, fmt='o-', capsize=5)
+
+plt.xscale("log")
+plt.xlabel("regParam")
+plt.ylabel("Mean validation MSE")
+plt.title("Mean Validation MSE vs regParam")
+plt.tight_layout()
+plt.savefig("Q2_fig1.png")
+
 spark.stop()
