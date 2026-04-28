@@ -203,4 +203,34 @@ plt.title("Mean Validation MSE vs regParam")
 plt.tight_layout()
 plt.savefig("Q2_fig1.png")
 
+# Select best regParam value for evaluation on the test set
+best_result = min(results, key=lambda x: x[1])
+best_reg_param = best_result[0]
+print(f"\nOptimal regParam value: {best_reg_param}")
+
+# Combine training and validation sets
+train_val_data = train_data.union(val_data)
+train_val_data = train_val_data.cache()
+train_val_data.count()
+
+# Retrain model using best regParam
+glm_poisson_tuned = GeneralizedLinearRegression(
+    featuresCol='features',
+    labelCol='all_motor_vehicles',
+    maxIter=50,
+    regParam=best_reg_param,
+    family='poisson',
+    link='log'
+)
+model_tuned = glm_poisson_tuned.fit(train_val_data)
+
+# Evaluate model on test data
+predictions = model_tuned.transform(test_data)
+test_mse = evaluator.evaluate(predictions)
+print(f"\nFinal test MSE = {test_mse:.2f}")
+
+# Get learned model coefficients
+print("\nFinal model coefficients:")
+print(model_tuned.coefficients)
+
 spark.stop()
