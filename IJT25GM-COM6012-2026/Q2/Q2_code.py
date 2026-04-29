@@ -208,7 +208,7 @@ plt.close()
 # Select best regParam value for evaluation on the test set
 best_result = min(results, key=lambda x: x[1])
 best_reg_param = best_result[0]
-print(f"Optimal regParam value: {best_reg_param}")
+print(f"\nOptimal regParam value: {best_reg_param}")
 
 # Combine training and validation sets
 train_val_data = train_data.union(val_data)
@@ -247,7 +247,7 @@ median_motor_vehicles = train_data.approxQuantile(
     [0.5],   # 0.5: median
     0.01     # small relative error: more expensive but more accurate
 )[0]
-print(f"Median value of `all_motor_vehicles`: {median_motor_vehicles}")
+print(f"Median value of `all_motor_vehicles`: {median_motor_vehicles}\n")
 
 # Add new binary target column `traffic` to training, validation and test data
 train_data = train_data.withColumn(
@@ -354,11 +354,11 @@ best_result = max(results, key=lambda x: x[2])
 best_reg_param = best_result[0]
 best_elastic_net_param = best_result[1]
 
-print(f"Optimal regParam value: {best_reg_param}")
+print(f"\nOptimal regParam value: {best_reg_param}")
 print(f"Optimal elasticNetParam value: {best_elastic_net_param}")
 
 # Combine training and validation sets
-train_val_data_lr = train_data.union(val_data_lr)
+train_val_data_lr = train_data_lr.union(val_data_lr)
 train_val_data_lr = train_val_data_lr.cache()
 train_val_data_lr.count()
 
@@ -375,7 +375,7 @@ model_tuned = lr_tuned.fit(train_val_data_lr)
 # Evaluate model on test data
 predictions = model_tuned.transform(test_data_lr)
 test_accuracy = evaluator.evaluate(predictions)
-print(f"\nFinal test accuracy = {test_mse:.4f}")
+print(f"Final test accuracy = {test_accuracy:.4f}")
 
 # Get learned model coefficients
 coefficients = model_tuned.coefficients.toArray()
