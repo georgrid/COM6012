@@ -30,7 +30,14 @@ logFile = spark.read \
 logFile = logFile.cache()
 logFile.count()
 
-logFile.show(10, False)
+# Stratified sampling: sample 2% of each class
+fractions = {0.0: 0.02, 1.0: 0.02}
+sampled_df = logFile.sampleBy("label", fractions, seed=250117677)
+
+sampled_df = sampled_df.cache()
+sampled_df.count()
+
+sampled_df.groupBy("label").count().show()
 
 
 spark.stop()
