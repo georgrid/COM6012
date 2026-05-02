@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, DoubleType
 from pyspark.ml.feature import VectorAssembler
-from pyspark.ml.classification import randomForestClassifier, GBTClassifier
+from pyspark.ml.classification import RandomForestClassifier, GBTClassifier
 from pyspark.ml import Pipeline
 from pyspark.ml.tuning import CrossValidator, ParamGridBuilder
 from pyspark.ml.evaluation import MulticlassClassificationEvaluator
@@ -34,9 +34,6 @@ logFile = spark.read \
     .schema(schema) \
     .csv("/users/ijt25gm/com6012/ScalableML/Data/HIGGS.csv")
 
-logFile = logFile.cache()
-logFile.count()
-
 # Stratified sampling: sample 2% of each class
 fractions = {0.0: 0.02, 1.0: 0.02}
 sampled_df = logFile.sampleBy("label", fractions, seed=seed)
@@ -53,7 +50,7 @@ vecAssembler = VectorAssembler(
 )
 
 # Random Forest cross-validation
-rf = randomForestClassifier(
+rf = RandomForestClassifier(
     labelCol="label",
     featuresCol="features",
     seed=seed
@@ -64,9 +61,9 @@ rf_pipeline = Pipeline(stages=[vecAssembler, rf])
 
 # Create parameter grid for cross-validation
 rf_paramGrid = ParamGridBuilder() \
-    .addGrid(rf.maxDepth, [5, 10, 15]) \
-    .addGrid(rf.maxBins, [32, 64, 128]) \
-    .addGrid(rf.numTrees, [20, 50, 100]) \
+    .addGrid(rf.maxDepth, [3, 5, 7]) \
+    .addGrid(rf.maxBins, [16, 32, 64]) \
+    .addGrid(rf.numTrees, [10, 20, 40]) \
     .build()
 
 # Accuracy evaluator
