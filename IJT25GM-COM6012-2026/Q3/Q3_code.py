@@ -29,14 +29,14 @@ schema = StructType(
 )
 
 # Load data
-logFile = spark.read \
+higgs_df = spark.read \
     .option("header", False) \
     .schema(schema) \
     .csv("/users/ijt25gm/com6012/ScalableML/Data/HIGGS.csv")
 
 # Stratified sampling: sample 2% of each class
 fractions = {0.0: 0.02, 1.0: 0.02}
-sampled_df = logFile.sampleBy("label", fractions, seed=seed)
+sampled_df = higgs_df.sampleBy("label", fractions, seed=seed)
 
 sampled_df = sampled_df.cache()
 sampled_df.count()
@@ -124,7 +124,7 @@ gbt_best_pipeline = gbt_cvModel.bestModel
 best_gbt = gbt_best_pipeline.stages[-1]
 
 gbt_param_dict = {
-    param[0].name: param[-1]
+    param[0].name: param[1]
     for param in best_gbt.extractParamMap().items()
 }
 
@@ -170,11 +170,40 @@ gbt_train_acc = evaluator.evaluate(gbt_model.transform(train))
 gbt_test_acc = evaluator.evaluate(gbt_model.transform(test))
 
 print("\nPerformance on sampled dataset:")
-print("\nRandom Forest:")
-print(f"  training accuracy: {rf_train_acc}")
-print(f"  test accuracy: {rf_test_acc}")
-print("\nGradient Boosted Tree:")
-print(f"  training accuracy: {gbt_train_acc}")
-print(f"  test accuracy: {gbt_test_acc}")
+print("Random Forest:")
+print(f" training accuracy: {rf_train_acc}")
+print(f" test accuracy: {rf_test_acc}")
+print("Gradient Boosted Tree:")
+print(f" training accuracy: {gbt_train_acc}")
+print(f" test accuracy: {gbt_test_acc}")
+
+
+##### TASK B #####
+print("\n\nTask B:")
+
+# Split full dataset into training and test sets
+train_full, test_full = higgs_df.randomSplit([0.7, 0.3], seed=seed)
+
+print(f"Size of full training set: {train_full.count()}")
+print(f"Size of full test set: {test_full.count()}")
+
+# Fit RF and GBT models to full training set
+rf_model_full = rf_pipeline.fit(train_full)
+gbt_model_full = gbt_pipeline.fit(train_full)
+
+# Evaluate on the full training and test sets
+rf_full_train_acc = evaluator.evaluate(rf_model_full.transform(train_full))
+rf_full_test_acc = evaluator.evaluate(rf_model_full.transform(test_full))
+
+gbt_full_train_acc = evaluator.evaluate(gbt_model_full.transform(train_full))
+gbt_full_test_acc = evaluator.evaluate(gbt_model_full.transform(test_full))
+
+print("\nPerformance on full dataset:")
+print("Random Forest:")
+print(f" training accuracy: {rf_full_train_acc}")
+print(f" test accuracy: {rf_full_test_acc}")
+print("Gradient Boosted Tree:")
+print(f" training accuracy: {gbt_full_train_acc}")
+print(f" test accuracy: {gbt_full_test_acc}")
 
 spark.stop()
