@@ -46,13 +46,14 @@ feature_cols = [f"feature_{i}" for i in range(1, 29)]
 
 vecAssembler = VectorAssembler(
     inputCols=feature_cols,
-    outputCol="features"
+    outputCol='features'
 )
+
 
 # Random Forest cross-validation
 rf = RandomForestClassifier(
-    labelCol="label",
-    featuresCol="features",
+    labelCol='label',
+    featuresCol='features',
     seed=seed
 )
 
@@ -94,5 +95,40 @@ rf_param_dict = {
 
 print("Best Random Forest Parameters:")
 print(json.dumps(rf_param_dict, indent=4))
+
+
+# Repeat process for Gradient Boosted Tree cross-validation
+gbt = GBTClassifier(
+    labelCol='label',
+    featuresCol='features',
+    seed=seed
+)
+
+gbt_pipeline = Pipeline(stages=[vecAssembler, gbt])
+
+gbt_paramGrid = ParamGridBuilder() \
+    .addGrid(gbt.maxDepth, [3, 5, 7]) \
+    .addGrid(gbt.maxBins, [16, 32, 64]) \
+    .addGrid(gbt.maxIter, [10, 20, 40]) \
+    .build()
+
+gbt_crossval = CrossValidator(
+    estimator=gbt_pipeline,
+    estimatorParamMaps=gbt_paramGrid,
+    evaluator=evaluator,
+    numFolds=3
+)
+gbt_cvModel = gbt_crossval.fit(sampled_df)
+
+gbt_best_pipeline = gbt_cvModel.bestModel
+best_gbt = gbt_best_pipeline.stages[-1]
+
+gbt_param_dict = {
+    param[0].name: param[-1]
+    for param in best_gbt.extractParamMap().items()
+}
+
+print("\nBest GBT Parameters:")
+print(json.dumps(gbt_param_dict, indent=4))
 
 spark.stop()
