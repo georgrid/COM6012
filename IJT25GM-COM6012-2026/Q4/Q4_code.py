@@ -64,7 +64,7 @@ for frac in train_fractions:
     
     splits[frac] = (train, test)
 
-    print(f"\nTraining fraction: {frac}")
+    print(f"Training fraction: {frac}")
     print(f"  Training size: {train.count()}")
     print(f"  Test size: {test.count()}")
 
@@ -98,6 +98,7 @@ als = ALS(
 results = []
 
 # Loop over train/test splits
+print("\nALS setting 1:")
 for frac, (train, test) in splits.items():
     
     model = als.fit(train)
@@ -107,9 +108,41 @@ for frac, (train, test) in splits.items():
     mse = mse_evaluator.evaluate(predictions)
     mae = mae_evaluator.evaluate(predictions)
 
-    results.append((frac, 'Setting 1', rmse, mse, mae))
+    results.append((frac, 'setting 1', rmse, mse, mae))
 
-    print(f"ALS Setting 1 for {int(frac * 100)}% training split")
+    print(f"{int(frac * 100)}% training split")
+    print(f"  RMSE: {rmse:.4f}")
+    print(f"  MSE: {mse:.4f}")
+    print(f"  MAE: {mae:.4f}")
+
+
+# Setting 2
+als2 = ALS(
+    userCol='userId',
+    itemCol='movieId',
+    ratingCol='rating',
+    seed=seed,
+    coldStartStrategy='drop',
+    rank=25,
+    regParam=0.15,
+    maxIter=10
+)
+models_setting_2 = {}
+
+print("\nALS setting 2:")
+for frac, (train, test) in splits.items():
+
+    model = als2.fit(train)
+    predictions = model.transform(test)
+
+    rmse = rmse_evaluator.evaluate(predictions)
+    mse = mse_evaluator.evaluate(predictions)
+    mae = mae_evaluator.evaluate(predictions)
+
+    results.append((frac, 'setting 2', rmse, mse, mae))
+    models_setting_2[frac] = model
+
+    print(f"{int(frac * 100)}% training split")
     print(f"  RMSE: {rmse:.4f}")
     print(f"  MSE: {mse:.4f}")
     print(f"  MAE: {mae:.4f}")
