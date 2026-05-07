@@ -1,0 +1,139 @@
+25/05/02 19:01:57 INFO SparkContext: Running Spark version 3.5.4
+25/05/02 19:01:57 INFO SparkContext: OS info Linux, 3.10.0-1160.132.1.el7.x86_64, amd64
+25/05/02 19:01:57 INFO SparkContext: Java version 17.0.4
+25/05/02 19:01:57 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+25/05/02 19:01:57 WARN SparkConf: Note that spark.local.dir will be overridden by the value set by the cluster manager (via SPARK_LOCAL_DIRS in mesos/standalone/kubernetes and LOCAL_DIRS in YARN).
+25/05/02 19:01:57 INFO ResourceUtils: ==============================================================
+25/05/02 19:01:57 INFO ResourceUtils: No custom resources configured for spark.driver.
+25/05/02 19:01:57 INFO ResourceUtils: ==============================================================
+25/05/02 19:01:57 INFO SparkContext: Submitted application: Lab 8 Exercise
+25/05/02 19:01:57 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+25/05/02 19:01:57 INFO ResourceProfile: Limiting resource is cpu
+25/05/02 19:01:57 INFO ResourceProfileManager: Added ResourceProfile id: 0
+25/05/02 19:01:58 INFO SecurityManager: Changing view acls to: YOUR_USERNAME
+25/05/02 19:01:58 INFO SecurityManager: Changing modify acls to: YOUR_USERNAME
+25/05/02 19:01:58 INFO SecurityManager: Changing view acls groups to: 
+25/05/02 19:01:58 INFO SecurityManager: Changing modify acls groups to: 
+25/05/02 19:01:58 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: YOUR_USERNAME; groups with view permissions: EMPTY; users with modify permissions: YOUR_USERNAME; groups with modify permissions: EMPTY
+25/05/02 19:01:58 INFO Utils: Successfully started service 'sparkDriver' on port 46091.
+25/05/02 19:01:58 INFO SparkEnv: Registering MapOutputTracker
+25/05/02 19:01:58 INFO SparkEnv: Registering BlockManagerMaster
+25/05/02 19:01:58 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+25/05/02 19:01:58 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+25/05/02 19:01:58 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+25/05/02 19:01:58 INFO DiskBlockManager: Created local directory at /mnt/parscratch/users/YOUR_USERNAME/blockmgr-f4b6b817-97d7-49e3-9b7c-0ab539b32e68
+25/05/02 19:01:58 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+25/05/02 19:01:58 INFO SparkEnv: Registering OutputCommitCoordinator
+25/05/02 19:01:58 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+25/05/02 19:01:58 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+25/05/02 19:01:58 INFO Executor: Starting executor ID driver on host node070.pri.stanage.alces.network
+25/05/02 19:01:58 INFO Executor: OS info Linux, 3.10.0-1160.132.1.el7.x86_64, amd64
+25/05/02 19:01:58 INFO Executor: Java version 17.0.4
+25/05/02 19:01:58 INFO Executor: Starting executor with user classpath (userClassPathFirst = false): ''
+25/05/02 19:01:58 INFO Executor: Created or updated repl class loader org.apache.spark.util.MutableURLClassLoader@74dac03e for default.
+25/05/02 19:01:58 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 34982.
+25/05/02 19:01:58 INFO NettyBlockTransferService: Server created on node070.pri.stanage.alces.network:34982
+25/05/02 19:01:58 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+25/05/02 19:01:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, node070.pri.stanage.alces.network, 34982, None)
+25/05/02 19:01:58 INFO BlockManagerMasterEndpoint: Registering block manager node070.pri.stanage.alces.network:34982 with 434.4 MiB RAM, BlockManagerId(driver, node070.pri.stanage.alces.network, 34982, None)
+25/05/02 19:01:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, node070.pri.stanage.alces.network, 34982, None)
+25/05/02 19:01:58 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, node070.pri.stanage.alces.network, 34982, None)
++------------+-----------+------------+-----------+-------+
+|sepal_length|sepal_width|petal_length|petal_width|species|
++------------+-----------+------------+-----------+-------+
+|5.1         |3.5        |1.4         |0.2        |setosa |
+|4.9         |3.0        |1.4         |0.2        |setosa |
+|4.7         |3.2        |1.3         |0.2        |setosa |
+|4.6         |3.1        |1.5         |0.2        |setosa |
+|5.0         |3.6        |1.4         |0.2        |setosa |
+|5.4         |3.9        |1.7         |0.4        |setosa |
+|4.6         |3.4        |1.4         |0.3        |setosa |
+|5.0         |3.4        |1.5         |0.2        |setosa |
+|4.4         |2.9        |1.4         |0.2        |setosa |
+|4.9         |3.1        |1.5         |0.1        |setosa |
+|5.4         |3.7        |1.5         |0.2        |setosa |
+|4.8         |3.4        |1.6         |0.2        |setosa |
+|4.8         |3.0        |1.4         |0.1        |setosa |
+|4.3         |3.0        |1.1         |0.1        |setosa |
+|5.8         |4.0        |1.2         |0.2        |setosa |
+|5.7         |4.4        |1.5         |0.4        |setosa |
+|5.4         |3.9        |1.3         |0.4        |setosa |
+|5.1         |3.5        |1.4         |0.3        |setosa |
+|5.7         |3.8        |1.7         |0.3        |setosa |
+|5.1         |3.8        |1.5         |0.3        |setosa |
++------------+-----------+------------+-----------+-------+
+only showing top 20 rows
+
++------+---------------------------------------------------------------------------------+
+|id    |features                                                                         |
++------+---------------------------------------------------------------------------------+
+|setosa|[-0.8976738791967643,1.0286112808972372,-1.3367940202882502,-1.308592819437957]  |
+|setosa|[-1.1392004834649512,-0.12454037930145648,-1.3367940202882502,-1.308592819437957]|
+|setosa|[-1.3807270877331392,0.33672028477802146,-1.393469854952817,-1.308592819437957]  |
+|setosa|[-1.5014903898672336,0.10608995273828248,-1.2801181856236834,-1.308592819437957] |
+|setosa|[-1.0184371813308577,1.2592416129369763,-1.3367940202882502,-1.308592819437957]  |
+|setosa|[-0.5353839727944818,1.951132609056192,-1.16676651629455,-1.046524831566537]     |
+|setosa|[-1.5014903898672336,0.7979809488574984,-1.3367940202882502,-1.177558825502247]  |
+|setosa|[-1.0184371813308577,0.7979809488574984,-1.2801181856236834,-1.308592819437957]  |
+|setosa|[-1.7430169941354205,-0.35517071134119543,-1.3367940202882502,-1.308592819437957]|
+|setosa|[-1.1392004834649512,0.10608995273828248,-1.2801181856236834,-1.439626813373667] |
+|setosa|[-0.5353839727944818,1.4898719449767153,-1.2801181856236834,-1.308592819437957]  |
+|setosa|[-1.2599637855990458,0.7979809488574984,-1.2234423509591166,-1.308592819437957]  |
+|setosa|[-1.2599637855990458,-0.12454037930145648,-1.3367940202882502,-1.439626813373667]|
+|setosa|[-1.8637802962695151,-0.12454037930145648,-1.5068215242819507,-1.439626813373667]|
+|setosa|[-0.05233076425810695,2.181762941095931,-1.450145689617384,-1.308592819437957]   |
+|setosa|[-0.1730940663922004,3.1042842692548867,-1.2801181856236834,-1.046524831566537]  |
+|setosa|[-0.5353839727944818,1.951132609056192,-1.393469854952817,-1.046524831566537]    |
+|setosa|[-0.8976738791967643,1.0286112808972372,-1.3367940202882502,-1.177558825502247]  |
+|setosa|[-0.1730940663922004,1.720502277016453,-1.16676651629455,-1.177558825502247]     |
+|setosa|[-0.8976738791967643,1.720502277016453,-1.2801181856236834,-1.177558825502247]   |
++------+---------------------------------------------------------------------------------+
+only showing top 20 rows
+
+25/05/02 19:02:10 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.JNIBLAS
+25/05/02 19:02:10 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.blas.VectorBLAS
+25/05/02 19:02:10 WARN InstanceBuilder: Failed to load implementation from:dev.ludovic.netlib.lapack.JNILAPACK
+DataFrame PCA
++------+---------------------------------------------------------------------------------+-----------------------------------------+
+|id    |features                                                                         |pca_features                             |
++------+---------------------------------------------------------------------------------+-----------------------------------------+
+|setosa|[-0.8976738791967643,1.0286112808972372,-1.3367940202882502,-1.308592819437957]  |[2.2569806330680264,-0.5040154042276582] |
+|setosa|[-1.1392004834649512,-0.12454037930145648,-1.3367940202882502,-1.308592819437957]|[2.0794591188954032,0.6532163936125838]  |
+|setosa|[-1.3807270877331392,0.33672028477802146,-1.393469854952817,-1.308592819437957]  |[2.360044081584208,0.317413944570277]    |
+|setosa|[-1.5014903898672336,0.10608995273828248,-1.2801181856236834,-1.308592819437957] |[2.296503660003885,0.5734466129712273]   |
+|setosa|[-1.0184371813308577,1.2592416129369763,-1.3367940202882502,-1.308592819437957]  |[2.3808015864527436,-0.6725144107910821] |
+|setosa|[-0.5353839727944818,1.951132609056192,-1.16676651629455,-1.046524831566537]     |[2.063623476337235,-1.5134782667356748]  |
+|setosa|[-1.5014903898672336,0.7979809488574984,-1.3367940202882502,-1.177558825502247]  |[2.437545335732414,-0.07431371713320098] |
+|setosa|[-1.0184371813308577,0.7979809488574984,-1.2801181856236834,-1.308592819437957]  |[2.226383267407072,-0.24678717174216813] |
+|setosa|[-1.7430169941354205,-0.35517071134119543,-1.3367940202882502,-1.308592819437957]|[2.334138096440084,1.0914897701958293]   |
+|setosa|[-1.1392004834649512,0.10608995273828248,-1.2801181856236834,-1.439626813373667] |[2.1813679694194783,0.4471311174501041]  |
+|setosa|[-0.5353839727944818,1.4898719449767153,-1.2801181856236834,-1.308592819437957]  |[2.1562628748102592,-1.0670209564555646] |
+|setosa|[-1.2599637855990458,0.7979809488574984,-1.2234423509591166,-1.308592819437957]  |[2.3196068551308353,-0.15805794582010113]|
+|setosa|[-1.2599637855990458,-0.12454037930145648,-1.3367940202882502,-1.439626813373667]|[2.2166567155972636,0.7067504781046756]  |
+|setosa|[-1.8637802962695151,-0.12454037930145648,-1.5068215242819507,-1.439626813373667]|[2.6309024924632047,0.9351491453748151]  |
+|setosa|[-0.05233076425810695,2.181762941095931,-1.450145689617384,-1.308592819437957]   |[2.1849716499715557,-1.8836680489153383] |
+|setosa|[-0.1730940663922004,3.1042842692548867,-1.2801181856236834,-1.046524831566537]  |[2.243947780527031,-2.7132813314101405]  |
+|setosa|[-0.5353839727944818,1.951132609056192,-1.393469854952817,-1.046524831566537]    |[2.1953957000147133,-1.508696010397513]  |
+|setosa|[-0.8976738791967643,1.0286112808972372,-1.3367940202882502,-1.177558825502247]  |[2.182866358187733,-0.5125870937164463]  |
+|setosa|[-0.1730940663922004,1.720502277016453,-1.16676651629455,-1.177558825502247]     |[1.8877501541896784,-1.4263323606900704] |
+|setosa|[-0.8976738791967643,1.720502277016453,-1.2801181856236834,-1.177558825502247]   |[2.3321361969578165,-1.1541668625011676] |
++------+---------------------------------------------------------------------------------+-----------------------------------------+
+only showing top 20 rows
+
+DataFrame PC
+DenseMatrix([[-0.52237162, -0.37231836],
+             [ 0.26335492, -0.92555649],
+             [-0.58125401, -0.02109478],
+             [-0.56561105, -0.06541577]])
+RDD PC:
+DenseMatrix([[-0.52237162, -0.37231836],
+             [ 0.26335492, -0.92555649],
+             [-0.58125401, -0.02109478],
+             [-0.56561105, -0.06541577]])
+RDD PCA projected features
+[DenseVector([2.257, -0.504]), DenseVector([2.0795, 0.6532]), DenseVector([2.36, 0.3174]), DenseVector([2.2965, 0.5734]), DenseVector([2.3808, -0.6725]), DenseVector([2.0636, -1.5135]), DenseVector([2.4375, -0.0743]), DenseVector([2.2264, -0.2468]), DenseVector([2.3341, 1.0915]), DenseVector([2.1814, 0.4471]), DenseVector([2.1563, -1.067]), DenseVector([2.3196, -0.1581]), DenseVector([2.2167, 0.7068]), DenseVector([2.6309, 0.9351]), DenseVector([2.185, -1.8837]), DenseVector([2.2439, -2.7133]), DenseVector([2.1954, -1.5087]), DenseVector([2.1829, -0.5126]), DenseVector([1.8878, -1.4263]), DenseVector([2.3321, -1.1542]), DenseVector([1.9082, -0.429]), DenseVector([2.1973, -0.9493]), DenseVector([2.7649, -0.4879]), DenseVector([1.8143, -0.1064]), DenseVector([2.2208, -0.1616]), DenseVector([1.9505, 0.6059]), DenseVector([2.0452, -0.2651]), DenseVector([2.161, -0.5502]), DenseVector([2.1332, -0.3355]), DenseVector([2.2612, 0.3138]), DenseVector([2.1374, 0.4823]), DenseVector([1.8258, -0.4438]), DenseVector([2.5995, -1.8224]), DenseVector([2.4298, -2.1781]), DenseVector([2.1814, 0.4471]), DenseVector([2.2037, 0.1837]), DenseVector([2.0376, -0.6827]), DenseVector([2.1814, 0.4471]), DenseVector([2.4278, 0.8792]), DenseVector([2.1633, -0.2917]), DenseVector([2.2789, -0.4664]), DenseVector([1.8655, 2.3199]), DenseVector([2.5493, 0.4523]), DenseVector([1.9577, -0.4957]), DenseVector([2.1262, -1.1675]), DenseVector([2.0684, 0.6896]), DenseVector([2.3733, -1.1468]), DenseVector([2.3902, 0.3612]), DenseVector([2.2193, -1.0221]), DenseVector([2.1986, -0.0321]), DenseVector([-1.1003, -0.8602]), DenseVector([-0.73, -0.5966]), DenseVector([-1.238, -0.6128]), DenseVector([-0.396, 1.7523]), DenseVector([-1.069, 0.2111]), DenseVector([-0.3832, 0.5891]), DenseVector([-0.7462, -0.7761]), DenseVector([0.4962, 1.8427]), DenseVector([-0.9231, -0.0302]), DenseVector([-0.005, 1.026]), DenseVector([0.1243, 2.6492]), DenseVector([-0.4373, 0.0587]), DenseVector([-0.5498, 1.7667]), DenseVector([-0.7148, 0.1848]), DenseVector([0.0371, 0.4314]), DenseVector([-0.873, -0.5083]), DenseVector([-0.3468, 0.19]), DenseVector([-0.1529, 0.7881]), DenseVector([-1.2112, 1.6279]), DenseVector([-0.1564, 1.2988]), DenseVector([-0.7358, -0.4011]), DenseVector([-0.4708, 0.4152]), DenseVector([-1.2239, 0.9378]), DenseVector([-0.6273, 0.4154]), DenseVector([-0.6981, 0.0633]), DenseVector([-0.8706, -0.2499]), DenseVector([-1.25, 0.0823]), DenseVector([-1.3537, -0.3277]), DenseVector([-0.6599, 0.2236]), DenseVector([0.0471, 1.0537]), DenseVector([-0.1211, 1.5584]), DenseVector([-0.0141, 1.5681]), DenseVector([-0.2352, 0.7733]), DenseVector([-1.0532, 0.6348]), DenseVector([-0.2207, 0.2799]), DenseVector([-0.4303, -0.8523]), DenseVector([-1.0459, -0.5205]), DenseVector([-1.0324, 1.3878]), DenseVector([-0.0668, 0.2119]), DenseVector([-0.2745, 1.3254]), DenseVector([-0.2714, 1.1157]), DenseVector([-0.6211, -0.0275]), DenseVector([-0.3289, 0.9856]), DenseVector([0.3724, 2.0112]), DenseVector([-0.282, 0.8511]), DenseVector([-0.0888, 0.1743]), DenseVector([-0.2236, 0.3792]), DenseVector([-0.572, 0.1532]), DenseVector([0.4555, 1.5343]), DenseVector([-0.2514, 0.5939]), DenseVector([-1.8415, -0.8688]), DenseVector([-1.1493, 0.699]), DenseVector([-2.199, -0.5526]), DenseVector([-1.4339, 0.0498]), DenseVector([-1.8617, -0.2902]), DenseVector([-2.745, -0.7858]), DenseVector([-0.3572, 1.5549]), DenseVector([-2.2953, -0.4081]), DenseVector([-1.9951, 0.7214]), DenseVector([-2.26, -1.915]), DenseVector([-1.3613, -0.6916]), DenseVector([-1.5937, 0.4268]), DenseVector([-1.878, -0.4129]), DenseVector([-1.2489, 1.1635]), DenseVector([-1.4592, 0.4427]), DenseVector([-1.5865, -0.6748]), DenseVector([-1.4664, -0.2523]), DenseVector([-2.4292, -2.5482]), DenseVector([-3.2981, 0.0024]), DenseVector([-1.2498, 1.7118]), DenseVector([-2.0337, -0.9044]), DenseVector([-0.9707, 0.5693]), DenseVector([-2.8884, -0.3965]), DenseVector([-1.3248, 0.4851]), DenseVector([-1.6986, -1.0108]), DenseVector([-1.9512, -1.0]), DenseVector([-1.168, 0.3178]), DenseVector([-1.0164, -0.0653]), DenseVector([-1.78, 0.1926]), DenseVector([-1.8586, -0.5535]), DenseVector([-2.4274, -0.2458]), DenseVector([-2.3083, -2.6174]), DenseVector([-1.8542, 0.1841]), DenseVector([-1.1076, 0.295]), DenseVector([-1.1935, 0.8144]), DenseVector([-2.7916, -0.8419]), DenseVector([-1.5749, -1.0689]), DenseVector([-1.3425, -0.4208]), DenseVector([-0.9203, -0.0192]), DenseVector([-1.8474, -0.6702]), DenseVector([-2.0094, -0.6084]), DenseVector([-1.8968, -0.6837]), DenseVector([-1.1493, 0.699]), DenseVector([-2.0365, -0.8618]), DenseVector([-1.995, -1.045]), DenseVector([-1.8643, -0.3815]), DenseVector([-1.5533, 0.9023]), DenseVector([-1.5158, -0.2659]), DenseVector([-1.3718, -1.013]), DenseVector([-0.9561, 0.0222])]
+RDD SVD for PCA
+DenseMatrix([[-0.52237162, -0.37231836],
+             [ 0.26335492, -0.92555649],
+             [-0.58125401, -0.02109478],
+             [-0.56561105, -0.06541577]])
