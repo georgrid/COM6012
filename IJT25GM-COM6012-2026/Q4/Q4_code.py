@@ -3,6 +3,9 @@ from pyspark.sql.window import Window
 from pyspark.sql.functions import row_number, col
 from pyspark.ml.recommendation import ALS
 from pyspark.ml.evaluation import RegressionEvaluator
+from pyspark.ml.clustering import KMeans
+from pyspark.ml.linalg import Vectors, VectorUDT
+from pyspark.sql.functions import udf, desc
 
 spark = (
     SparkSession.builder
@@ -148,5 +151,55 @@ for frac, (train, test) in splits.items():
     print(f"  MAE: {mae:.4f}")
 
 
+
+##### TASK B #####
+print("\nTask B:")
+
+# Convert ALS attributes into dense feature vectors
+def transData(data):
+    return data.rdd.map(
+        lambda r: (r.id, Vectors.dense(r.features))
+    ).toDF(['userId', 'features'])
+
+cluster_results = []
+largest_cluster_users = {}
+
+for frac, model in models_setting_2.items():
+
+    dfFeatureVec = transData(model.userFactors).cache()
+
+    # Fit k-means with k=25
+    kmeans = KMeans().setK(25).setSeed(seed)
+    kmeans_model = kmeans.fit(dfFeatureVec)
+
+    # Generate cluster predictions
+    predictions = kmeans_model.transform(dfFeatureVec).cache()
+
+    # Keep top 5 largest clusters
+    top_clusters = predictions \
+        .groupBy('prediction') \
+        .count() \
+        .orderBy(desc('count')) \
+        .limit(5) \
+        .collect()
+
+print("Top 5 largest clusters:")
+for rank, row in enumerate(top_clusters, start=1):
+
+    cluster_id = row['prediction']
+    cluster_size = row['count']
+
+    cluster_results.append((frac, rank, cluster_id, cluster_size))
+
+    print(f"  Rank {rank}: cluster {cluster_id}, size = {cluster_size}")
+
+    # Save users in largest cluster
+    largest_cluster_id = top_clusters[0]['prediction']
+
+    largest_cluster_users[frac] = predictions \
+        .filter(predictions.prediction == largest_cluster_id) \
+        .select('UserId') \
+        .cache()
+        
 
 spark.stop()
