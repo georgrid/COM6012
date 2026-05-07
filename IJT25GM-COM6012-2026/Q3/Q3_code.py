@@ -131,4 +131,50 @@ gbt_param_dict = {
 print("\nBest GBT Parameters:")
 print(json.dumps(gbt_param_dict, indent=4))
 
+# Split the small dataset into train/test sets
+train, test = sampled_df.randomSplit([0.7, 0.3], seed=seed)
+train = train.cache()
+test = test.cache()
+
+# Create final RF and GBT models using best hyperparameters
+rf = RandomForestClassifier(
+    labelCol='label',
+    featuresCol='features',
+    seed=seed,
+    maxDepth=best_rf.getMaxDepth(),
+    maxBins=best_rf.getMaxBins(),
+    numTrees=best_rf.getNumTrees
+)
+
+gbt = GBTClassifier(
+    labelCol='label',
+    featuresCol='features',
+    seed=seed,
+    maxDepth=best_gbt.getMaxDepth(),
+    maxBins=best_gbt.getMaxBins(),
+    maxIter=best_gbt.getMaxIter()
+)
+
+# Fit both models to the training set
+rf_pipeline = Pipeline(stages=[vecAssembler, rf])
+gbt_pipeline=Pipeline(stages=[vecAssembler, gbt])
+
+rf_model = rf_pipeline.fit(train)
+gbt_model = gbt_pipeline.fit(train)
+
+# Evaluate on training and test sets
+rf_train_acc = evaluator.evaluate(rf_model.transform(train))
+rf_test_acc = evaluator.evaluate(rf_model.transform(test))
+
+gbt_train_acc = evaluator.evaluate(gbt_model.transform(train))
+gbt_test_acc = evaluator.evaluate(gbt_model.transform(test))
+
+print("\nPerformance on sampled dataset:")
+print("\nRandom Forest:")
+print(f"  training accuracy: {rf_train_acc}")
+print(f"  test accuracy: {rf_test_acc}")
+print("\nGradient Boosted Tree:")
+print(f"  training accuracy: {gbt_train_acc}")
+print(f"  test accuracy: {gbt_test_acc}")
+
 spark.stop()
