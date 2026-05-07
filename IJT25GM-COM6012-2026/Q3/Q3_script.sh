@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=Q3  # Replace JOB_NAME with a name you like
-#SBATCH --time=01:00:00  # Change this to a longer time if you need more time
+#SBATCH --time=04:00:00  # Change this to a longer time if you need more time
 #SBATCH --nodes=1  # Specify a number of nodes
 #SBATCH --cpus-per-task=10
 #SBATCH --mem-per-cpu=8G
