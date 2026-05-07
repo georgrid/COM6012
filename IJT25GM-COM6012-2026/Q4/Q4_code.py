@@ -21,7 +21,7 @@ print("\nTask A:")
 
 # Load data
 ratings = spark.read.load(
-    "/mnt/parscratch/users/com6012_2026/data/ml-20m/ratings.csv",
+    "/users/ijt25gm/com6012/ScalableML/Data/ml-20m/ratings.csv",
     format='csv',
     inferSchema="true",
     header="true"
@@ -67,5 +67,53 @@ for frac in train_fractions:
     print(f"\nTraining fraction: {frac}")
     print(f"  Training size: {train.count()}")
     print(f"  Test size: {test.count()}")
+
+print("")
+
+# Define evaluators
+rmse_evaluator = RegressionEvaluator(
+    metricName='rmse',
+    labelCol='rating',
+    predictionCol='prediction'
+)
+mse_evaluator = RegressionEvaluator(
+    metricName='mse',
+    labelCol='rating',
+    predictionCol='prediction'
+)
+mae_evaluator = RegressionEvaluator(
+    metricName='mae',
+    labelCol='rating',
+    predictionCol='prediction'
+)
+
+als = ALS(
+    userCol='userId',
+    itemCol='movieId',
+    ratingCol='rating',
+    seed=seed,
+    coldStartStrategy='drop'   # Ensures there are no NaN evaluation metrics
+)
+
+results = []
+
+# Loop over train/test splits
+for frac, (train, test) in splits.items():
+    
+    model = als.fit(train)
+    predictions = model.transform(test)
+
+    rmse = rmse_evaluator.evaluate(predictions)
+    mse = mse_evaluator.evaluate(predictions)
+    mae = mae_evaluator.evaluate(predictions)
+
+    results.append((frac, 'Setting 1', rmse, mse, mae))
+
+    print(f"ALS Setting 1 for {int(frac * 100)}% training split")
+    print(f"  RMSE: {rmse:.4f}")
+    print(f"  MSE: {mse:.4f}")
+    print(f"  MAE: {mae:.4f}")
+
+
 
 spark.stop()
