@@ -128,7 +128,7 @@ gbt_param_dict = {
     for param in best_gbt.extractParamMap().items()
 }
 
-print("\nBest GBT Parameters:")
+print("Best GBT Parameters:")
 print(json.dumps(gbt_param_dict, indent=4))
 
 # Split the small dataset into train/test sets
@@ -171,11 +171,11 @@ gbt_test_acc = evaluator.evaluate(gbt_model.transform(test))
 
 print("\nPerformance on sampled dataset:")
 print("Random Forest:")
-print(f" training accuracy: {rf_train_acc}")
-print(f" test accuracy: {rf_test_acc}")
+print(f"  Training accuracy: {rf_train_acc:.4f}")
+print(f"  Test accuracy: {rf_test_acc:.4f}")
 print("Gradient Boosted Tree:")
-print(f" training accuracy: {gbt_train_acc}")
-print(f" test accuracy: {gbt_test_acc}")
+print(f"  Training accuracy: {gbt_train_acc:.4f}")
+print(f"  Test accuracy: {gbt_test_acc:.4f}")
 
 
 ##### TASK B #####
@@ -200,10 +200,10 @@ gbt_full_test_acc = evaluator.evaluate(gbt_model_full.transform(test_full))
 
 print("\nPerformance on full dataset:")
 print("Random Forest:")
-print(f" training accuracy: {rf_full_train_acc}")
-print(f" test accuracy: {rf_full_test_acc}")
+print(f"  Training accuracy: {rf_full_train_acc:.4f}")
+print(f"  Test accuracy: {rf_full_test_acc:.4f}")
 print("Gradient Boosted Tree:")
-print(f" training accuracy: {gbt_full_train_acc}")
-print(f" test accuracy: {gbt_full_test_acc}")
+print(f"  Training accuracy: {gbt_full_train_acc:.4f}")
+print(f"  Test accuracy: {gbt_full_test_acc:.4f}")
 
 spark.stop()
