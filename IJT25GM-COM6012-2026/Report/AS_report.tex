@@ -15,6 +15,7 @@
 \usepackage{xcolor}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{subcaption}
 \lstset{
   language=Python,
   basicstyle=\ttfamily\footnotesize,
@@ -54,11 +55,13 @@
 \maketitle
 
 \vspace{2pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Q1 
 \section{Log Mining and Analysis}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % TASK A %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK A
 \begin{table}[h]
     \caption{Total requests and unique hostnames by UK sector.}
     \vspace{3mm}
@@ -73,9 +76,9 @@
     \end{tabular}
 \end{table}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % TASK B %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK B
 For the \texttt{.ac.uk} hosts, the institution domain is extracted by first splitting each hostname using the full stop delimiter.
 For example, the Sheffield hostname, \texttt{www.shef.ac.uk}, is split into \texttt{["www", "shef", "ac", "uk"]}.
 The final three labels are concatenated together, resulting in \texttt{shef.ac.uk}, which represents the institution domain.
@@ -123,9 +126,9 @@ The seven institutions with more requests than Sheffield, and their respective t
     \end{tabular}
 \end{table}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % TASK C %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK C
 The nine most active UK (\texttt{.co.uk}) domains and their respective total requests are displayed in Figure ~\ref{company_requests}.
 \begin{figure}[ht]
     \centering
@@ -137,9 +140,95 @@ A bar chart is chosen to compare request counts across discrete company categori
 It clearly shows the top nine companies alongside all remaining companies combined, with contrasting colours used to highlight the comparison and improve readability.
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK D
+The most active academic institution is \texttt{hensa.ac.uk}, while the most active company domain is \texttt{demon.co.uk}
+Figure ~\ref{fig:access_heatmaps} shows the hourly request patterns for these domains and all \texttt{.gov.uk} hosts combined.
+\begin{figure}[h]
+    \centering
+
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../Q1/Q1_fig2.png}
+        \caption{\texttt{hensa.ac.uk}.}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../Q1/Q1_fig3.png}
+        \caption{\texttt{demon.co.uk}.}
+    \end{subfigure}
+
+    \vspace{3mm}
+
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../Q1/Q1_fig4.png}
+        \caption{All \texttt{.gov.uk} domains.}
+    \end{subfigure}
+
+    \caption{Hourly access patterns across days 1--28. Colour intensity represents the number of requests.}
+    \label{fig:access_heatmaps}
+\end{figure}
+
+The heatmaps show that access activity is typically concentrated during daytime and evening hours.
+The \texttt{demon.co.uk} has the densest activity overall, whereas the combined \texttt{.gov.uk} requests are much more infrequent.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-        % TASK D %
+%%%%%% TASK E 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Q2
+\section{Scalable Logistic Regression and Generalised Linear Models}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK A
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK B
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK C
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK D
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Q3
+\section{Scalable Decision Trees, Random Forests, and Gradient Boosting}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK A
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK B
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%% Q4
+\section{Movie Recommendations and Cluster Analysis} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK A
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK B
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK C
 
 \end{document}

@@ -268,43 +268,66 @@ Package graphics Info: Driver file: xetex.def on input line 107.
 )
 \Gin@req@height=\dimen180
 \Gin@req@width=\dimen181
+) (subcaption.sty
+Package: subcaption 2022/01/07 v1.5 Sub-captions (AR)
+ (caption.sty
+Package: caption 2022/03/01 v3.6b Customizing captions (AR)
+ (caption3.sty
+Package: caption3 2022/03/17 v2.3b caption3 kernel (AR)
+\caption@tempdima=\dimen182
+\captionmargin=\dimen183
+\caption@leftmargin=\dimen184
+\caption@rightmargin=\dimen185
+\caption@width=\dimen186
+\caption@indent=\dimen187
+\caption@parindent=\dimen188
+\caption@hangindent=\dimen189
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count296
+\c@continuedfloat=\count297
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+)
+\c@subfigure=\count298
+\c@subtable=\count299
 ) (lstlang1.sty
 File: lstlang1.sty 2020/03/24 1.8d listings language file
-) (l3backend-xetex.def
+)
+(l3backend-xetex.def
 File: l3backend-xetex.def 2022-02-07 L3 backend support: XeTeX
-\c__kernel_sys_dvipdfmx_version_int=\count296
-\l__color_backend_stack_int=\count297
-\g__color_backend_stack_int=\count298
-\g__graphics_track_int=\count299
+\c__kernel_sys_dvipdfmx_version_int=\count300
+\l__color_backend_stack_int=\count301
+\g__color_backend_stack_int=\count302
+\g__graphics_track_int=\count303
 \l__pdf_internal_box=\box59
-\g__pdf_backend_object_int=\count300
-\g__pdf_backend_annotation_int=\count301
-\g__pdf_backend_link_int=\count302
+\g__pdf_backend_object_int=\count304
+\g__pdf_backend_annotation_int=\count305
+\g__pdf_backend_link_int=\count306
 ) (AS_report.aux)
 \openout1 = `AS_report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 53.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 54.
 LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 5
-3.
-
-(ts1cmr.fd
+4.
+ (ts1cmr.fd
 File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 53.
-LaTeX Font Info:    ... okay on input line 53.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 54.
+LaTeX Font Info:    ... okay on input line 54.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: xetex
@@ -340,11 +363,11 @@ LaTeX Font Info:    ... okay on input line 53.
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-LaTeX Info: Redefining \microtypecontext on input line 53.
-Package microtype Info: Applying patch `item' on input line 53.
-Package microtype Info: Applying patch `toc' on input line 53.
-Package microtype Info: Applying patch `eqnum' on input line 53.
-Package microtype Info: Applying patch `footnote' on input line 53.
+LaTeX Info: Redefining \microtypecontext on input line 54.
+Package microtype Info: Applying patch `item' on input line 54.
+Package microtype Info: Applying patch `toc' on input line 54.
+Package microtype Info: Applying patch `eqnum' on input line 54.
+Package microtype Info: Applying patch `footnote' on input line 54.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: No adjustment of tracking.
@@ -358,13 +381,15 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `lmr' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
-\c@lstlisting=\count303
+\c@lstlisting=\count307
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
  (mt-cmr.cfg
 File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman 
 (RS)
 )
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 7
-9.
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 8
+2.
  (t1lmtt.fd
 File: t1lmtt.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
@@ -373,10 +398,21 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <9> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 88.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 91.
 File: ../Q1/Q1_fig1.png Graphic file (type bmp)
 <../Q1/Q1_fig1.png>
  [1
 
-] [2] (AS_report.aux) )
-Output written on AS_report.xdv (2 pages, 13040 bytes).
+]
+File: ../Q1/Q1_fig2.png Graphic file (type bmp)
+<../Q1/Q1_fig2.png>
+File: ../Q1/Q1_fig3.png Graphic file (type bmp)
+<../Q1/Q1_fig3.png>
+File: ../Q1/Q1_fig4.png Graphic file (type bmp)
+<../Q1/Q1_fig4.png>
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[2] [3] (AS_report.aux) )
+Output written on AS_report.xdv (3 pages, 15024 bytes).
