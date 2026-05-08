@@ -183,7 +183,7 @@ for frac, model in models_setting_2.items():
         .limit(5) \
         .collect()
 
-    print(f"Top 5 largest clusters ({int(frac * 100)}% training split):")
+    print(f"\nTop 5 largest clusters ({int(frac * 100)}% training split):")
     for rank, row in enumerate(top_clusters, start=1):
 
         cluster_id = row['prediction']
@@ -203,7 +203,7 @@ for frac, model in models_setting_2.items():
         
 # Load movies data for genres
 movies = spark.read.load(
-    '/users/ijt25gm/com6012/ScalableML/Data/ml-20m/ratings.csv',
+    '/users/ijt25gm/com6012/ScalableML/Data/ml-20m/movies.csv',
     format='csv',
     inferSchema='true',
     header='true'
@@ -214,8 +214,6 @@ genre_results = []
 print("\nTop 10 genres from top movies in largest user cluster:")
 
 for frac, (train, test) in splits.items():
-
-    print(f"\n{int(frac * 100)}% training split")
 
     # Get users in the largest cluster for each split
     largest_cluster_users_split = largest_cluster_users[frac]
@@ -233,7 +231,7 @@ for frac, (train, test) in splits.items():
     
     # Keep movies with avg rating >= 4
     top_movies = movies_largest_cluster \
-        .filter(col('avg rating') >= 4.0) \
+        .filter(col('avg_rating') >= 4.0) \
         .cache()
     
     # Get genres
@@ -250,8 +248,9 @@ for frac, (train, test) in splits.items():
         .orderBy(desc('count')) \
         .limit(10) \
         .collect()
-    
-    print("Top 10 genres:")
+
+    print(f"\nTop 10 genres ({int(frac * 100)}% training split):")
+
     for rank, row in enumerate(top_genres, start=1):
 
         genre = row['genre']
@@ -260,7 +259,5 @@ for frac, (train, test) in splits.items():
         genre_results.append((frac, rank, genre, count))
 
         print(f"  Rank {rank}: {genre}, count = {count}")
-
-
 
 spark.stop()
