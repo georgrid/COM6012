@@ -4,8 +4,8 @@ from pyspark.sql.functions import row_number, col
 from pyspark.ml.recommendation import ALS
 from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.clustering import KMeans
-from pyspark.ml.linalg import Vectors, VectorUDT
-from pyspark.sql.functions import udf, desc
+from pyspark.ml.linalg import Vectors
+from pyspark.sql.functions import desc, avg, explode, split
 
 spark = (
     SparkSession.builder
@@ -183,23 +183,84 @@ for frac, model in models_setting_2.items():
         .limit(5) \
         .collect()
 
-print("Top 5 largest clusters:")
-for rank, row in enumerate(top_clusters, start=1):
+    print(f"Top 5 largest clusters ({int(frac * 100)}% training split):")
+    for rank, row in enumerate(top_clusters, start=1):
 
-    cluster_id = row['prediction']
-    cluster_size = row['count']
+        cluster_id = row['prediction']
+        cluster_size = row['count']
 
-    cluster_results.append((frac, rank, cluster_id, cluster_size))
-
-    print(f"  Rank {rank}: cluster {cluster_id}, size = {cluster_size}")
+        cluster_results.append((frac, rank, cluster_id, cluster_size))
+        
+        print(f"  Rank {rank}: cluster {cluster_id}, size = {cluster_size}")
 
     # Save users in largest cluster
     largest_cluster_id = top_clusters[0]['prediction']
 
     largest_cluster_users[frac] = predictions \
         .filter(predictions.prediction == largest_cluster_id) \
-        .select('UserId') \
+        .select('userId') \
         .cache()
         
+# Load movies data for genres
+movies = spark.read.load(
+    '/users/ijt25gm/com6012/ScalableML/Data/ml-20m/ratings.csv',
+    format='csv',
+    inferSchema='true',
+    header='true'
+).cache()
+
+genre_results = []
+
+print("\nTop 10 genres from top movies in largest user cluster:")
+
+for frac, (train, test) in splits.items():
+
+    print(f"\n{int(frac * 100)}% training split")
+
+    # Get users in the largest cluster for each split
+    largest_cluster_users_split = largest_cluster_users[frac]
+
+    # Use training set only
+    ratings_largest_cluster = train \
+    .join(largest_cluster_users_split, on='userId', how='inner') \
+    .cache()
+
+    # Find average rating for each movie among users in largest cluster
+    movies_largest_cluster = ratings_largest_cluster \
+        .groupBy('movieId') \
+        .agg(avg('rating').alias('avg_rating')) \
+        .cache()
+    
+    # Keep movies with avg rating >= 4
+    top_movies = movies_largest_cluster \
+        .filter(col('avg rating') >= 4.0) \
+        .cache()
+    
+    # Get genres
+    top_movies_with_genres = top_movies \
+        .join(movies, on='movieId', how='inner') \
+        .select('movieId', 'avg_rating', 'title', 'genres') \
+        .cache()
+    
+    # Split genres and count
+    top_genres = top_movies_with_genres \
+        .select(explode(split(col('genres'), '\\|')).alias('genre')) \
+        .groupBy('genre') \
+        .count() \
+        .orderBy(desc('count')) \
+        .limit(10) \
+        .collect()
+    
+    print("Top 10 genres:")
+    for rank, row in enumerate(top_genres, start=1):
+
+        genre = row['genre']
+        count = row['count']
+
+        genre_results.append((frac, rank, genre, count))
+
+        print(f"  Rank {rank}: {genre}, count = {count}")
+
+
 
 spark.stop()
