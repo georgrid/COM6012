@@ -194,13 +194,11 @@ mean_mse_values = [x[1] for x in results]
 std_mse_values = [x[2] for x in results]
 
 # Plot mean validation MSE against regParam
-plt.figure(figsize=(12,6))
+plt.figure(figsize=(6, 4))
 plt.errorbar(reg_param_values, mean_mse_values, yerr=std_mse_values, fmt='o-', capsize=5)
-
 plt.xscale("log")
 plt.xlabel("regParam")
 plt.ylabel("Mean validation MSE")
-plt.title("Mean Validation MSE vs regParam")
 plt.tight_layout()
 plt.savefig("Q2_fig1.png")
 plt.close()
@@ -322,7 +320,7 @@ for reg_param in reg_params:
         print(f"  Standard deviation = {std_accuracy:.4f}\n")
 
 # Plot mean validation accuracy for all combinations of regParam and elasticNetParam
-plt.figure(figsize=(12, 6))
+plt.figure(figsize=(7, 4))
 
 for elastic_net_param in elastic_net_params:
     subset = [x for x in results if x[1] == elastic_net_param]
@@ -343,7 +341,6 @@ for elastic_net_param in elastic_net_params:
 plt.xscale("log")
 plt.xlabel("regParam")
 plt.ylabel("Mean Validation Accuracy")
-plt.title("Mean Validation Accuracy vs regParam")
 plt.legend()
 plt.tight_layout()
 plt.savefig("Q2_fig2.png")

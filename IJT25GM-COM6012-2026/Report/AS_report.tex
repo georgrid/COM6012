@@ -59,12 +59,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q1 
 \section{Log Mining and Analysis}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
 \begin{table}[h]
     \caption{Total requests and unique hostnames by UK sector.}
-    \vspace{3mm}
     \label{tab:1}
     \centering
     \begin{tabular}{lrr}
@@ -110,7 +108,6 @@ The total number of requests from the University of Sheffield domain is 623.
 The seven institutions with more requests than Sheffield, and their respective total requests, are shown below:
 \begin{table}[h]
     \caption{UK academic institutions with more requests than the University of Sheffield.}
-    \vspace{3mm}
     \label{tab:2}
     \centering
     \begin{tabular}{lr}
@@ -170,7 +167,6 @@ Figure ~\ref{fig:access_heatmaps} shows the hourly request patterns for these do
     \caption{Hourly access patterns across days 1--28. Colour intensity represents the number of requests.}
     \label{fig:access_heatmaps}
 \end{figure}
-
 The heatmaps show that access activity is typically concentrated during daytime and evening hours.
 The \texttt{demon.co.uk} has the densest activity overall, whereas the combined \texttt{.gov.uk} requests are much more infrequent.
 
@@ -183,17 +179,42 @@ The \texttt{demon.co.uk} has the densest activity overall, whereas the combined 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q2
 \section{Scalable Logistic Regression and Generalised Linear Models}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
+The traffic vehicle-count dataset is split by year into training, validation, and test sets.
+The sample sizes and their corresponding years are shown in Table ~\ref{tab:sample_sizes}.
+\begin{table}[h]
+    \caption{Sample sizes of training, validation and test sets}
+    \label{tab:sample_sizes}
+    \centering
+    \begin{tabular}{lrr}
+        Set & Years & Sample Size \\
+        \midrule
+        Training & 2000--2021 & 4655073 \\
+        Validation & 2022--2023 & 306804 \\
+        Test & 2024 & 151848 \\
+    \end{tabular}
+\end{table}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{../Q2/Q2_fig1.png}
+    \caption{Discuss optimal value of regParam}
+    \label{fig:mean_mse}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK C
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\linewidth]{../Q2/Q2_fig2.png}
+    \caption{Discuss optimal values of regParam and elasticNetParam}
+    \label{fig:mean_acc}
+\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -201,34 +222,125 @@ The \texttt{demon.co.uk} has the densest activity overall, whereas the combined 
 
 
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q3
 \section{Scalable Decision Trees, Random Forests, and Gradient Boosting}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
+\begin{table}[h]
+    \centering
+    \caption{Optimal hyperparameters selected by 3-fold cross-validation on the 2\% sample.}
+    \label{tab:q3_best_params}
+    \begin{tabular}{lccc}
+        \toprule
+        Model & Parameter 1 & Parameter 2 & Parameter 3 \\
+        \midrule
+        Random Forest & \texttt{maxBins = 64} & \texttt{maxDepth = 7} & \texttt{numTrees = 20} \\
+        Gradient-Boosted Tree & \texttt{maxBins = 32} & \texttt{maxDepth = 7} & \texttt{maxIter = 40} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
+\begin{table}[h]
+    \centering
+    \caption{Training and test accuracy of the tuned models on the sampled HIGGS dataset.}
+    \label{tab:q3_sample_performance}
+    \begin{tabular}{lcc}
+        \toprule
+        Model & Training Accuracy & Test Accuracy \\
+        \midrule
+        Random Forest & 0.701 & 0.692 \\
+        Gradient-Boosted Tree & 0.747 & 0.720 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
-
+The full HIGGS dataset is split into a training set of 7\,698\,149 and a test set of 3\,301\,851 samples, which are used to evaluate both the Random Forest and Gradient-Boosted Tree models.
+The resulting performance of the models is shown in Table ~\ref{tab:q3_full_performance}.
+\begin{table}[h]
+    \centering
+    \caption{Training and test accuracy of the tuned models on the full HIGGS dataset.}
+    \label{tab:q3_full_performance}
+    \begin{tabular}{lcc}
+        \toprule
+        Model & Training Accuracy & Test Accuracy \\
+        \midrule
+        Random Forest & 0.692 & 0.691 \\
+        Gradient-Boosted Tree & 0.726 & 0.726 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q4
 \section{Movie Recommendations and Cluster Analysis} 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
+\begin{table}[h]
+    \centering
+    \caption{Recommendation performance for the two ALS settings across chronological train-test splits.}
+    \label{tab:q4_als_metrics}
+    \begin{tabular}{lcccccc}
+        \toprule
+        & \multicolumn{3}{c}{ALS Setting 1} & \multicolumn{3}{c}{ALS Setting 2} \\
+        \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+        Training Split & RMSE & MSE & MAE & RMSE & MSE & MAE \\
+        \midrule
+        40\% & 0.803 & 0.645 & 0.616 & 0.822 & 0.675 & 0.635 \\
+        60\% & 0.777 & 0.603 & 0.591 & 0.792 & 0.628 & 0.605 \\
+        80\% & 0.797 & 0.635 & 0.604 & 0.810 & 0.656 & 0.617 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
+\begin{table}[h]
+    \centering
+    \caption{Top five user-cluster sizes for each chronological training split using ALS Setting 2 user factors and k-means with $k=25$.}
+    \label{tab:q4_cluster_sizes}
+    \begin{tabular}{lccccc}
+        \toprule
+        & \multicolumn{5}{c}{Cluster Size} \\
+        \cmidrule(lr){2-6}
+        Training Split & Rank 1 & Rank 2 & Rank 3 & Rank 4 & Rank 5 \\
+        \midrule
+        40\% & 4543 & 4373 & 4353 & 4291 & 4052 \\
+        60\% & 5975 & 5968 & 5941 & 5881 & 5565 \\
+        80\% & 8455 & 7990 & 7866 & 7002 & 6699 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% TASK C
+\begin{table}[h]
+    \centering
+    \caption{Top ten most popular genres among highly rated movies in the largest user cluster for each chronological training split.}
+    \label{tab:q4_top_genres}
+    \begin{tabular}{clrlrlr}
+        \toprule
+        & \multicolumn{2}{c}{40\% Split} 
+        & \multicolumn{2}{c}{60\% Split} 
+        & \multicolumn{2}{c}{80\% Split} \\
+        \cmidrule(lr){2-3} \cmidrule(lr){4-5} \cmidrule(lr){6-7}
+        Rank & Genre & Count & Genre & Count & Genre & Count \\
+        \midrule
+        1  & Drama       & 449 & Drama       & 167 & Drama       & 591 \\
+        2  & Comedy      & 211 & Comedy      & 62  & Comedy      & 293 \\
+        3  & Romance     & 125 & Romance     & 34  & Romance     & 178 \\
+        4  & Thriller    & 112 & Documentary & 34  & Thriller    & 138 \\
+        5  & Crime       & 101 & Thriller    & 31  & Action      & 128 \\
+        6  & Action      & 87  & Crime       & 30  & Crime       & 123 \\
+        7  & Adventure   & 80  & War         & 29  & Adventure   & 110 \\
+        8  & War         & 75  & Adventure   & 28  & Documentary & 102 \\
+        9  & Documentary & 52  & Action      & 25  & War         & 96 \\
+        10 & Mystery     & 50  & Mystery     & 19  & Mystery     & 59 \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
 \end{document}
