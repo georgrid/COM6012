@@ -13,6 +13,8 @@
 \usepackage{algorithm}
 \usepackage{algpseudocode}
 \usepackage{xcolor}
+\usepackage{float}
+\usepackage{graphicx}
 \lstset{
   language=Python,
   basicstyle=\ttfamily\footnotesize,
@@ -71,9 +73,9 @@
     \end{tabular}
 \end{table}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % TASK B %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 For the \texttt{.ac.uk} hosts, the institution domain is extracted by first splitting each hostname using the full stop delimiter.
 For example, the Sheffield hostname, \texttt{www.shef.ac.uk}, is split into \texttt{["www", "shef", "ac", "uk"]}.
 The final three labels are concatenated together, resulting in \texttt{shef.ac.uk}, which represents the institution domain.
@@ -121,14 +123,23 @@ The seven institutions with more requests than Sheffield, and their respective t
     \end{tabular}
 \end{table}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % TASK C %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The nine most active UK (\texttt{.co.uk}) domains and their respective total requests are displayed in Figure ~\ref{company_requests}.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.95\columnwidth]{../Q1/Q1_fig1.png}
+    \caption{Total requests from the nine most active UK company domains, compared with the combined total for all remaining UK companies.}
+    \label{company_requests}
+\end{figure}
+A bar chart is chosen to compare request counts across discrete company categories.
+It clearly shows the top nine companies alongside all remaining companies combined, with contrasting colours used to highlight the comparison and improve readability.
 
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
         % TASK D %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}

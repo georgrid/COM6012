@@ -130,18 +130,19 @@ top9_list = top_companies.collect()
 labels = [row["company"] for row in top9_list]
 values = [row["total_requests"] for row in top9_list]
 
-labels.append("All Other Companies")
+labels.append("Other .co.uk hosts")
 values.append(other_total)
 
 colours = ["steelblue"]* 9 + ["darkorange"]
 
 # Plot top 9 companies against all others
-plt.figure(figsize=(12, 6))
-plt.bar(labels, values, color=colours)
-plt.xticks(rotation=45, ha="right")
+plt.figure(figsize=(7, 4))
+plt.bar(labels, values, color=colours, alpha=1.0)
+plt.xticks(rotation=45, ha="right", fontsize=8)
 plt.xlabel("Company")
 plt.ylabel("Total Requests")
-plt.title("Top 9 UK Companies by Total Requests Compared to All Other Companies")
+plt.grid(axis='y', linestyle='--', alpha=0.2)
+plt.gca().set_axisbelow(True)
 plt.tight_layout()
 plt.savefig("Q1_fig1.png")
 
