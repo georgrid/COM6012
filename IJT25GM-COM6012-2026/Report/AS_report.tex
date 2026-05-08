@@ -9,6 +9,30 @@
 \usepackage{amsmath}
 \usepackage{enumitem}
 \usepackage{titlesec}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\lstset{
+  language=Python,
+  basicstyle=\ttfamily\footnotesize,
+  breaklines=true,
+  showstringspaces=false,
+  backgroundcolor=\color{codebg},
+  frame=single,
+  rulecolor=\color{codeframe},
+  framerule=0.4pt,
+  xleftmargin=4pt,
+  xrightmargin=4pt,
+  aboveskip=6pt,
+  belowskip=6pt,
+  columns=fullflexible,
+  keepspaces=true
+}
+
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codeframe}{RGB}{220,220,220}
+\definecolor{codecomment}{RGB}{100,100,100}
 
 \titlespacing*{\section}{0pt}{12pt}{8pt}
 \title{\vspace{-1.5cm}\textbf{Scalable ML Assignment}}
@@ -30,7 +54,81 @@
 \vspace{2pt}
 \section{Log Mining and Analysis}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % TASK A %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[h]
+    \caption{Total requests and unique hostnames by UK sector.}
+    \vspace{3mm}
+    \label{tab:1}
+    \centering
+    \begin{tabular}{lrr}
+        Sector & Total Requests & Unique Hosts \\
+        \midrule
+        Academic & 25009 & 1022 \\
+        Company & 22225 & 1116 \\
+        Government & 195 & 15
+    \end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % TASK B %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+For the \texttt{.ac.uk} hosts, the institution domain is extracted by first splitting each hostname using the full stop delimiter.
+For example, the Sheffield hostname, \texttt{www.shef.ac.uk}, is split into \texttt{["www", "shef", "ac", "uk"]}.
+The final three labels are concatenated together, resulting in \texttt{shef.ac.uk}, which represents the institution domain.
+Different hosts from the same institution (\texttt{cs.shef.ac.uk}, \texttt{www.shef.ac.uk}, etc.) are grouped together within the Sheffield domain.
+
+Listing \ref{lst:institution_extraction} shows the Spark implementation of the method described above.
+\begin{lstlisting}[language=Python,
+                   caption={Institution domain extraction and aggregation.},
+                   label={lst:institution_extraction}]
+academic_hosts = logs.filter(col("host").endswith(".ac.uk"))
+
+split_host = split(col("host"), "\\.")
+
+academic_domains = academic_hosts.select(
+    col("host"),
+    concat_ws(".",
+        element_at(split_host, -3),
+        element_at(split_host, -2),
+        element_at(split_host, -1)
+    ).alias("institution")
+)
+
+institution_counts = academic_domains.groupBy("institution") \
+    .count() \
+    .withColumnRenamed("count", "total_requests")
+\end{lstlisting}
+
+The total number of requests from the University of Sheffield domain is 623.
+The seven institutions with more requests than Sheffield, and their respective total requests, are shown below:
+\begin{table}[h]
+    \caption{UK academic institutions with more requests than the University of Sheffield.}
+    \vspace{3mm}
+    \label{tab:2}
+    \centering
+    \begin{tabular}{lr}
+        Institution & Total Requests \\
+        \midrule
+        \texttt{hensa.ac.uk} & 4257 \\
+        \texttt{rl.ac.uk} & 1158 \\
+        \texttt{ucl.ac.uk} & 1036 \\
+        \texttt{man.ac.uk} & 921 \\
+        \texttt{ic.ac.uk} & 851 \\
+        \texttt{soton.ac.uk} & 808 \\
+        \texttt{bham.ac.uk} & 629
+    \end{tabular}
+\end{table}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % TASK C %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+        % TASK D %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
