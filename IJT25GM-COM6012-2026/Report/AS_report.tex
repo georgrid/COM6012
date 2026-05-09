@@ -199,22 +199,47 @@ The sample sizes and their corresponding years are shown in Table ~\ref{tab:samp
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
+The \texttt{regParam} hyperparameter is tuned over five values, each with five random subsets that sample 80\% of the training set.
+The random seeds used are \texttt{[17677, 17678, 17679, 17680, 17681]} (from student number 250117677).
+
+The resulting mean validation MSE of each \texttt{regParam} value is shown in Fig. \ref{fig:mean_mse}.
 \begin{figure}
     \centering
-    \includegraphics[width=0.9\linewidth]{../Q2/Q2_fig1.png}
-    \caption{Discuss optimal value of regParam}
+    \includegraphics[width=0.85\linewidth]{../Q2/Q2_fig1.png}
+    \caption{Mean validation MSE as a function of \texttt{regParam}.
+    Error bars show the standard deviation, calculated over five random subsets
+    per \texttt{regParam} value.
+    }
     \label{fig:mean_mse}
 \end{figure}
+The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE in Fig. \ref{fig:mean_mse} (\(813\,706.18 \pm 237.58\)).
+Increasing \texttt{regParam} from 0.001 to 0.01 and 0.1 causes a sharp increase in MSE, which plateaus for larger values.
+This suggests that stronger regularisation causes the Poisson regression model to underfit. 
+
+Using the optimal value of \(\texttt{regParam}=0.001\), the model is retrained on the combined training and validation sets.
+The final model is tested on the test set, achieving a mean validation MSE of \(787\,575.11\).
+
+The learned coefficient vector is reported in Appendix A.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK C
+A logistic regression model is trained using the same features.
+The same values of \texttt{regParam} are tested, as well as \texttt{elasticNetParam} values of \texttt{[0.0, 0.2, 0.5, 0.8, 1.0]}. 
+Five random training subsets are created to determine the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Fig. \ref{fig:mean_acc}.
 \begin{figure}
     \centering
     \includegraphics[width=0.9\linewidth]{../Q2/Q2_fig2.png}
-    \caption{Discuss optimal values of regParam and elasticNetParam}
+    \caption{Mean validation accuracy as a function of \texttt{regParam},
+    combined with different values of \texttt{elasticNetParam}.
+    Standard deviation values are calculated by evaluating each combination
+    of \texttt{regParam} and \texttt{elasticNetParam}
+    over five random subsets of the training data.
+    }
     \label{fig:mean_acc}
 \end{figure}
+
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -342,5 +367,10 @@ The resulting performance of the models is shown in Table ~\ref{tab:q3_full_perf
         \bottomrule
     \end{tabular}
 \end{table}
+
+
+
+\section*{Appendix}
+Learned model coeffients.
 
 \end{document}

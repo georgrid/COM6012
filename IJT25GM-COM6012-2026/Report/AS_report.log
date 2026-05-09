@@ -417,12 +417,6 @@ File: ../Q2/Q2_fig1.png Graphic file (type bmp)
 <../Q2/Q2_fig1.png>
 File: ../Q2/Q2_fig2.png Graphic file (type bmp)
 <../Q2/Q2_fig2.png>
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
 [2]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -433,5 +427,8 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-[3] [4] [5] (AS_report.aux) )
-Output written on AS_report.xdv (5 pages, 21280 bytes).
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[3] [4] [5] [6] (AS_report.aux) )
+Output written on AS_report.xdv (6 pages, 23680 bytes).
