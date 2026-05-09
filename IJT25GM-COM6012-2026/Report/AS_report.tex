@@ -224,6 +224,8 @@ The learned coefficient vector is reported in Appendix A.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK C
+The median value of \texttt{all\_motor\_vehicles} in the training set is 235.0.
+
 A logistic regression model is trained using the same features.
 The same values of \texttt{regParam} are tested, as well as \texttt{elasticNetParam} values of \texttt{[0.0, 0.2, 0.5, 0.8, 1.0]}. 
 Five random training subsets are created to determine the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Fig. \ref{fig:mean_acc}.
@@ -238,13 +240,18 @@ Five random training subsets are created to determine the mean validation accura
     }
     \label{fig:mean_acc}
 \end{figure}
+Discussion of figure here.
+
+Using the optimal \texttt{regParam} and \texttt{elasticNetParam}, the logistic regression model is retrained on the combined training and validation sets.
+It is then evaluated on the test set, achieving an accuracy of 0.6404.
+The final learned model coefficients are reported in Appendix A.
 
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK D
-
+One observation that you find interesting.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -252,6 +259,23 @@ Five random training subsets are created to determine the mean validation accura
 \section{Scalable Decision Trees, Random Forests, and Gradient Boosting}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
+Stratified sampling is used to create a 2\% subset of the HIGGS dataset.
+To optimise the Random Forest and Gradient-Boosted Tree (GBT) models, the following parameter grids are tested:
+\begin{table}[h]
+    \centering
+    \caption{Parameter grids for RF and GBT models}
+    \label{tab:paramGrids}
+    \begin{tabular}{lccc}
+        \toprule
+        Model & Parameter 1 & Parameter 2 & Parameter 3 \\
+        \midrule
+        Random Forest & \texttt{maxBins} & \texttt{maxDepth} & \texttt{numTrees} \\
+        Gradient-Boosted Tree & \texttt{maxBins} & \texttt{maxDepth} & \texttt{maxIter} \\
+        \bottomrule
+    \end{tabular}
+\end{table}
+add values of parameters
+
 \begin{table}[h]
     \centering
     \caption{Optimal hyperparameters selected by 3-fold cross-validation on the 2\% sample.}

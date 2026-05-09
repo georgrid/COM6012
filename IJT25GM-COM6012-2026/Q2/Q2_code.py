@@ -195,7 +195,7 @@ std_mse_values = [x[2] for x in results]
 
 # Plot mean validation MSE against regParam
 plt.figure(figsize=(7, 4))
-plt.errorbar(reg_param_values, mean_mse_values, yerr=std_mse_values, fmt='o-', capsize=3)
+plt.errorbar(reg_param_values, mean_mse_values, yerr=std_mse_values, fmt='o-', capsize=5, ms=3)
 plt.xscale("log")
 plt.xlabel("regParam", fontsize=12)
 plt.ylabel("Mean validation MSE", fontsize=12)
@@ -334,7 +334,8 @@ for elastic_net_param in elastic_net_params:
         mean_accuracy_values,
         yerr=std_accuracy_values,
         fmt='o-',
-        capsize=3,
+        capsize=5,
+        ms=3,
         label=f"elasticNetParam = {elastic_net_param}"
     )
 
