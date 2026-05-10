@@ -38,8 +38,8 @@
 \definecolor{codecomment}{RGB}{100,100,100}
 
 \titlespacing*{\section}{0pt}{12pt}{8pt}
-\title{\vspace{-1.5cm}\textbf{Scalable ML Assignment}}
-\author{Student ID: 250117677}
+\title{\vspace{-1.5cm}\textbf{COM6012 Scalable Machine Learning Assignment}}
+\author{Student registration number: 250117677}
 \date{}
 
 \makeatletter
@@ -200,9 +200,9 @@ This is useful to NASA as it shows that large numbers of requests from a single 
 \section{Scalable Logistic Regression and Generalised Linear Models}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
-The traffic vehicle-count dataset is split by year into training, validation, and test sets.
-The sample sizes and their corresponding years are shown in Table ~\ref{tab:sample_sizes}.
-\begin{table}[h]
+The UK traffic vehicle-count dataset is preprocessed by extracting month and weekday features, converting travel directions to uppercase, removing missing target values, one-hot encoding categorical variables, and standardising numerical features.
+The processed dataset is then split by year into training, validation and test sets, with sample sizes and corresponding date ranges shown in Table \ref{tab:sample_sizes}.
+\begin{table}[htbp]
     \caption{Sample sizes of training, validation and test sets}
     \label{tab:sample_sizes}
     \centering
@@ -218,11 +218,14 @@ The sample sizes and their corresponding years are shown in Table ~\ref{tab:samp
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
-The \texttt{regParam} hyperparameter is tuned over five values, each with five random subsets that sample 80\% of the training set.
-The random seeds used are \texttt{[17677, 17678, 17679, 17680, 17681]} (from student number 250117677).
+A Poisson regression model uses the training and validation sets to tune the \texttt{regParam} hyperparameter over the values [0.001, 0.01, 0.1, 1, 10, 100, 1000], each with five random subsets that sample 80\% of the training set.
+The random seeds used are 17677, 17678, 17679, 17680, and 17681 (using student registration number 250117677).
 
 The resulting mean validation MSE of each \texttt{regParam} value is shown in Figure \ref{fig:poisson_mean_mse}.
-\begin{figure}[h]
+The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE (\(813\,706.18 \pm 237.58\)).
+Increasing \texttt{regParam} from 0.001 to 0.01 and 0.1 causes a sharp increase in MSE, which plateaus for larger values.
+This suggests that stronger regularisation causes the Poisson regression model to underfit. 
+\begin{figure}[htbp]
     \centering
 
     \begin{subfigure}{0.495\textwidth}
@@ -245,12 +248,9 @@ The resulting mean validation MSE of each \texttt{regParam} value is shown in Fi
     }
     \label{fig:validation_curves}
 \end{figure}
-The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE in Figure \ref{fig:poisson_mean_mse} (\(813\,706.18 \pm 237.58\)).
-Increasing \texttt{regParam} from 0.001 to 0.01 and 0.1 causes a sharp increase in MSE, which plateaus for larger values.
-This suggests that stronger regularisation causes the Poisson regression model to underfit. 
 
 Using the optimal value of \(\texttt{regParam}=0.001\), the model is retrained on the combined training and validation sets.
-The final model is tested on the test set, achieving a mean validation MSE of \(787\,575.11\).
+The final model is tested on the test set, achieving \(\mathrm{MSE}=787\,575.11\).
 
 The learned coefficient vector is reported in Appendix A.
 
@@ -258,10 +258,10 @@ The learned coefficient vector is reported in Appendix A.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK C
 The median value of \texttt{all\_motor\_vehicles} in the training set is 235.0.
-
-A logistic regression model is trained using the same features.
-The same values of \texttt{regParam} are tested, as well as \texttt{elasticNetParam} values of \texttt{[0.0, 0.2, 0.5, 0.8, 1.0]}. 
-Five random training subsets are created to determine the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Figure \ref{fig:logistic_mean_acc}.
+This value is used as a threshold between low and high traffic, allowing a binary target column, \texttt{traffic}, to be created.
+A logistic regression model is then trained on the processed training dataset.
+The same \texttt{regParam} values as in Figure \ref{fig:poisson_mean_mse} are tested, as well as the \texttt{elasticNetParam} values [0.0, 0.2, 0.5, 0.8, 1.0]. 
+Five random training subsets are created to record the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Figure \ref{fig:logistic_mean_acc}.
 
 Discussion of figure here.
 
@@ -302,7 +302,7 @@ The chosen hyperparameters, their tested values, and the resulting optimal value
         \bottomrule
     \end{tabular}
 \end{table}
-The subset is then split into training and test sets which are used to evaulate the performance of both models, which is reported in Table \ref{tab:q3_sample_performance}.
+The subset is then split into training and test sets which are used to evaluate the performance of both models, which is reported in Table \ref{tab:q3_sample_performance}.
 \begin{table}[h]
     \centering
     \caption{Training and test accuracy of the tuned models on the sampled HIGGS dataset.}
@@ -320,9 +320,9 @@ The subset is then split into training and test sets which are used to evaulate 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
-The final performance of both models is evaulated using the full HIGGS dataset, which is split into training and test sets of 7\,698\,149 and 3\,301\,851 samples, respectively.
+The final performance of both models is evaluated using the full HIGGS dataset, which is split into training and test sets of 7\,698\,149 and 3\,301\,851 samples, respectively.
 Each model is trained using the optimal hyperparameters found in Table \ref{tab:paramGrids} and evaluated on the test set.
-Table \ref{tab:q3_full_performance} shows the resulting perfomance of each model which, in both cases, is very similar on both training and test sets.
+Table \ref{tab:q3_full_performance} shows the resulting performance of each model which, in both cases, is very similar on both training and test sets.
 \begin{table}[h]
     \centering
     \caption{Training and test accuracy of the tuned models on the full HIGGS dataset.}
@@ -353,7 +353,7 @@ The second setting uses \(\texttt{rank}=25\), allowing the model to represent mo
 Finally, \(\texttt{maxIter}=10\) is used to give the ALS optimisation more opportunity to converge.
 
 The performance of the two ALS settings on each training split size is shown in Table \ref{tab:q4_als_metrics}.
-The results show that the second setting actually performs worse than the first.
+The results show that the second setting actually performs worse than the first. (CHANGE ``ACTUALLY'')
 \begin{table}[hbtp]
     \centering
     \caption{Recommendation performance for the two ALS settings across chronological train-test splits.}
@@ -374,7 +374,7 @@ The results show that the second setting actually performs worse than the first.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
-The user factor vectors learned from the second ALS setting are clustered using PysPark \(k\)-means with \(k=25\).
+The user factor vectors learned from the second ALS setting are clustered using PySpark \(k\)-means with \(k=25\).
 The five largest clusters for each training split and their number of users are reported in Table \ref{tab:q4_cluster_sizes}.
 The cluster sizes increase with training split size, which is consistent with larger training sets containing more users with learned ALS factor vectors.
 However, within each split the five largest clusters are relatively similar in size.
@@ -442,6 +442,6 @@ This could be useful to a movie site such as Netflix in identifying general audi
 Small clusters could still be used to provide more personalised suggestions.
 
 \section*{Appendix}
-Learned model coeffients.
+Learned model coefficients.
 
 \end{document}

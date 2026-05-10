@@ -399,11 +399,11 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
 (Font)              Font shape `T1/lmtt/b/n' tried instead on input line 90.
-File: ../Q1/Q1_fig1.png Graphic file (type bmp)
-<../Q1/Q1_fig1.png>
  [1
 
 ]
+File: ../Q1/Q1_fig1.png Graphic file (type bmp)
+<../Q1/Q1_fig1.png>
 File: ../Q1/Q1_fig2.png Graphic file (type bmp)
 <../Q1/Q1_fig2.png>
 File: ../Q1/Q1_fig3.png Graphic file (type bmp)
@@ -417,4 +417,4 @@ File: ../Q2/Q2_fig2.png Graphic file (type bmp)
 <../Q2/Q2_fig2.png>
  [4] [5] [6]
 [7] (AS_report.aux) )
-Output written on AS_report.xdv (7 pages, 36176 bytes).
+Output written on AS_report.xdv (7 pages, 36944 bytes).
