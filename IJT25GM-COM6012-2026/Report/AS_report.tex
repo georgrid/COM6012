@@ -61,7 +61,9 @@
 \section{Log Mining and Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
-\begin{table}[h]
+From the NASA access log data for July 1995, the following hosts are filtered: UK academic institutions, UK companies, and UK government departments.
+For each, the total number of requests and the number of unique hostnames is determined, as shown in Table \ref{tab:1}.
+\begin{table}[htbp]
     \caption{Total requests and unique hostnames by UK sector.}
     \label{tab:1}
     \centering
@@ -77,41 +79,48 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
-For the \texttt{.ac.uk} hosts, the institution domain is extracted by first splitting each hostname using the full stop delimiter.
+Each institution domain is extracted by first splitting each hostname using the full stop delimiter.
 For example, the Sheffield hostname, \texttt{www.shef.ac.uk}, is split into \texttt{["www", "shef", "ac", "uk"]}.
 The final three labels are concatenated together, resulting in \texttt{shef.ac.uk}, which represents the institution domain.
-Different hosts from the same institution (\texttt{cs.shef.ac.uk}, \texttt{www.shef.ac.uk}, etc.) are grouped together within the Sheffield domain.
-
-Listing \ref{lst:institution_extraction} shows the Spark implementation of the method described above.
+Different hosts from the same institution (\texttt{cs.shef.ac.uk}, \texttt{www.shef.ac.uk}, et cetera) are grouped together, allowing requests to be aggregated at the institution level.
+The implementation of this method in Spark is demonstrated in Listing \ref{lst:institution_extraction}.
 \begin{lstlisting}[language=Python,
-                   caption={Institution domain extraction and aggregation.},
+                   caption={Institution domain extraction and aggregation applied to UK academic hosts. The \texttt{extract\_domain} function can be applied to other hostname suffixes.},
                    label={lst:institution_extraction}]
-academic_hosts = logs.filter(col("host").endswith(".ac.uk"))
+def extract_domain(data, suffix: str, alias: str):
 
-split_host = split(col("host"), "\\.")
+    filtered_hosts = data.filter(col("host").endswith(suffix))
 
-academic_domains = academic_hosts.select(
-    col("host"),
-    concat_ws(".",
-        element_at(split_host, -3),
-        element_at(split_host, -2),
-        element_at(split_host, -1)
-    ).alias("institution")
-)
+    split_host = split(col("host"), "\\.")
 
-institution_counts = academic_domains.groupBy("institution") \
+    institution_domains = filtered_hosts.select(
+        col("host"),
+        col("timestamp"),
+        concat_ws(".",
+                element_at(split_host, -3),
+                element_at(split_host, -2),
+                element_at(split_host, -1)
+        ).alias(alias)
+    )
+
+    return institution_domains
+
+academic_domains = extract_domain(logs, ".ac.uk", "institution")
+
+academic_counts = academic_domains \
+    .groupBy("institution") \
     .count() \
     .withColumnRenamed("count", "total_requests")
 \end{lstlisting}
 
 The total number of requests from the University of Sheffield domain is 623.
-The seven institutions with more requests than Sheffield, and their respective total requests, are shown below:
-\begin{table}[h]
-    \caption{UK academic institutions with more requests than the University of Sheffield.}
+There are seven institution domains with more requests than Sheffield, whose total requests are shown in Table \ref{tab:2}.
+\begin{table}[htbp]
+    \caption{UK academic institution domains with more requests than the University of Sheffield domain.}
     \label{tab:2}
     \centering
     \begin{tabular}{lr}
-        Institution & Total Requests \\
+        Institution Domain & Total Requests \\
         \midrule
         \texttt{hensa.ac.uk} & 4257 \\
         \texttt{rl.ac.uk} & 1158 \\
@@ -126,34 +135,34 @@ The seven institutions with more requests than Sheffield, and their respective t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK C
-The nine most active UK (\texttt{.co.uk}) domains and their respective total requests are displayed in Fig. \ref{company_requests}.
-\begin{figure}[ht]
+The nine most active UK company (\texttt{.co.uk}) hosts and their respective total requests are displayed in Figure \ref{company_requests}.
+A bar chart is chosen to compare request counts across discrete company categories.
+It clearly shows the top nine companies alongside all remaining companies combined, using contrasting colours to highlight the comparison and improve readability.
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=0.95\columnwidth]{../Q1/Q1_fig1.png}
     \caption{Total requests from the nine most active UK company domains, compared with the combined total for all remaining UK companies.}
     \label{company_requests}
 \end{figure}
-A bar chart is chosen to compare request counts across discrete company categories.
-It clearly shows the top nine companies alongside all remaining companies combined, with contrasting colours used to highlight the comparison and improve readability.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK D
-The most active academic institution is \texttt{hensa.ac.uk}, while the most active company domain is \texttt{demon.co.uk}
-Fig. \ref{fig:access_heatmaps} shows the hourly request patterns for these domains and all \texttt{.gov.uk} hosts combined.
-\begin{figure}[h]
+The most active academic institution is \texttt{hensa.ac.uk} with 4\,257 requests, while the most active company domain is \texttt{demon.co.uk} with 11\,719 requests.
+Figure \ref{fig:access_heatmaps} shows the hourly request patterns for these domains and all \texttt{.gov.uk} hosts combined.
+\begin{figure}[t]
     \centering
 
     \begin{subfigure}{0.495\textwidth}
         \centering
         \includegraphics[width=\linewidth]{../Q1/Q1_fig2.png}
-        \caption{\texttt{hensa.ac.uk}.}
+        \caption{\texttt{hensa.ac.uk} access pattern.}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.495\textwidth}
         \centering
         \includegraphics[width=\linewidth]{../Q1/Q1_fig3.png}
-        \caption{\texttt{demon.co.uk}.}
+        \caption{\texttt{demon.co.uk} access pattern.}
     \end{subfigure}
 
     \vspace{3mm}
@@ -161,20 +170,30 @@ Fig. \ref{fig:access_heatmaps} shows the hourly request patterns for these domai
     \begin{subfigure}{0.495\textwidth}
         \centering
         \includegraphics[width=\linewidth]{../Q1/Q1_fig4.png}
-        \caption{All \texttt{.gov.uk} domains.}
+        \caption{\texttt{.gov.uk} sector access pattern.}
     \end{subfigure}
 
-    \caption{Hourly access patterns across days 1--28. Colour intensity represents the number of requests.}
+    \caption{Hourly access patterns across days 1--28 for the most active UK academic institution domain (a), company domain (b), and all UK government domains combined (c).
+    Colour intensity represents the number of requests.
+    }
     \label{fig:access_heatmaps}
 \end{figure}
 The heatmaps show that access activity is typically concentrated during daytime and evening hours.
-The \texttt{demon.co.uk} has the densest activity overall, whereas the combined \texttt{.gov.uk} requests are much more infrequent.
+The \texttt{demon.co.uk} heatmap displays the densest activity overall, whereas the combined \texttt{.gov.uk} requests are much more infrequent.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK E 
+\textbf{Observation 1:}
+The UK academic and company domains are much more active than the UK government sector, as shown in Table \ref{tab:1}.
+This may be because NASA resources are more relevant to research, education, and commercial users than to UK government departments.
+This is useful to NASA as it highlights the main groups accessing its online resources, allowing things like server capacity to be focused on the domains generating the most demand.
 
-
+\textbf{Observation 2:}
+The company requests are highly concentrated in one domain (\texttt{demon.co.uk}), which has significantly more requests than any other individual company domain shown in Figure \ref{company_requests}.
+Between 1992--1997, Demon Internet was a British internet service provider with the domain name \texttt{demon.co.uk}.
+Therefore, requests from many different users of their service may appear under the same company domain.
+This is useful to NASA as it shows that large numbers of requests from a single domain might reflect an access provider, rather than the behaviour of one individual user group.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q2
@@ -202,7 +221,7 @@ The sample sizes and their corresponding years are shown in Table ~\ref{tab:samp
 The \texttt{regParam} hyperparameter is tuned over five values, each with five random subsets that sample 80\% of the training set.
 The random seeds used are \texttt{[17677, 17678, 17679, 17680, 17681]} (from student number 250117677).
 
-The resulting mean validation MSE of each \texttt{regParam} value is shown in Fig. \ref{fig:poisson_mean_mse}.
+The resulting mean validation MSE of each \texttt{regParam} value is shown in Figure \ref{fig:poisson_mean_mse}.
 \begin{figure}[h]
     \centering
 
@@ -226,7 +245,7 @@ The resulting mean validation MSE of each \texttt{regParam} value is shown in Fi
     }
     \label{fig:validation_curves}
 \end{figure}
-The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE in Fig. \ref{fig:poisson_mean_mse} (\(813\,706.18 \pm 237.58\)).
+The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE in Figure \ref{fig:poisson_mean_mse} (\(813\,706.18 \pm 237.58\)).
 Increasing \texttt{regParam} from 0.001 to 0.01 and 0.1 causes a sharp increase in MSE, which plateaus for larger values.
 This suggests that stronger regularisation causes the Poisson regression model to underfit. 
 
@@ -242,7 +261,7 @@ The median value of \texttt{all\_motor\_vehicles} in the training set is 235.0.
 
 A logistic regression model is trained using the same features.
 The same values of \texttt{regParam} are tested, as well as \texttt{elasticNetParam} values of \texttt{[0.0, 0.2, 0.5, 0.8, 1.0]}. 
-Five random training subsets are created to determine the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Fig. \ref{fig:logistic_mean_acc}.
+Five random training subsets are created to determine the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Figure \ref{fig:logistic_mean_acc}.
 
 Discussion of figure here.
 

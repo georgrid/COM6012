@@ -68,14 +68,14 @@ total_shef, _ = host_metrics(logs, "shef.ac.uk")
 print(f"1. Total number of requests from the University of Sheffield domain: {total_shef}")
 
 def extract_domain(data, suffix: str, alias: str):
-    # Extract all academic hosts
-    academic_hosts = data.filter(col("host").endswith(suffix))
+    # Extract all desired hosts
+    filtered_hosts = data.filter(col("host").endswith(suffix))
 
     # Split each hostname into its components (www.shef.ac.uk -> ["www", "shef", "ac", "uk"])
     split_host = split(col("host"), "\\.")
 
     # Extract institution names by joining the final three components with "."
-    academic_domains = academic_hosts.select(
+    institution_domains = filtered_hosts.select(
         col("host"),
         col("timestamp"),
         concat_ws(".",
@@ -85,7 +85,7 @@ def extract_domain(data, suffix: str, alias: str):
         ).alias(alias)
     )
 
-    return academic_domains
+    return institution_domains
 
 academic_domains = extract_domain(logs, ".ac.uk", "institution")
 
@@ -141,7 +141,7 @@ plt.bar(labels, values, color=colours, alpha=1.0)
 plt.xticks(rotation=45, ha="right", fontsize=8)
 plt.xlabel("Company")
 plt.ylabel("Total Requests")
-plt.grid(axis='y', linestyle='--', alpha=0.2)
+plt.grid(axis='y', linestyle='-', alpha=0.2)
 plt.gca().set_axisbelow(True)
 plt.tight_layout()
 plt.savefig("Q1_fig1.png")
