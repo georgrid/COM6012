@@ -1,4 +1,4 @@
-\documentclass[11pt, a4paper]{article}
+\documentclass[12pt, a4paper]{article}
 
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 \usepackage{booktabs}
@@ -126,7 +126,7 @@ The seven institutions with more requests than Sheffield, and their respective t
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK C
-The nine most active UK (\texttt{.co.uk}) domains and their respective total requests are displayed in Figure ~\ref{company_requests}.
+The nine most active UK (\texttt{.co.uk}) domains and their respective total requests are displayed in Fig. \ref{company_requests}.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=0.95\columnwidth]{../Q1/Q1_fig1.png}
@@ -140,7 +140,7 @@ It clearly shows the top nine companies alongside all remaining companies combin
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK D
 The most active academic institution is \texttt{hensa.ac.uk}, while the most active company domain is \texttt{demon.co.uk}
-Figure ~\ref{fig:access_heatmaps} shows the hourly request patterns for these domains and all \texttt{.gov.uk} hosts combined.
+Fig. \ref{fig:access_heatmaps} shows the hourly request patterns for these domains and all \texttt{.gov.uk} hosts combined.
 \begin{figure}[h]
     \centering
 
@@ -202,17 +202,31 @@ The sample sizes and their corresponding years are shown in Table ~\ref{tab:samp
 The \texttt{regParam} hyperparameter is tuned over five values, each with five random subsets that sample 80\% of the training set.
 The random seeds used are \texttt{[17677, 17678, 17679, 17680, 17681]} (from student number 250117677).
 
-The resulting mean validation MSE of each \texttt{regParam} value is shown in Fig. \ref{fig:mean_mse}.
-\begin{figure}
+The resulting mean validation MSE of each \texttt{regParam} value is shown in Fig. \ref{fig:poisson_mean_mse}.
+\begin{figure}[h]
     \centering
-    \includegraphics[width=0.85\linewidth]{../Q2/Q2_fig1.png}
-    \caption{Mean validation MSE as a function of \texttt{regParam}.
-    Error bars show the standard deviation, calculated over five random subsets
-    per \texttt{regParam} value.
+
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../Q2/Q2_fig1.png}
+        \caption{Mean validation MSE for Poisson regression across values of \texttt{regParam}.}
+        \label{fig:poisson_mean_mse}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.495\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{../Q2/Q2_fig2.png}
+        \caption{Mean validation accuracy for logistic regression across values of \texttt{regParam} and \texttt{elasticNetParam}.}
+        \label{fig:logistic_mean_acc}
+    \end{subfigure}
+
+    \caption{Validation curves for the regression models.
+    Error bars show \(\pm\) one standard deviation across five 
+    random subsets, each sampling 80\% of the training set.
     }
-    \label{fig:mean_mse}
+    \label{fig:validation_curves}
 \end{figure}
-The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE in Fig. \ref{fig:mean_mse} (\(813\,706.18 \pm 237.58\)).
+The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE in Fig. \ref{fig:poisson_mean_mse} (\(813\,706.18 \pm 237.58\)).
 Increasing \texttt{regParam} from 0.001 to 0.01 and 0.1 causes a sharp increase in MSE, which plateaus for larger values.
 This suggests that stronger regularisation causes the Poisson regression model to underfit. 
 
@@ -228,18 +242,8 @@ The median value of \texttt{all\_motor\_vehicles} in the training set is 235.0.
 
 A logistic regression model is trained using the same features.
 The same values of \texttt{regParam} are tested, as well as \texttt{elasticNetParam} values of \texttt{[0.0, 0.2, 0.5, 0.8, 1.0]}. 
-Five random training subsets are created to determine the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Fig. \ref{fig:mean_acc}.
-\begin{figure}
-    \centering
-    \includegraphics[width=0.9\linewidth]{../Q2/Q2_fig2.png}
-    \caption{Mean validation accuracy as a function of \texttt{regParam},
-    combined with different values of \texttt{elasticNetParam}.
-    Standard deviation values are calculated by evaluating each combination
-    of \texttt{regParam} and \texttt{elasticNetParam}
-    over five random subsets of the training data.
-    }
-    \label{fig:mean_acc}
-\end{figure}
+Five random training subsets are created to determine the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Fig. \ref{fig:logistic_mean_acc}.
+
 Discussion of figure here.
 
 Using the optimal \texttt{regParam} and \texttt{elasticNetParam}, the logistic regression model is retrained on the combined training and validation sets.
@@ -247,11 +251,10 @@ It is then evaluated on the test set, achieving an accuracy of 0.6404.
 The final learned model coefficients are reported in Appendix A.
 
 
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK D
 One observation that you find interesting.
+
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -260,36 +263,27 @@ One observation that you find interesting.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
 Stratified sampling is used to create a 2\% subset of the HIGGS dataset.
-To optimise the Random Forest and Gradient-Boosted Tree (GBT) models, the following parameter grids are tested:
+To optimise the Random Forest and Gradient-Boosted Tree (GBT) models, 3-fold cross-validation is performed on this subset.
+The chosen hyperparameters, their tested values, and the resulting optimal values are shown in Table \ref{tab:paramGrids}.
 \begin{table}[h]
     \centering
-    \caption{Parameter grids for RF and GBT models}
+    \caption{Parameter grids and optimal values selected by 3-fold cross-validation of the Random Forest and Gradient-Boosted Tree models on the sampled HIGGS dataset.}
     \label{tab:paramGrids}
-    \begin{tabular}{lccc}
+    \begin{tabular}{lllr}
         \toprule
-        Model & Parameter 1 & Parameter 2 & Parameter 3 \\
+        Model & Hyperparameter & Tested Values & Optimal Value \\
         \midrule
-        Random Forest & \texttt{maxBins} & \texttt{maxDepth} & \texttt{numTrees} \\
-        Gradient-Boosted Tree & \texttt{maxBins} & \texttt{maxDepth} & \texttt{maxIter} \\
+        Random Forest & \texttt{maxBins} & \texttt{[16, 32, 64]} & 64\\
+                      & \texttt{maxDepth} & \texttt{[3, 5, 7]} & 7\\
+                      & \texttt{numTrees} & \texttt{[10, 20, 40]} & 20\\
+        \midrule
+        Gradient-Boosted Tree & \texttt{maxBins} & \texttt{[16, 32, 64]} & 32 \\
+                              & \texttt{maxDepth} & \texttt{[3, 5, 7]} & 7\\
+                              & \texttt{maxIter} & \texttt{[10, 20, 40]} & 40\\
         \bottomrule
     \end{tabular}
 \end{table}
-add values of parameters
-
-\begin{table}[h]
-    \centering
-    \caption{Optimal hyperparameters selected by 3-fold cross-validation on the 2\% sample.}
-    \label{tab:q3_best_params}
-    \begin{tabular}{lccc}
-        \toprule
-        Model & Parameter 1 & Parameter 2 & Parameter 3 \\
-        \midrule
-        Random Forest & \texttt{maxBins = 64} & \texttt{maxDepth = 7} & \texttt{numTrees = 20} \\
-        Gradient-Boosted Tree & \texttt{maxBins = 32} & \texttt{maxDepth = 7} & \texttt{maxIter = 40} \\
-        \bottomrule
-    \end{tabular}
-\end{table}
-
+The subset is then split into training and test sets which are used to evaulate the performance of both models, which is reported in Table \ref{tab:q3_sample_performance}.
 \begin{table}[h]
     \centering
     \caption{Training and test accuracy of the tuned models on the sampled HIGGS dataset.}
@@ -304,10 +298,12 @@ add values of parameters
     \end{tabular}
 \end{table}
 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
-The full HIGGS dataset is split into a training set of 7\,698\,149 and a test set of 3\,301\,851 samples, which are used to evaluate both the Random Forest and Gradient-Boosted Tree models.
-The resulting performance of the models is shown in Table ~\ref{tab:q3_full_performance}.
+The final performance of both models is evaulated using the full HIGGS dataset, which is split into training and test sets of 7\,698\,149 and 3\,301\,851 samples, respectively.
+Each model is trained using the optimal hyperparameters found in Table \ref{tab:paramGrids} and evaluated on the test set.
+Table \ref{tab:q3_full_performance} shows the resulting perfomance of each model which, in both cases, is very similar on both training and test sets.
 \begin{table}[h]
     \centering
     \caption{Training and test accuracy of the tuned models on the full HIGGS dataset.}
@@ -321,6 +317,7 @@ The resulting performance of the models is shown in Table ~\ref{tab:q3_full_perf
         \bottomrule
     \end{tabular}
 \end{table}
+Compare performance on both training and test sets between the two models.
 
 
 
@@ -329,7 +326,16 @@ The resulting performance of the models is shown in Table ~\ref{tab:q3_full_perf
 \section{Movie Recommendations and Cluster Analysis} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
-\begin{table}[h]
+Before model training, the movie ratings are sorted chronologically using the timestamp column, then split into training and test sets.
+Three training size splits are considered: 40\%, 60\%, and 80\%, each using earlier times for training and later times for testing.
+For each split, two ALS settings are studied.
+The first uses the default PySpark ALS configuration from Lab 6, with \(\texttt{userCol}=\texttt{``userId''}\), \(\texttt{itemCol}=\texttt{``movieId''}\), \(\texttt{ratingCol}=\texttt{``rating''}\), \(\texttt{seed}=250117677\), and \(\texttt{coldStartStrategy}=\texttt{``drop''}\).
+The second setting uses \(\texttt{rank}=25\), allowing the model to represent more latent user-movie preference patterns, together with \(\texttt{regParam}=0.15\), which helps to reduce overfitting as model complexity increases.
+Finally, \(\texttt{maxIter}=10\) is used to give the ALS optimisation more opportunity to converge.
+
+The performance of the two ALS settings on each training split size is shown in Table \ref{tab:q4_als_metrics}.
+The results show that the second setting actually performs worse than the first.
+\begin{table}[hbtp]
     \centering
     \caption{Recommendation performance for the two ALS settings across chronological train-test splits.}
     \label{tab:q4_als_metrics}
@@ -345,13 +351,17 @@ The resulting performance of the models is shown in Table ~\ref{tab:q3_full_perf
         \bottomrule
     \end{tabular}
 \end{table}
-
+ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK B
-\begin{table}[h]
+The user factor vectors learned from the second ALS setting are clustered using PysPark \(k\)-means with \(k=25\).
+The five largest clusters for each training split and their number of users are reported in Table \ref{tab:q4_cluster_sizes}.
+The cluster sizes increase with training split size, which is consistent with larger training sets containing more users with learned ALS factor vectors.
+However, within each split the five largest clusters are relatively similar in size.
+\begin{table}[htbp]
     \centering
-    \caption{Top five user-cluster sizes for each chronological training split using ALS Setting 2 user factors and k-means with $k=25$.}
+    \caption{Top five user-cluster sizes for each chronological training split using ALS Setting 2 user factors and \(k\)-means with $k=25$.}
     \label{tab:q4_cluster_sizes}
     \begin{tabular}{lccccc}
         \toprule
@@ -366,7 +376,12 @@ The resulting performance of the models is shown in Table ~\ref{tab:q3_full_perf
     \end{tabular}
 \end{table}
 
-\begin{table}[h]
+Considering all users in the largest cluster of each training split, the top movies are defined as those with an average rating \(\geq4\).
+The genres associated with these movies are counted, allowing multiple genre contributions per movie.
+Table \ref{tab:q4_top_genres} shows the ten most popular genres for each training split.
+Across all splits, drama and comedy are the two most common genres among highly rated movies in the largest cluster.
+The remaining genres are also consistent, with genres like romance, thriller, and crime appearing across all splits.
+\begin{table}[htbp]
     \centering
     \caption{Top ten most popular genres among highly rated movies in the largest user cluster for each chronological training split.}
     \label{tab:q4_top_genres}
@@ -393,6 +408,19 @@ The resulting performance of the models is shown in Table ~\ref{tab:q3_full_perf
 \end{table}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%% TASK C
+\textbf{Observation 1:}
+The second ALS setting demonstrates worse performance for all three training splits, despite being designed to improve upon the first ALS setting.
+This could be due to the increased \texttt{rank} parameter making the model more complex, with insufficient values of \texttt{regParam} and \texttt{maxIter} to improve generalisation on future ratings.
+For a movie website such as Netflix, this shows that more complex recommendation models are not necessarily better, and that model changes should be carefully evaluated before deployment.
+
+\textbf{Observation 2:}
+Drama and comedy are the two most common genres among highly rated movies in the largest cluster for all three training splits, as shown in Table \ref{tab:q4_top_genres}.
+This could be because they are broad umbrella genres and could be attributed to smaller sub-genres such as dark comedy, romantic comedy, et cetera.
+It may also indicate the presence of mainstream preferences in the largest user group, rather than highly specialised taste profiles.
+This could be useful to a movie site such as Netflix in identifying general audience preferences and prioritising recommendations that are broadly appealing.
+Small clusters could still be used to provide more personalised suggestions.
 
 \section*{Appendix}
 Learned model coeffients.
