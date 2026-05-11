@@ -182,7 +182,7 @@ metrics = ['RMSE', 'MSE', 'MAE']
 x = np.arange(len(labels))
 width = 0.25
 
-plt.figure(figsize=(6, 4))
+plt.figure(figsize=(7, 4))
 
 # Plot one bar group for each metric
 for i, metric in enumerate(metrics):
@@ -191,7 +191,8 @@ for i, metric in enumerate(metrics):
         x + (i - 1) * width,
         metric_values,
         width,
-        label=metric
+        label=metric,
+        alpha=1.0
     )
 
 plt.xticks(x, labels)
@@ -268,31 +269,21 @@ cluster_df['training_split'] = (
 
 cluster_df = cluster_df.sort_values(['train_fraction', 'rank'])
 
-# Reshape so rows = splits, columns = ranks
-plot_df = cluster_df.pivot(
-    index='training_split',
-    columns='rank',
-    values='cluster_size'
-)
+plt.figure(figsize=(7, 4))
 
-x = np.arange(len(plot_df.index))
-width = 0.15
-
-plt.figure(figsize=(6, 4))
-
-for i, rank in enumerate(plot_df.columns):
-    plt.bar(
-        x + (i - 2) * width,
-        plot_df[rank],
-        width,
-        label=f'Rank {rank}'
+for training_split in ['40%', '60%', '80%']:
+    split_data = cluster_df[cluster_df['training_split'] == training_split]
+    plt.plot(
+        split_data['rank'],
+        split_data['cluster_size'],
+        marker='o',
+        label=split
     )
 
-plt.xticks(x, plot_df.index)
-plt.xlabel('Training Split')
+plt.xlabel('Cluster Rank')
 plt.ylabel('Cluster Size')
-plt.legend()
-plt.grid(axis='y', alpha=0.2)
+plt.legend(title='Training Split')
+plt.grid(alpha=0.2)
 plt.tight_layout()
 plt.savefig('Q4_fig2.png', dpi=300)
 plt.close()

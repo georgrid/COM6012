@@ -190,7 +190,7 @@ for reg_param in reg_params:
     results.append((reg_param, mean_mse, std_mse))
 
     print(f"  Mean validation MSE = {mean_mse:.2f}")
-    print(f"  Standard deviation = {std_mse:.2f}\n")
+    print(f"  Standard deviation = {std_mse:.2f}")
 
 reg_param_values = [x[0] for x in results]
 mean_mse_values = [x[1] for x in results]
@@ -329,7 +329,7 @@ for reg_param in reg_params:
         results.append((reg_param, elastic_net_param, mean_accuracy, std_accuracy))
 
         print(f"  Mean validation accuracy = {mean_accuracy:.4f}")
-        print(f"  Standard deviation = {std_accuracy:.4f}\n")
+        print(f"  Standard deviation = {std_accuracy:.4f}")
 
 # Plot mean validation accuracy for all combinations of regParam and elasticNetParam
 plt.figure(figsize=(6, 4))
