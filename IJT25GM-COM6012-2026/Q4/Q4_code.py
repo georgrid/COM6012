@@ -164,44 +164,43 @@ results_df = pd.DataFrame(
 # Create training split column
 results_df['training_split'] = (results_df['train_fraction'] * 100).astype(int).astype(str) + '%'
 
-# Convert from wide to long format for plotting
-plot_df = results_df.melt(
-    id_vars=['training_split', 'als_setting'],
-    value_vars=['RMSE', 'MSE', 'MAE'],
-    var_name='Metric',
-    value_name='Value'
+# Keep rows in order
+results_df['als_setting'] = pd.Categorical(
+    results_df['als_setting'],
+    categories=['setting 1', 'setting 2'],
+    ordered=True
+)
+results_df['training_split'] = pd.Categorical(
+    results_df['training_split'],
+    categories=['40%', '60%', '80%'],
+    ordered=True
 )
 
-# Create combined label for x-axis
-plot_df['label'] = plot_df['training_split'] + '\n' + plot_df['als_setting']
+results_df = results_df.sort_values(['als_setting', 'training_split'])
 
-# Define x positions
-labels = plot_df['label'].unique()
+fig, axes = plt.subplots(1, 2, figsize=(8, 4))
+
 metrics = ['RMSE', 'MSE', 'MAE']
+settings = ['setting 1', 'setting 2']
 
-x = np.arange(len(labels))
-width = 0.25
+for ax, setting in zip(axes, settings):
+    setting_data = results_df[results_df['als_setting'] == setting]
 
-plt.figure(figsize=(7, 4))
+    for metric in metrics:
+        ax.plot(
+            setting_data['training_split'],
+            setting_data[metric],
+            marker='o',
+            label=metric
+        )
+    
+    ax.set_xlabel('Training Split')
+    ax.grid(axis='y', alpha=0.2)
 
-# Plot one bar group for each metric
-for i, metric in enumerate(metrics):
-    metric_values = plot_df[plot_df['Metric'] == metric]['Value']
-    plt.bar(
-        x + (i - 1) * width,
-        metric_values,
-        width,
-        label=metric,
-        alpha=1.0
-    )
+axes[0].set_ylabel('Error')
+fig.legend(metrics, loc='upper center', ncol=3)
 
-plt.xticks(x, labels)
-plt.ylabel('Error')
-plt.xlabel('Training split and ALS setting')
-plt.legend()
-plt.grid(axis='y', alpha=0.2)
 plt.tight_layout()
-
 plt.savefig('Q4_fig1.png', dpi=300)
 plt.close()
 
@@ -277,9 +276,10 @@ for training_split in ['40%', '60%', '80%']:
         split_data['rank'],
         split_data['cluster_size'],
         marker='o',
-        label=split
+        label=training_split
     )
 
+plt.xticks([1, 2, 3, 4, 5])
 plt.xlabel('Cluster Rank')
 plt.ylabel('Cluster Size')
 plt.legend(title='Training Split')

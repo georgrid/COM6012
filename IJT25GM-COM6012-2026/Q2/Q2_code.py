@@ -349,13 +349,13 @@ for elastic_net_param in elastic_net_params:
         capsize=5,
         ms=5,
         lw=1,
-        label=f"elasticNet = {elastic_net_param}"
+        label=elastic_net_param
     )
 
 plt.xscale("log")
 plt.xlabel("regParam", fontsize=12)
 plt.ylabel("Mean Validation Accuracy", fontsize=12)
-plt.legend()
+plt.legend(title = "elasticNetParam")
 plt.tight_layout()
 plt.savefig("Q2_fig2.png")
 plt.close()
