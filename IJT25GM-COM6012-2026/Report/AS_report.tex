@@ -17,6 +17,7 @@
 \usepackage{graphicx}
 \usepackage{subcaption}
 \usepackage{changepage}
+\usepackage{placeins}
 \lstset{
   language=Python,
   basicstyle=\ttfamily\footnotesize,
@@ -58,7 +59,8 @@
 \vspace{2pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%% Q1 
+%%%%%%%%%%%%%%%% Q1
+\FloatBarrier
 \section{Log Mining and Analysis}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
@@ -139,7 +141,7 @@ There are seven institution domains with more requests than Sheffield, whose tot
 The nine most active UK company (\texttt{.co.uk}) hosts and their respective total requests are displayed in Figure \ref{company_requests}.
 A bar chart is chosen to compare request counts across discrete company categories.
 It clearly shows the top nine companies alongside all remaining companies combined, using contrasting colours to highlight the comparison and improve readability.
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
     \includegraphics[width=0.95\columnwidth]{../Q1/Q1_fig1.png}
     \caption{Total requests from the nine most active UK company domains, compared with the combined total for all remaining UK companies.}
@@ -198,6 +200,7 @@ This is useful to NASA as it shows that large numbers of requests from a single 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q2
+\FloatBarrier
 \section{Scalable Logistic Regression and Generalised Linear Models}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
@@ -226,7 +229,7 @@ The resulting mean validation MSE of each \texttt{regParam} value is shown in Fi
 The optimal value is \(\texttt{regParam}=0.001\), which has the lowest mean validation MSE (\(813\,706.18 \pm 237.58\)).
 Increasing \texttt{regParam} from 0.001 to 0.01 and 0.1 causes a sharp increase in MSE, which plateaus for larger values.
 This suggests that stronger regularisation causes the Poisson regression model to underfit. 
-\begin{figure}[htbp]
+\begin{figure}[t]
     \centering
 
     \begin{subfigure}{0.495\textwidth}
@@ -243,7 +246,7 @@ This suggests that stronger regularisation causes the Poisson regression model t
         \label{fig:logistic_mean_acc}
     \end{subfigure}
 
-    \caption{Validation curves for the regression models.
+    \caption{Validation performance of the Poisson and logistic regression models.
     Error bars show \(\pm\) one standard deviation across five 
     random subsets, each sampling 80\% of the training set.
     }
@@ -283,13 +286,16 @@ This suggests that the processed traffic featuers contain useful predictive info
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q3
+\FloatBarrier
 \section{Scalable Decision Trees, Random Forests, and Gradient Boosting}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
 Stratified sampling is used to create a 2\% subset of the HIGGS dataset.
 To optimise the Random Forest and Gradient-Boosted Tree (GBT) models, 3-fold cross-validation is performed on this subset.
 The chosen hyperparameters, their tested values, and the resulting optimal values are shown in Table \ref{tab:paramGrids}.
-\begin{table}[h]
+The subset is then split into training and test sets which are used to evaluate the performance of both models, which is reported in Table \ref{tab:q3_sample_performance}.
+
+\begin{table}[htbp]
     \centering
     \caption{Parameter grids and optimal values selected by 3-fold cross-validation of the Random Forest and Gradient-Boosted Tree models on the sampled HIGGS dataset.}
     \label{tab:paramGrids}
@@ -307,8 +313,7 @@ The chosen hyperparameters, their tested values, and the resulting optimal value
         \bottomrule
     \end{tabular}
 \end{table}
-The subset is then split into training and test sets which are used to evaluate the performance of both models, which is reported in Table \ref{tab:q3_sample_performance}.
-\begin{table}[h]
+\begin{table}[htbp]
     \centering
     \caption{Training and test accuracy of the tuned models on the sampled HIGGS dataset.}
     \label{tab:q3_sample_performance}
@@ -327,8 +332,10 @@ The subset is then split into training and test sets which are used to evaluate 
 %%%%%% TASK B
 The final performance of both models is evaluated using the full HIGGS dataset, which is split into training and test sets of 7\,698\,149 and 3\,301\,851 samples, respectively.
 Each model is trained using the optimal hyperparameters found in Table \ref{tab:paramGrids} and evaluated on the test set.
-Table \ref{tab:q3_full_performance} shows the resulting performance of each model which, in both cases, is very similar on both training and test sets.
-\begin{table}[h]
+Table \ref{tab:q3_full_performance} shows the resulting performance of each model.
+The Gradient-Boosted Tree achieves higher accuracy than the Random Forest on both the sampled and full HIGGS datasets.
+For both models, the training and test accuracies are very similar, suggesting limited overfitting.
+\begin{table}[htbp]
     \centering
     \caption{Training and test accuracy of the tuned models on the full HIGGS dataset.}
     \label{tab:q3_full_performance}
@@ -341,12 +348,12 @@ Table \ref{tab:q3_full_performance} shows the resulting performance of each mode
         \bottomrule
     \end{tabular}
 \end{table}
-Compare performance on both training and test sets between the two models.
 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%% Q4
+\FloatBarrier
 \section{Movie Recommendations and Cluster Analysis} 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK A
@@ -358,8 +365,8 @@ The second setting uses \(\texttt{rank}=25\), allowing the model to represent mo
 Finally, \(\texttt{maxIter}=10\) is used to give the ALS optimisation more opportunity to converge.
 
 The performance of the two ALS settings on each training split size is shown in Table \ref{tab:q4_als_metrics}.
-The results show that the second setting actually performs worse than the first. (CHANGE ``ACTUALLY'')
-\begin{table}[hbtp]
+The results show that the second setting performs worse than the first across all three training splits.
+\begin{table}[htbp]
     \centering
     \caption{Recommendation performance for the two ALS settings across chronological train-test splits.}
     \label{tab:q4_als_metrics}

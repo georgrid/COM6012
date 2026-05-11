@@ -139,7 +139,7 @@ colours = ["steelblue"]* 9 + ["darkorange"]
 plt.figure(figsize=(7, 4))
 plt.bar(labels, values, color=colours, alpha=1.0)
 plt.xticks(rotation=45, ha="right", fontsize=8)
-plt.xlabel("Company")
+plt.xlabel("Company Domain")
 plt.ylabel("Total Requests")
 plt.grid(axis='y', linestyle='-', alpha=0.2)
 plt.gca().set_axisbelow(True)
