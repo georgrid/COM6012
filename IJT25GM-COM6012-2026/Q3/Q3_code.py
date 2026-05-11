@@ -9,12 +9,12 @@ import json
 
 spark = (
     SparkSession.builder
-    .master("local[10]")     # Use 10 cores 
-    .appName("COM6012 Assignment Q3")      # Job name
-    .config("spark.local.dir", "/mnt/parscratch/users/ijt25gm")
+    .master('local[10]')     # Use 10 cores 
+    .appName('COM6012 Assignment Q3')      # Job name
+    .config('spark.local.dir', '/mnt/parscratch/users/ijt25gm')
     .getOrCreate()
 )
-spark.sparkContext.setLogLevel("ERROR")
+spark.sparkContext.setLogLevel('ERROR')
 print("\n\nQ3 Results")
 
 seed = 250117677   # Registration number
@@ -24,25 +24,25 @@ print("\nTask A:")
 
 # Manually define schema to improve speed
 schema = StructType(
-    [StructField("label", DoubleType(), True)] +                               # Column 0 = label
-    [StructField(f"feature_{i}", DoubleType(), True) for i in range(1, 29)]    # Columns 1-28 = features
+    [StructField('label', DoubleType(), True)] +                               # Column 0 = label
+    [StructField(f'feature_{i}', DoubleType(), True) for i in range(1, 29)]    # Columns 1-28 = features
 )
 
 # Load data
 higgs_df = spark.read \
-    .option("header", False) \
+    .option('header', False) \
     .schema(schema) \
-    .csv("/users/ijt25gm/com6012/ScalableML/Data/HIGGS.csv")
+    .csv('/users/ijt25gm/com6012/ScalableML/Data/HIGGS.csv')
 
 # Stratified sampling: sample 2% of each class
 fractions = {0.0: 0.02, 1.0: 0.02}
-sampled_df = higgs_df.sampleBy("label", fractions, seed=seed)
+sampled_df = higgs_df.sampleBy('label', fractions, seed=seed)
 
 sampled_df = sampled_df.cache()
 sampled_df.count()
 
 # Create feature vector
-feature_cols = [f"feature_{i}" for i in range(1, 29)]
+feature_cols = [f'feature_{i}' for i in range(1, 29)]
 
 vecAssembler = VectorAssembler(
     inputCols=feature_cols,
@@ -69,9 +69,9 @@ rf_paramGrid = ParamGridBuilder() \
 
 # Accuracy evaluator
 evaluator = MulticlassClassificationEvaluator(
-    labelCol="label",
-    predictionCol="prediction",
-    metricName="accuracy"
+    labelCol='label',
+    predictionCol='prediction',
+    metricName='accuracy'
 )
 
 # Make crossvalidator object

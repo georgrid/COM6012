@@ -12,12 +12,12 @@ import numpy as np
 
 spark = (
     SparkSession.builder
-    .master("local[10]")     # Use 10 cores 
-    .appName("COM6012 Assignment Q4")      # Job name
-    .config("spark.local.dir", "/mnt/parscratch/users/ijt25gm")
+    .master('local[10]')     # Use 10 cores 
+    .appName('COM6012 Assignment Q4')      # Job name
+    .config('spark.local.dir', '/mnt/parscratch/users/ijt25gm')
     .getOrCreate()
 )
-spark.sparkContext.setLogLevel("ERROR")
+spark.sparkContext.setLogLevel('ERROR')
 print("\n\nQ4 Results")
 
 seed = 250117677   # Registration number
@@ -29,20 +29,14 @@ print("\nTask A:")
 
 # Load data
 ratings = spark.read.load(
-    "/users/ijt25gm/com6012/ScalableML/Data/ml-20m/ratings.csv",
+    '/users/ijt25gm/com6012/ScalableML/Data/ml-20m/ratings.csv',
     format='csv',
-    inferSchema="true",
-    header="true"
+    inferSchema='true',
+    header='true'
 ).cache()
 
-print("Ratings schema:")
-ratings.printSchema()
-
-print("First few ratings:")
-ratings.show(5, False)
-
 n_ratings = ratings.count()
-print(f"Total number of ratings: {n_ratings}")
+print(f"Total number of ratings: {n_ratings}\n")
 
 # Sort data by timestamp
 window = Window.orderBy('timestamp')
@@ -178,7 +172,7 @@ results_df['training_split'] = pd.Categorical(
 
 results_df = results_df.sort_values(['als_setting', 'training_split'])
 
-fig, axes = plt.subplots(1, 2, figsize=(8, 4))
+fig, axes = plt.subplots(1, 2, figsize=(7, 4), sharey=True)
 
 metrics = ['RMSE', 'MSE', 'MAE']
 settings = ['setting 1', 'setting 2']
@@ -191,14 +185,15 @@ for ax, setting in zip(axes, settings):
             setting_data['training_split'],
             setting_data[metric],
             marker='o',
+            ms=5,
             label=metric
         )
     
-    ax.set_xlabel('Training Split')
-    ax.grid(axis='y', alpha=0.2)
-
-axes[0].set_ylabel('Error')
-fig.legend(metrics, loc='upper center', ncol=3)
+    ax.set_title(f"ALS {setting.capitalize()}")
+    ax.grid(axis='y', alpha=0.2)"
+axes[0].legend(metrics, ncol=3, fontsize=8)
+axes[0].set_ylabel("Error", fontsize=12)
+fig.supxlabel("Training Split", fontsize=12)
 
 plt.tight_layout()
 plt.savefig('Q4_fig1.png', dpi=300)
@@ -276,13 +271,14 @@ for training_split in ['40%', '60%', '80%']:
         split_data['rank'],
         split_data['cluster_size'],
         marker='o',
+        ms=5,
         label=training_split
     )
 
 plt.xticks([1, 2, 3, 4, 5])
-plt.xlabel('Cluster Rank')
-plt.ylabel('Cluster Size')
-plt.legend(title='Training Split')
+plt.xlabel("Cluster Rank", fontsize=12)
+plt.ylabel("Cluster Size", fontsize=12)
+plt.legend(title="Training Split")
 plt.grid(alpha=0.2)
 plt.tight_layout()
 plt.savefig('Q4_fig2.png', dpi=300)
