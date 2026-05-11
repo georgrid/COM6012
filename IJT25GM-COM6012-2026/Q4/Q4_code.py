@@ -6,6 +6,9 @@ from pyspark.ml.evaluation import RegressionEvaluator
 from pyspark.ml.clustering import KMeans
 from pyspark.ml.linalg import Vectors
 from pyspark.sql.functions import desc, avg, explode, split
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
 
 spark = (
     SparkSession.builder
@@ -19,7 +22,9 @@ print("\n\nQ4 Results")
 
 seed = 250117677   # Registration number
 
-##### TASK A #####
+
+##############################################################
+########## TASK A
 print("\nTask A:")
 
 # Load data
@@ -150,9 +155,58 @@ for frac, (train, test) in splits.items():
     print(f"  MSE: {mse:.4f}")
     print(f"  MAE: {mae:.4f}")
 
+# Convert results to dataframe
+results_df = pd.DataFrame(
+    results,
+    columns=['train_fraction', 'als_setting', 'RMSE', 'MSE', 'MAE']
+)
+
+# Create training split column
+results_df['training_split'] = (results_df['train_fraction'] * 100).astype(int).astype(str) + '%'
+
+# Convert from wide to long format for plotting
+plot_df = results_df.melt(
+    id_vars=['training_split', 'als_setting'],
+    value_vars=['RMSE', 'MSE', 'MAE'],
+    var_name='Metric',
+    value_name='Value'
+)
+
+# Create combined label for x-axis
+plot_df['label'] = plot_df['training_split'] + '\n' + plot_df['als_setting']
+
+# Define x positions
+labels = plot_df['label'].unique()
+metrics = ['RMSE', 'MSE', 'MAE']
+
+x = np.arange(len(labels))
+width = 0.25
+
+plt.figure(figsize=(6, 4))
+
+# Plot one bar group for each metric
+for i, metric in enumerate(metrics):
+    metric_values = plot_df[plot_df['Metric'] == metric]['Value']
+    plt.bar(
+        x + (i - 1) * width,
+        metric_values,
+        width,
+        label=metric
+    )
+
+plt.xticks(x, labels)
+plt.ylabel('Error')
+plt.xlabel('Training split and ALS setting')
+plt.legend()
+plt.grid(axis='y', alpha=0.2)
+plt.tight_layout()
+
+plt.savefig('Q4_fig1.png', dpi=300)
+plt.close()
 
 
-##### TASK B #####
+##############################################################
+########## TASK B
 print("\nTask B:")
 
 # Convert ALS attributes into dense feature vectors
@@ -200,7 +254,49 @@ for frac, model in models_setting_2.items():
         .filter(predictions.prediction == largest_cluster_id) \
         .select('userId') \
         .cache()
-        
+    
+# Convert cluster results into dataframe for plotting
+cluster_df = pd.DataFrame(
+    cluster_results,
+    columns=['train_fraction', 'rank', 'cluster_id', 'cluster_size']
+)
+
+# Convert splits into labels
+cluster_df['training_split'] = (
+    (cluster_df['train_fraction'] * 100).astype(int).astype(str) + '%'
+)
+
+cluster_df = cluster_df.sort_values(['train_fraction', 'rank'])
+
+# Reshape so rows = splits, columns = ranks
+plot_df = cluster_df.pivot(
+    index='training_split',
+    columns='rank',
+    values='cluster_size'
+)
+
+x = np.arange(len(plot_df.index))
+width = 0.15
+
+plt.figure(figsize=(6, 4))
+
+for i, rank in enumerate(plot_df.columns):
+    plt.bar(
+        x + (i - 2) * width,
+        plot_df[rank],
+        width,
+        label=f'Rank {rank}'
+    )
+
+plt.xticks(x, plot_df.index)
+plt.xlabel('Training Split')
+plt.ylabel('Cluster Size')
+plt.legend()
+plt.grid(axis='y', alpha=0.2)
+plt.tight_layout()
+plt.savefig('Q4_fig2.png', dpi=300)
+plt.close()
+
 # Load movies data for genres
 movies = spark.read.load(
     '/users/ijt25gm/com6012/ScalableML/Data/ml-20m/movies.csv',

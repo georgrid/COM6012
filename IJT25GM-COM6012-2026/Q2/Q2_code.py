@@ -108,17 +108,6 @@ assembler = VectorAssembler(
 )
 final_data = assembler.transform(ohe_data)
 
-# Extract feature names from the assembled feature vector
-attrs = final_data.schema["features"].metadata["ml_attr"]["attrs"]
-
-feature_attrs = []
-for attr_type in attrs:
-    feature_attrs.extend(attrs[attr_type])
-
-feature_names = [
-    attr["name"] for attr in sorted(feature_attrs, key=lambda x: x["idx"])
-]
-
 # Split data by year into training, validation and testing sets
 train_data = final_data.filter((col("year") >= 2000) & (col("year") <= 2021))
 val_data = final_data.filter((col("year") >= 2022) & (col("year") <= 2023))
@@ -256,15 +245,6 @@ poisson_coefficients = poisson_model_tuned.coefficients.toArray()
 print("\nFinal model coefficients:")
 for i in range (0, len(poisson_coefficients), 5):
     print(poisson_coefficients[i:i+5])
-
-# Map coefficients back to feature names
-top_poisson_features = "\n".join(
-    [f"{feature_names[i]}: {poisson_coefficients[i]:.6f}"
-     for i in np.argsort(np.abs(poisson_coefficients))[::-1][:5]]
-)
-
-print("\nTop 5 Poisson regression coefficients:")
-print(top_poisson_features)
 
 
 ############################################################################################
@@ -414,13 +394,5 @@ print("\nFinal model coefficients:")
 for i in range (0, len(lr_coefficients), 5):
     print(lr_coefficients[i:i+5])
 
-# Map coefficients back to feature names
-top_lr_features = "\n".join(
-    [f"{feature_names[i]}: {lr_coefficients[i]:.6f}"
-     for i in np.argsort(np.abs(lr_coefficients))[::-1][:5]]
-)
-
-print("\nTop 5 logistic regression coefficients:")
-print(top_lr_features)
 
 spark.stop()
