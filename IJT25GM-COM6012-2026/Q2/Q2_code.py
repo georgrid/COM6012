@@ -7,6 +7,7 @@ from pyspark.ml.evaluation import RegressionEvaluator, MulticlassClassificationE
 from pyspark.ml.classification import LogisticRegression
 import math
 import matplotlib.pyplot as plt
+import numpy as np
 
 spark = (
     SparkSession.builder
@@ -19,7 +20,8 @@ spark.sparkContext.setLogLevel("ERROR")
 print("\n\nQ2 Results")
 
 
-##### TASK A #####
+############################################################################################
+########################## TASK A
 print("\nTask A:")
 
 # Load data
@@ -106,6 +108,17 @@ assembler = VectorAssembler(
 )
 final_data = assembler.transform(ohe_data)
 
+# Extract feature names from the assembled feature vector
+attrs = final_data.schema["features"].metadata["ml_attr"]["attrs"]
+
+feature_attrs = []
+for attr_type in attrs:
+    feature_attrs.extend(attrs[attr_type])
+
+feature_names = [
+    attr["name"] for attr in sorted(feature_attrs, key=lambda x: x["idx"])
+]
+
 # Split data by year into training, validation and testing sets
 train_data = final_data.filter((col("year") >= 2000) & (col("year") <= 2021))
 val_data = final_data.filter((col("year") >= 2022) & (col("year") <= 2023))
@@ -120,7 +133,8 @@ print(f"Validation size: {val_data.count()}")
 print(f"Test size: {test_data.count()}")
 
 
-##### TASK B #####
+############################################################################################
+########################## TASK B
 print("\n\nTask B:")
 
 # Cache datasets
@@ -230,21 +244,31 @@ glm_poisson_tuned = GeneralizedLinearRegression(
     family='poisson',
     link='log'
 )
-model_tuned = glm_poisson_tuned.fit(train_val_data)
+poisson_model_tuned = glm_poisson_tuned.fit(train_val_data)
 
 # Evaluate model on test data
-predictions = model_tuned.transform(test_data)
+predictions = poisson_model_tuned.transform(test_data)
 test_mse = evaluator.evaluate(predictions)
 print(f"Final test MSE = {test_mse:.2f}")
 
 # Get learned model coefficients
-coefficients = model_tuned.coefficients.toArray()
+poisson_coefficients = poisson_model_tuned.coefficients.toArray()
 print("\nFinal model coefficients:")
-for i in range (0, len(coefficients), 5):
-    print(coefficients[i:i+5])
+for i in range (0, len(poisson_coefficients), 5):
+    print(poisson_coefficients[i:i+5])
+
+# Map coefficients back to feature names
+top_poisson_features = "\n".join(
+    [f"{feature_names[i]}: {poisson_coefficients[i]:.6f}"
+     for i in np.argsort(np.abs(poisson_coefficients))[::-1][:5]]
+)
+
+print("\nTop 5 Poisson regression coefficients:")
+print(top_poisson_features)
 
 
-##### TASK C #####
+############################################################################################
+########################## TASK C 
 print("\n\nTask C:")
 
 # Calculate median value on training set only
@@ -377,17 +401,26 @@ lr_tuned = LogisticRegression(
     regParam=best_reg_param,
     elasticNetParam=best_elastic_net_param
 )
-model_tuned = lr_tuned.fit(train_val_data_lr)
+lr_model_tuned = lr_tuned.fit(train_val_data_lr)
 
 # Evaluate model on test data
-predictions = model_tuned.transform(test_data_lr)
+predictions = lr_model_tuned.transform(test_data_lr)
 test_accuracy = evaluator.evaluate(predictions)
 print(f"Final test accuracy = {test_accuracy:.4f}")
 
 # Get learned model coefficients
-coefficients = model_tuned.coefficients.toArray()
+lr_coefficients = lr_model_tuned.coefficients.toArray()
 print("\nFinal model coefficients:")
-for i in range (0, len(coefficients), 5):
-    print(coefficients[i:i+5])
+for i in range (0, len(lr_coefficients), 5):
+    print(lr_coefficients[i:i+5])
+
+# Map coefficients back to feature names
+top_lr_features = "\n".join(
+    [f"{feature_names[i]}: {lr_coefficients[i]:.6f}"
+     for i in np.argsort(np.abs(lr_coefficients))[::-1][:5]]
+)
+
+print("\nTop 5 logistic regression coefficients:")
+print(top_lr_features)
 
 spark.stop()

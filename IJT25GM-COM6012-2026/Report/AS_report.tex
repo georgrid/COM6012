@@ -16,6 +16,7 @@
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{subcaption}
+\usepackage{changepage}
 \lstset{
   language=Python,
   basicstyle=\ttfamily\footnotesize,
@@ -251,28 +252,32 @@ This suggests that stronger regularisation causes the Poisson regression model t
 
 Using the optimal value of \(\texttt{regParam}=0.001\), the model is retrained on the combined training and validation sets.
 The final model is tested on the test set, achieving \(\mathrm{MSE}=787\,575.11\).
-
-The learned coefficient vector is reported in Appendix A.
+The learned coefficient vector, representing the fitted weight assigned to each feature, is reported in the Appendix.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK C
 The median value of \texttt{all\_motor\_vehicles} in the training set is 235.0.
-This value is used as a threshold between low and high traffic, allowing a binary target column, \texttt{traffic}, to be created.
-A logistic regression model is then trained on the processed training dataset.
-The same \texttt{regParam} values as in Figure \ref{fig:poisson_mean_mse} are tested, as well as the \texttt{elasticNetParam} values [0.0, 0.2, 0.5, 0.8, 1.0]. 
+This value is used as the threshold between low and high traffic, allowing a binary target column, \texttt{traffic}, to be created.
+A logistic regression model is then trained on the processed training set.
+The same \texttt{regParam} values as in Figure \ref{fig:poisson_mean_mse} are tested, along with \texttt{elasticNetParam} values [0.0, 0.2, 0.5, 0.8, 1.0]. 
 Five random training subsets are created to record the mean validation accuracy for each combination of \texttt{regParam} and \texttt{elasticNetParam}, which is shown in Figure \ref{fig:logistic_mean_acc}.
 
-Discussion of figure here.
+The optimal combination is \(\texttt{regParam}=0.001\) and \(\texttt{elasticNetParam}=0.0\), as this results in the highest mean validation accuracy of 0.63.
+Figure \ref{fig:logistic_mean_acc} shows that all \texttt{elasticNetParam} values give similar mean validation accuracy for small regularisation strengths, particularly \(\texttt{regParam}=0.001\) and 0.01.
+However, performance drops sharply when \texttt{regParam} increases to 0.1, consistent with Figure \ref{fig:poisson_mean_mse}.
+The exception is \(\texttt{elasticNetParam}=0.0\), which remains stable until \(\texttt{regParam}=10\), indicating that pure L2 regularisation is less sensitive to increasing \texttt{regParam} than elastic net or L1-heavy regularisation.
 
-Using the optimal \texttt{regParam} and \texttt{elasticNetParam}, the logistic regression model is retrained on the combined training and validation sets.
-It is then evaluated on the test set, achieving an accuracy of 0.6404.
-The final learned model coefficients are reported in Appendix A.
+Using the optimal \texttt{regParam} and \texttt{elasticNetParam} values, the logistic regression model is retrained on the combined training and validation sets before being evaluated on the test set, achieving an accuracy of 0.64.
+The final learned model coefficient vector is reported in the Appendix.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%% TASK D
-One observation that you find interesting.
+One interesting observation is that both regression models perform best with very weak regularisation.
+In Figure \ref{fig:poisson_mean_mse}, the Poisson regression validation MSE is lowest at \(\texttt{regParam}=0.001\), and increases sharply as \texttt{regParam} becomes larger, suggesting that strong regularisation results in underfitting.
+A similar pattern is observed in Figuer \ref{fig:logistic_mean_acc} for logistic regression, where accuracy is highest for small \texttt{regParam} values and then drops when regularisation becomes stronger.
+This suggests that the processed traffic featuers contain useful predictive information, but stronger regularisation suppresses the model coefficients too heavily and reduces performance.
 
 
 
@@ -441,7 +446,143 @@ It may also indicate the presence of mainstream preferences in the largest user 
 This could be useful to a movie site such as Netflix in identifying general audience preferences and prioritising recommendations that are broadly appealing.
 Small clusters could still be used to provide more personalised suggestions.
 
+\clearpage
+\appendix
 \section*{Appendix}
-Learned model coefficients.
+This appendix reports the learned coefficient vectors from the final Poisson and logistic regression models.
+The coefficients correspond to the processed feature vectors used by the Spark pipelines, so they include both standardised numerical features and one-hot encoded categorical features.
+
+\subsection*{Poisson Regression Coefficients}
+The final Poisson regression model uses \(\texttt{regParam}=0.001\).
+Its learned coefficient vector is:
+\begin{lstlisting}[
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{white}
+    ]
+[ 0.00285564  0.00179908  0.03449002  0.03046129 -0.04363382]
+[-0.02597222 -0.04929667 -0.16378849 -0.15053689 -0.11814092]
+[ 0.04863991  0.16923382  0.20297539 -0.09030399  0.16517111]
+[-6.28074343e-02 -1.85579308e-02  6.80023794e-02 -9.07542826e-05 -8.83510016e-05]
+[-1.72865561e-04  1.67235271e-06 -2.39982016e-04 -1.55339874e-01 3.71894068e-01]
+[-0.12874913 -0.44788975 -0.0588422   0.14192364  0.04385738]
+[ 0.02133632  0.24595535 -0.40216135  0.36801554  0.06473832]
+[-0.01593094  0.08118228  0.21853218 -0.17237485  0.24974176]
+[-0.55181402 -0.16443492 -0.18364043  0.16872397  0.04028632]
+[-0.23106906  0.04207777  0.55811999 -0.10261683  0.22429964]
+[-0.64943188  0.03907265 -0.02678692  0.05162687 -0.29913517]
+[ 0.0820732  -0.29118902  0.13359863  0.03831654 -0.68557216]
+[-0.25932608 -0.5040148  -0.43983686  0.16784321 -0.12470305]
+[ 0.27939391 -0.19970114 -0.50061338 -0.2330212   0.02342649]
+[ 0.01877823 -0.27025795 -0.11487333 -0.42110157  0.2360024 ]
+[0.28496283 0.55468992 0.23559029 0.16124668 0.23077949]
+[ 0.3155556  -0.71239036  0.43041556  0.03324073  0.09931087]
+[-0.1452829   0.23344764  0.10861491  0.20632274 -0.00551251]
+[-0.13139012 -0.04957219  0.15084888  0.08274946 -0.00694471]
+[ 0.19575353 -0.32844952  0.31264256  0.35219748  0.22907295]
+[-0.01883189 -0.30837892  0.5130852  -0.23665266  0.06123744]
+[ 0.45318011  0.42662422  0.06077618 -0.28075371  0.47837404]
+[-0.01937734 -0.5868894  -0.42890425  0.92434177  0.22960849]
+[-0.02390681  0.29144752 -0.16736162  0.13736669  0.01384108]
+[ 0.12235447  0.18275379  0.05840508  0.12266088 -0.50659588]
+[ 0.4899371   0.18554894 -0.48520846  0.1573538  -0.10722467]
+[ 0.42891827  0.32221418 -0.24999417  0.32849747  0.2756895 ]
+[ 0.36690866 -0.3095477   0.12674508 -0.25775163  0.35133699]
+[ 0.13475983 -0.03980502 -0.20770068 -0.22121034  0.64771673]
+[ 0.09349687 -0.20118201 -0.19785656  0.11193565  0.01281   ]
+[ 0.15219844 -0.15516571  0.02305172  0.32054359 -0.05994088]
+[ 0.26922357 -0.02017085 -0.07079366  0.37027435 -0.4044604 ]
+[ 0.08804615 -0.10408121  0.09870824 -0.2636279   0.07416947]
+[-0.25151186 -0.32729904  0.19886108  0.15472632  0.33849034]
+[ 0.20599333 -0.17584014  0.29324404 -0.26392409  0.16308058]
+[0.01385824 0.14361816 0.1176357  0.25219157 0.12326985]
+[-0.13696694 -0.44465647  0.35245993  0.02749929 -0.231755  ]
+[ 0.26474814 -0.02921388  0.07444067 -0.18372526 -0.08665983]
+[-0.18865514  0.24221712 -0.11727942 -0.39659743 -0.02232479]
+[-0.01759529 -0.36270813  0.14049859  0.47395154 -0.49606881]
+[ 0.28478056 -0.40895608 -0.03562518 -0.25760399 -0.33214138]
+[ 0.16502688 -0.12867233 -0.06963789 -0.32293865  0.23146238]
+[-0.01083908 -0.128527   -0.21174054 -0.21943085 -0.37856576]
+[-0.27966219 -0.14706818 -0.10064789 -0.15806078 -0.03278261]
+[ 0.01008921 -0.12049578 -0.05588477  0.38676708  0.17171563]
+[ 0.21586728 -0.15381512  0.08305635  0.20504762 -0.06729746]
+[ 0.21257216 -0.16734198 -0.04185801 -0.10974982  0.06368353]
+[-0.11513896 -0.04905824  0.1954241   0.12961344 -0.08878469]
+[-0.18278675  0.05082874 -0.09192965 -0.13392358 -0.12765247]
+[-0.0696426  -0.05112117 -0.0916123   0.03800377 -0.03866995]
+[-0.08086097 -0.1325968   0.0751647   0.12448543 -0.11068737]
+[ 0.13516761 -0.01000641  0.03306735 -0.00850708  0.01283294]
+[-1.53021871e-02 -2.12527542e-02 -1.07797393e-04 -7.30468143e-04 -2.86050931e-01]
+[0.01825988]
+\end{lstlisting}
+
+\subsection*{Logistic Regression Coefficients}
+The final logistic regression model uses \(\texttt{regParam}=0.001\) and \(\texttt{elasticNetParam}=0.0\).
+Its learned coefficient vector is:
+\begin{lstlisting}[
+    basicstyle=\ttfamily\small,
+    breaklines=true,
+    frame=single,
+    backgroundcolor=\color{white}
+    ]
+[ 0.00404362  0.00106018 -0.00211902 -0.00279096  0.2553667 ]
+[-4.67459185 -0.03607286 -0.16009439 -0.13035809 -0.09075058]
+[ 0.103299    0.17377217  0.21836398 -0.07754263  0.20351446]
+[-0.06723478 -0.0301672  -0.10671124  0.55106386 -4.61594144]
+[-4.92036734  5.45103064 -5.3874869  -0.30703693  0.37634074]
+[-0.34250182 -0.22633624  0.04313826  0.15257838  0.07088645]
+[-0.05362717  0.51640959 -0.11416552  0.35051122 -0.31015729]
+[-0.45464475 -0.35963561 -0.13286091  0.0783359   0.05215024]
+[-0.8247635  -0.33820198 -0.49550679  0.38046681  0.04189577]
+[-0.23431803  0.04186861  0.63343232  0.18748382 -0.03204189]
+[-0.7580832  -0.15363399 -0.07761437  0.02848359 -0.69007661]
+[-0.0641903  -0.3424338  -0.03611678 -0.11319798 -0.96756048]
+[-0.3968926  -0.05969243 -0.20260453  0.03674658  0.15658538]
+[ 0.63944175  0.51576443 -0.44006018  0.1667117   0.08540408]
+[ 0.55764104 -0.50497723  0.45263364 -0.5479637   0.29868595]
+[-0.04415946  0.33652342  0.1478204   0.27056905  0.25639776]
+[ 0.50280087 -1.19560917  0.61047231  0.36695043  0.46031833]
+[-0.01566988  0.36593577  0.21214582 -0.18710494 -0.1229986 ]
+[ 0.11143668 -0.1456416   0.12893872  0.18145597  0.24193449]
+[3.78548648e-01 4.59141924e-04 6.43366387e-01 6.04268492e-01
+ 2.03648472e-01]
+[ 0.5587543  -0.39305982  0.55315059  0.35003598  0.12764236]
+[ 0.38929417  0.73368622  0.42861101 -0.43321536  0.74610023]
+[ 0.22285231 -1.29918972 -0.51320361  1.84998845  0.28738633]
+[-0.28793025  0.05299067 -0.01123748  0.44971206  0.58116521]
+[ 0.5901724   0.27395163  0.06671283 -0.15182098 -0.68406499]
+[ 1.44892551  0.36699541 -0.68353233 -0.0115246  -0.10213562]
+[1.35825488 0.19551537 0.35672372 0.58824378 0.44332996]
+[ 0.2673888  -0.40359504  0.7361342  -0.14633768  0.25687037]
+[ 0.33571665 -0.3762593  -0.29881254 -0.25499881  0.2554148 ]
+[ 0.53741177 -0.27266942  0.04005166 -0.0707752   0.60835069]
+[0.1400099  0.05690669 0.10331735 0.13058174 0.24759378]
+[ 0.36604994  0.37154298  0.10725863  0.54087305 -0.41922799]
+[ 0.46150716  0.01383389  0.14120188 -0.07738284  0.71736202]
+[-0.21236416 -0.3437508   0.07401678 -0.15268691  0.40307589]
+[ 0.15785432  0.58211703 -0.07838893 -0.06401031  0.21633055]
+[-0.24866858  0.21035495  0.23717779  0.78728821  0.29684881]
+[-0.27764173 -0.9071316   0.28330408  0.38614716  0.26795495]
+[-0.05239267  0.03431541  0.28298278  0.06635092  0.26612007]
+[ 0.25912148  0.15532989  0.46250766 -0.55094092  0.14293838]
+[ 0.66823259 -1.33632632  0.24012214  1.23898517 -0.73495321]
+[ 1.4558206  -0.75776289  0.12510947  0.05487216 -0.37878169]
+[ 0.93620288 -0.35621332  0.02204555  0.47243893  1.28493141]
+[ 0.14073796  0.0818109  -0.28353406 -0.17874615 -1.15366317]
+[-0.04847644  0.13486456  0.16783168 -0.48155127  0.18780407]
+[ 0.30755981  0.48958032  0.15593032  0.16470864 -0.0799233 ]
+[ 0.35765572  0.35790126 -0.1814529   1.73964074  0.89407353]
+[-0.05798892 -0.21088176  0.30740044 -0.17488787  1.01390282]
+[0.07715595 0.38837878 1.32975351 0.68592314 0.46462188]
+[-0.59258929  1.33574902 -0.69472479 -1.06058918 -0.90983902]
+[ 0.72396359  0.2401398  -4.9892153   0.00513993 -0.10135101]
+[-0.14007506 -0.03291675  0.2619286   0.10523935  0.0349684 ]
+[ 1.08252815  0.48081749  0.03504548 -0.02808805  0.02333135]
+[ 5.55697298e-05 -3.29513444e-02  8.79454460e-01 -7.25151203e-01
+ -4.45606764e-01]
+[0.26875663]
+\end{lstlisting}
+
 
 \end{document}
